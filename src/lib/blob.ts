@@ -5,8 +5,12 @@ import type { MediaKind } from "@/lib/types";
 const imageLimit = 8 * 1024 * 1024;
 const videoLimit = 45 * 1024 * 1024;
 
+export function blobStoreId() {
+  return process.env.BLOB_STORE_ID?.trim() || "";
+}
+
 export function blobConfigured() {
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN?.trim());
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN?.trim() || blobStoreId());
 }
 
 export async function storeUpload(file: File, folder: "portraits" | "work") {
@@ -32,9 +36,11 @@ export async function storeUpload(file: File, folder: "portraits" | "work") {
   }
 
   const safe = file.name.replace(/[^a-zA-Z0-9._-]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 80) || "file";
+  const storeId = blobStoreId();
   const blob = await put(`shukran/${folder}/${crypto.randomUUID()}-${safe}`, file, {
     access: "public",
     token: process.env.BLOB_READ_WRITE_TOKEN,
+    ...(storeId ? { storeId } : {}),
     contentType: type || undefined,
   });
 

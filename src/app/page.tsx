@@ -50,7 +50,9 @@ export default async function HomePage() {
           <h1 className="mt-4 max-w-[12ch] font-display text-[3.4rem] leading-[0.88] tracking-tight sm:text-7xl lg:text-[5.4rem]">
             {copy.headline}
           </h1>
-          <p className="mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">{copy.dek}</p>
+          <p className="mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">
+            {opening ? copy.dek : copy.emptyOpeningBody}
+          </p>
         </div>
 
         <article className="relative order-2 mt-8 min-h-[72vh] sm:min-h-[78vh] lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:h-auto lg:min-h-full">
@@ -86,10 +88,10 @@ export default async function HomePage() {
               </figcaption>
             </figure>
           ) : (
-            <div className="absolute inset-0 flex items-end bg-secondary px-5 py-10">
-              <p className="max-w-sm text-lg text-muted-foreground">
-                {copy.emptyRecord}
-              </p>
+            <div className="absolute inset-0 flex flex-col justify-end bg-secondary px-5 py-10 sm:px-10 sm:py-14">
+              <p className="text-xs uppercase tracking-[0.22em] text-primary">{copy.openingPage}</p>
+              <p className="mt-4 max-w-md font-display text-5xl leading-none tracking-tight sm:text-6xl">{copy.emptyOpening}</p>
+              <p className="mt-5 max-w-sm text-lg leading-relaxed text-muted-foreground">{copy.emptyRecord}</p>
             </div>
           )}
         </article>
@@ -139,7 +141,13 @@ export default async function HomePage() {
               {copy.onTheRecord}
             </h2>
           </div>
-          <p className="mt-4 max-w-xl text-lg text-muted-foreground">{copy.recordDek}</p>
+          <p className="mt-4 max-w-xl text-lg text-muted-foreground">
+            {published.length === 0 ? copy.emptyRecord : copy.recordDek}
+          </p>
+
+          {published.length === 0 ? (
+            <p className="mt-10 max-w-xl border-t border-border py-8 text-lg text-muted-foreground">{copy.emptyOpeningBody}</p>
+          ) : null}
 
           {featured.length > 0 ? (
             <ul className="mt-12 grid gap-8 md:grid-cols-2">

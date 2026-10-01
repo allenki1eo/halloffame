@@ -1,18 +1,25 @@
 import { cache } from "react";
 import fs from "node:fs";
+import { isDemoSlug, isProduction } from "@/lib/demo";
+import { DeskError, missingDatabaseMessage } from "@/lib/desk-error";
 import { tursoConfigured } from "@/lib/db/client";
 import { findPerson, listPeople, setPersonStatus } from "@/lib/db/people";
-import { profilesPath, readProfiles, writeProfiles } from "@/lib/profiles-file";
+import { demoProfilesPath, readDemoProfiles, writeDemoProfiles } from "@/lib/profiles-file";
 import type { CategorySlug, Profile, ProfileStatus } from "@/lib/types";
 
+function localShowcase(): Profile[] {
+  if (isProduction()) return [];
+  return readDemoProfiles();
+}
+
 export const getAllProfiles = cache(async function getAllProfiles(): Promise<Profile[]> {
-  if (!tursoConfigured()) return readProfiles();
-  return listPeople();
+  if (tursoConfigured()) return listPeople();
+  return localShowcase();
 });
 
 export async function getPublishedProfiles() {
   const profiles = await getAllProfiles();
-  return profiles.filter((profile) => profile.status === "published");
+  return profiles.filter((profile) => profile.status === "published" && !(isProduction() && isDemoSlug(profile.slug)));
 }
 
 export async function getProfile(slug: string) {
@@ -22,6 +29,7 @@ export async function getProfile(slug: string) {
 }
 
 export async function getPublishedProfile(slug: string) {
+  if (isProduction() && isDemoSlug(slug)) return null;
   const profile = await getProfile(slug);
   if (!profile || profile.status !== "published") return null;
   return profile;
@@ -33,7 +41,10 @@ export async function getPublishedByCategory(slug: CategorySlug) {
 }
 
 export async function profilesUpdatedAt() {
-  if (!tursoConfigured()) return fs.statSync(profilesPath).mtime;
+  if (!tursoConfigured()) {
+    if (isProduction()) return new Date();
+    return fs.statSync(demoProfilesPath).mtime;
+  }
   const profiles = await getAllProfiles();
   const times = profiles
     .map((profile) => Date.parse(profile.updatedAt ?? ""))
@@ -44,13 +55,14 @@ export async function profilesUpdatedAt() {
 
 export async function updateProfileStatus(slug: string, status: ProfileStatus) {
   if (tursoConfigured()) return setPersonStatus(slug, status);
-  const profiles = readProfiles();
+  if (isProduction()) throw new DeskError(missingDatabaseMessage);
+  const profiles = readDemoProfiles();
   const index = profiles.findIndex((profile) => profile.slug === slug);
   if (index === -1) return null;
   const current = profiles[index];
   if (!current) return null;
   const next = { ...current, status, updatedAt: new Date().toISOString() };
   profiles[index] = next;
-  writeProfiles(profiles);
+  writeDemoProfiles(profiles);
   return next;
 }

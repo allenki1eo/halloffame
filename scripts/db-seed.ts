@@ -1,17 +1,22 @@
 import { seedProfiles } from "../src/lib/db/seed";
 
 async function main() {
-  const url = process.env.TURSO_DATABASE_URL?.trim();
-  const authToken = process.env.TURSO_AUTH_TOKEN?.trim();
-  if (!url || !authToken) {
+  if (process.env.ALLOW_DEMO_SEED !== "1") {
     console.error(
-      "Set TURSO_DATABASE_URL and TURSO_AUTH_TOKEN before seeding. Without them, the site keeps reading data/profiles.json and this command does nothing.",
+      "Refusing to load the fictional pages. Set ALLOW_DEMO_SEED=1 only on a local database. Do not seed production.",
     );
     process.exit(1);
   }
 
+  const url = process.env.TURSO_DATABASE_URL?.trim();
+  const authToken = process.env.TURSO_AUTH_TOKEN?.trim();
+  if (!url || !authToken) {
+    console.error("Set TURSO_DATABASE_URL and TURSO_AUTH_TOKEN before seeding. This command does not change the public site by itself.");
+    process.exit(1);
+  }
+
   const count = await seedProfiles();
-  console.log(`Seeded ${count} people from data/profiles.json.`);
+  console.log(`Seeded ${count} fictional people from data/demo-profiles.json. Leave them off the production database.`);
 }
 
 main().catch((error: unknown) => {

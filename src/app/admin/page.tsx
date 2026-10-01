@@ -4,6 +4,7 @@ import { AdminLogin } from "@/components/admin-login";
 import { logoutAdmin, setProfileStatus } from "@/lib/actions";
 import { isAdmin } from "@/lib/admin-auth";
 import { blobConfigured } from "@/lib/blob";
+import { isDemoSlug, isProduction } from "@/lib/demo";
 import { getCategory } from "@/lib/categories";
 import { categoryCopy } from "@/lib/i18n";
 import { getAllProfiles, getProfile } from "@/lib/content";
@@ -90,15 +91,18 @@ export default async function AdminPage({ searchParams }: PageProps) {
       </div>
 
       <Alert className="mt-8">
-        <AlertTitle>{database ? "Turso is connected" : "Demo record"}</AlertTitle>
+        <AlertTitle>{database ? "Turso is connected" : "Database not connected"}</AlertTitle>
         <AlertDescription>
           {database
             ? uploads
-              ? "Pages, work, medals, and media notes are stored in Turso. Image and video files go to Vercel Blob."
-              : "Pages are stored in Turso. File uploads need BLOB_READ_WRITE_TOKEN. You can still paste an image, video, or link URL."
-            : "This desk is reading data/profiles.json. Publish and unpublish update that file. Creating and editing people, work, and media needs TURSO_DATABASE_URL and TURSO_AUTH_TOKEN. Uploads also need BLOB_READ_WRITE_TOKEN."}
-          {database && profiles.length === 0
-            ? " The database has no pages yet. Run npm run db:seed, or create a page."
+              ? "Pages, work, medals, and links are stored in Turso. Image and video files go to the Blob store named by BLOB_STORE_ID, using BLOB_READ_WRITE_TOKEN."
+              : "Pages are stored in Turso. File uploads need BLOB_READ_WRITE_TOKEN and BLOB_STORE_ID. You can still paste an image, video, or link URL."
+            : isProduction()
+              ? "The public site stays empty until TURSO_DATABASE_URL and TURSO_AUTH_TOKEN are set. This desk does not publish the fictional file. Uploads also need BLOB_READ_WRITE_TOKEN."
+              : "This local preview is reading data/demo-profiles.json. Production ignores that file. Creating and editing people needs Turso. Uploads need BLOB_READ_WRITE_TOKEN."}
+          {database && profiles.length === 0 ? " The database has no pages yet. Create a page from this desk. Do not seed the fictional people into production." : ""}
+          {database && profiles.some((profile) => isDemoSlug(profile.slug))
+            ? " Fictional pages in this database stay off the public site. Delete them here, or run npm run db:clear-demos with CONFIRM_CLEAR_DEMOS=1."
             : ""}
         </AlertDescription>
       </Alert>

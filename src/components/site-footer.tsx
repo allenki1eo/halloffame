@@ -1,12 +1,16 @@
 import Link from "next/link";
 import { Mark } from "@/components/mark";
 import { Separator } from "@/components/ui/separator";
+import { getPublishedProfiles } from "@/lib/content";
+import { isDemoSlug } from "@/lib/demo";
 import { getLocale } from "@/lib/i18n";
 import { messages } from "@/lib/messages";
 
 export async function SiteFooter() {
   const locale = await getLocale();
   const m = messages[locale];
+  const published = await getPublishedProfiles();
+  const showingFiction = published.some((profile) => isDemoSlug(profile.slug));
 
   return (
     <footer className="mt-8 bg-pine-deep text-primary-foreground">
@@ -19,7 +23,7 @@ export async function SiteFooter() {
         <Separator className="my-8 bg-primary-foreground/20" />
         <div className="grid gap-8 md:grid-cols-2">
           <div className="space-y-3 text-sm leading-relaxed text-primary-foreground/80">
-            <p>{m.footerFictional}</p>
+            {showingFiction ? <p>{m.footerFictional}</p> : null}
             <p>{m.footerEditors}</p>
           </div>
           <nav aria-label="Footer" className="flex flex-col gap-3 text-lg">

@@ -76,7 +76,7 @@ export default async function CategoryPage({ params }: PageProps) {
       <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">{text.blurb}</p>
 
       {profiles.length === 0 ? (
-        <p className="mt-14 border-t border-border py-12 text-lg">
+        <p className="mt-14 max-w-xl border-t border-border py-12 font-display text-3xl leading-snug tracking-tight">
           {copy.emptyCategory}{" "}
           <Link href="/suggest" className="underline decoration-primary underline-offset-4">
             {copy.suggestLink}

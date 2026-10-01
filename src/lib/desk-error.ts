@@ -18,4 +18,4 @@ export function deskErrorMessage(error: unknown) {
 }
 
 export const missingDatabaseMessage =
-  "This desk is reading the demo record in data/profiles.json. Create a Turso database, set TURSO_DATABASE_URL and TURSO_AUTH_TOKEN, run npm run db:migrate and npm run db:seed, then edit again.";
+  "Creating and editing needs TURSO_DATABASE_URL and TURSO_AUTH_TOKEN, then npm run db:migrate. Production does not publish the fictional pages.";

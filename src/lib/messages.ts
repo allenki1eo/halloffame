@@ -42,6 +42,8 @@ export type Messages = {
   arriveShareTitle: string;
   arriveShare: string;
   emptyRecord: string;
+  emptyOpening: string;
+  emptyOpeningBody: string;
   fourRooms: string;
   categoriesDek: string;
   categoryLabel: string;
@@ -202,6 +204,8 @@ export const messages: Record<Locale, Messages> = {
     arriveShareTitle: "Readers share",
     arriveShare: "Pass a page to a classroom, a newsroom, or a cousin abroad. The link is the introduction.",
     emptyRecord: "The public record is empty. Editors publish pages from the desk.",
+    emptyOpening: "The record is open.",
+    emptyOpeningBody: "No page is public yet. Editors publish from the desk, and a suggestion can wait with them.",
     fourRooms: "Four rooms, one record.",
     categoriesDek: "Choose a category and read the work. Pages are published by editors and offered side by side.",
     categoryLabel: "Category",
@@ -370,6 +374,8 @@ export const messages: Record<Locale, Messages> = {
     arriveShareTitle: "Wasomaji hushiriki",
     arriveShare: "Peleka ukurasa darasani, chumbani mwa habari, au kwa ndugu aliye mbali. Kiungo ndicho utambulisho.",
     emptyRecord: "Kumbukumbu ya hadhara bado tupu. Wahariri huchapisha kurasa kutoka mezani.",
+    emptyOpening: "Kumbukumbu iko wazi.",
+    emptyOpeningBody: "Bado hakuna ukurasa wa hadhara. Wahariri huchapisha kutoka mezani, na pendekezo linaweza kusubiri kwao.",
     fourRooms: "Vyumba vinne, kumbukumbu moja.",
     categoriesDek: "Chagua kundi na usome kazi. Wahariri huchapisha kurasa na kuziacha bega kwa bega.",
     categoryLabel: "Kundi",

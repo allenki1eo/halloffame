@@ -7,7 +7,7 @@ async function main() {
   const authToken = process.env.TURSO_AUTH_TOKEN?.trim();
   if (!url || !authToken) {
     console.error(
-      "Set TURSO_DATABASE_URL and TURSO_AUTH_TOKEN before migrating. Without them, the site keeps reading data/profiles.json.",
+      "Set TURSO_DATABASE_URL and TURSO_AUTH_TOKEN before migrating. Production stays empty until those variables are set and this command has been run.",
     );
     process.exit(1);
   }

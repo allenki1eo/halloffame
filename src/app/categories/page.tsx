@@ -35,6 +35,9 @@ export default async function CategoriesPage() {
         {copy.fourRooms}
       </h1>
       <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">{copy.categoriesDek}</p>
+      {published.length === 0 ? (
+        <p className="mt-8 max-w-xl border-t border-border pt-8 text-lg">{copy.emptyRecord}</p>
+      ) : null}
       <ul className="mt-14 grid gap-4 md:grid-cols-2">
         {categories.map((category) => {
           const count = published.filter((profile) => profile.category === category.slug).length;
