@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProfileView } from "@/components/profile-view";
-import { getCategory } from "@/lib/categories";
 import { getPublishedProfile } from "@/lib/content";
+import { categoryCopy, getLocale, htmlLang } from "@/lib/i18n";
+import { localizeProfile } from "@/lib/localize";
+import { messages } from "@/lib/messages";
 import { absoluteUrl, mediaUrl } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
@@ -13,12 +15,14 @@ type PageProps = {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const profile = await getPublishedProfile(slug);
-  if (!profile) {
-    return { title: "Not on the record", robots: { index: false, follow: false } };
+  const source = await getPublishedProfile(slug);
+  const copy = messages[await getLocale()];
+  if (!source) {
+    return { title: copy.notOnRecord, robots: { index: false, follow: false } };
   }
-  const category = getCategory(profile.category);
-  const description = `${profile.oneLiner} ${profile.role} in ${profile.place}.`;
+  const profile = localizeProfile(source, await getLocale());
+  const category = categoryCopy(profile.category, await getLocale());
+  const description = `${profile.oneLiner} ${profile.role}, ${profile.place}.`;
   return {
     title: profile.name,
     description,
@@ -34,23 +38,25 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: profile.name,
       description: profile.oneLiner,
     },
-    keywords: [profile.name, category?.name ?? "", "Tanzania", "Shukran TZ"],
+    keywords: [profile.name, category.name, "Tanzania", "Shukran TZ"],
   };
 }
 
 export default async function ProfilePage({ params }: PageProps) {
   const { slug } = await params;
-  const profile = await getPublishedProfile(slug);
-  if (!profile) notFound();
-  const category = getCategory(profile.category);
+  const source = await getPublishedProfile(slug);
+  if (!source) notFound();
+  const locale = await getLocale();
+  const profile = localizeProfile(source, locale);
+  const category = categoryCopy(profile.category, locale);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: profile.name,
     description: profile.oneLiner,
     image: mediaUrl(profile.photo),
-    inLanguage: "en-TZ",
-    articleSection: category?.name,
+    inLanguage: htmlLang(locale),
+    articleSection: category.name,
     mainEntityOfPage: absoluteUrl(`/profiles/${profile.slug}`),
     publisher: {
       "@type": "Organization",
@@ -76,7 +82,7 @@ export default async function ProfilePage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
-      <ProfileView profile={profile} />
+      <ProfileView profile={source} />
     </>
   );
 }

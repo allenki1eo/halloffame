@@ -2,6 +2,9 @@ import Link from "next/link";
 import { categories } from "@/lib/categories";
 import { CoverImage } from "@/components/cover-image";
 import { getPublishedProfiles } from "@/lib/content";
+import { categoryCopy, getLocale, htmlLang } from "@/lib/i18n";
+import { localizeProfile } from "@/lib/localize";
+import { messages } from "@/lib/messages";
 import { absoluteUrl } from "@/lib/site";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -19,7 +22,9 @@ const accentClass = {
 const gutter = "px-5 sm:px-8 lg:pl-[max(1.25rem,calc((100vw-72rem)/2+1.25rem))] lg:pr-12";
 
 export default async function HomePage() {
-  const published = await getPublishedProfiles();
+  const locale = await getLocale();
+  const copy = messages[locale];
+  const published = (await getPublishedProfiles()).map((profile) => localizeProfile(profile, locale));
   const opening = published[0];
   const featured = published.slice(1, 3);
   const rest = published.slice(3);
@@ -28,8 +33,8 @@ export default async function HomePage() {
     "@type": "WebSite",
     name: "Shukran TZ",
     url: absoluteUrl("/"),
-    description: "A living tribute to Tanzanians and their work. Editors publish each page.",
-    inLanguage: "en-TZ",
+    description: copy.siteDescription,
+    inLanguage: htmlLang(locale),
   };
 
   return (
@@ -41,14 +46,11 @@ export default async function HomePage() {
 
       <section className="lg:grid lg:min-h-[calc(100svh-4rem)] lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:grid-rows-[1fr_auto]">
         <div className={`order-1 flex flex-col justify-end pt-8 lg:col-start-1 lg:row-start-1 lg:pb-6 ${gutter}`}>
-          <p className="text-xs uppercase tracking-[0.22em] text-primary">Karibu · Tanzania</p>
-          <h1 className="mt-4 max-w-[11ch] font-display text-[3.4rem] leading-[0.88] tracking-tight sm:text-7xl lg:text-[5.4rem]">
-            The work is the tribute.
+          <p className="text-xs uppercase tracking-[0.22em] text-primary">{copy.karibu}</p>
+          <h1 className="mt-4 max-w-[12ch] font-display text-[3.4rem] leading-[0.88] tracking-tight sm:text-7xl lg:text-[5.4rem]">
+            {copy.headline}
           </h1>
-          <p className="mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">
-            A living tribute to Tanzanians, well known and still unsung. Begin with the opening page, then
-            walk the record.
-          </p>
+          <p className="mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">{copy.dek}</p>
         </div>
 
         <article className="relative order-2 mt-8 min-h-[72vh] sm:min-h-[78vh] lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:h-auto lg:min-h-full">
@@ -62,7 +64,7 @@ export default async function HomePage() {
                 className="object-cover object-[center_18%]"
               />
               <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent px-5 pb-6 pt-28 text-white sm:px-8 sm:pb-8">
-                <p className="text-xs uppercase tracking-[0.18em] text-white/80">Opening page</p>
+                <p className="text-xs uppercase tracking-[0.18em] text-white/80">{copy.openingPage}</p>
                 <h2 className="mt-2 max-w-xl font-display text-5xl leading-none tracking-tight sm:text-6xl">
                   <Link href={`/profiles/${opening.slug}`} data-track="open_profile" className="text-white">
                     {opening.name}
@@ -78,7 +80,7 @@ export default async function HomePage() {
                 </p>
                 <Button asChild size="lg" variant="secondary" className="mt-5">
                   <Link href={`/profiles/${opening.slug}#work`} data-track="read_work">
-                    Read the work
+                    {copy.readTheWork}
                   </Link>
                 </Button>
               </figcaption>
@@ -86,7 +88,7 @@ export default async function HomePage() {
           ) : (
             <div className="absolute inset-0 flex items-end bg-secondary px-5 py-10">
               <p className="max-w-sm text-lg text-muted-foreground">
-                The public record is empty. Editors publish pages from the desk.
+                {copy.emptyRecord}
               </p>
             </div>
           )}
@@ -99,8 +101,10 @@ export default async function HomePage() {
           <ul>
             <li>
               <Link href="#record" className="flex min-h-12 items-center justify-between gap-4 py-3">
-                <span className="font-display text-2xl tracking-tight">The record</span>
-                <span className="text-sm text-muted-foreground">{published.length} pages</span>
+                <span className="font-display text-2xl tracking-tight">{copy.theRecord}</span>
+                <span className="text-sm text-muted-foreground">
+                  {published.length} {published.length === 1 ? copy.page : copy.pages}
+                </span>
               </Link>
             </li>
             <li className="border-t border-border">
@@ -109,8 +113,8 @@ export default async function HomePage() {
                 data-track="open_category"
                 className="flex min-h-12 items-center justify-between gap-4 py-3"
               >
-                <span className="font-display text-2xl tracking-tight">Categories</span>
-                <span className="text-sm text-muted-foreground">Four ways in</span>
+                <span className="font-display text-2xl tracking-tight">{copy.categories}</span>
+                <span className="text-sm text-muted-foreground">{copy.fourWays}</span>
               </Link>
             </li>
             <li className="border-t border-border">
@@ -119,8 +123,8 @@ export default async function HomePage() {
                 data-track="suggest"
                 className="flex min-h-12 items-center justify-between gap-4 py-3"
               >
-                <span className="font-display text-2xl tracking-tight">Suggest someone</span>
-                <span className="text-sm text-muted-foreground">A private note</span>
+                <span className="font-display text-2xl tracking-tight">{copy.suggestSomeone}</span>
+                <span className="text-sm text-muted-foreground">{copy.privateNote}</span>
               </Link>
             </li>
           </ul>
@@ -129,20 +133,18 @@ export default async function HomePage() {
 
       <section id="record" aria-labelledby="record-heading" className="rise scroll-mt-20 border-t border-border">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
-          <p className="text-xs uppercase tracking-[0.2em] text-primary">Side by side</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-primary">{copy.sideBySide}</p>
           <div className="mt-3 flex items-end justify-between gap-4">
             <h2 id="record-heading" className="font-display text-5xl tracking-tight sm:text-6xl">
-              On the record
+              {copy.onTheRecord}
             </h2>
           </div>
-          <p className="mt-4 max-w-xl text-lg text-muted-foreground">
-            Editors publish each page. The order is the order of the record.
-          </p>
+          <p className="mt-4 max-w-xl text-lg text-muted-foreground">{copy.recordDek}</p>
 
           {featured.length > 0 ? (
             <ul className="mt-12 grid gap-8 md:grid-cols-2">
               {featured.map((profile) => {
-                const category = categories.find((item) => item.slug === profile.category);
+                const category = categoryCopy(profile.category, locale);
                 return (
                   <li key={profile.slug}>
                     <article className="group">
@@ -154,7 +156,7 @@ export default async function HomePage() {
                         <CoverImage src={profile.photo} alt={profile.photoAlt} sizes="(min-width: 768px) 40vw, 100vw" />
                       </Link>
                       <Badge variant="outline" className="mt-4 h-6">
-                        {category?.name}
+                        {category.name}
                       </Badge>
                       <h3 className="mt-2 font-display text-4xl tracking-tight">
                         <Link href={`/profiles/${profile.slug}`} data-track="open_profile" className="hover:text-primary">
@@ -178,7 +180,7 @@ export default async function HomePage() {
             <ol className="mt-14">
               <Separator />
               {rest.map((profile) => {
-                const category = categories.find((item) => item.slug === profile.category);
+                const category = categoryCopy(profile.category, locale);
                 return (
                   <li key={profile.slug} className="border-b border-border">
                     <article className="group grid items-center gap-5 py-6 sm:grid-cols-[7rem_1fr_auto]">
@@ -192,7 +194,7 @@ export default async function HomePage() {
                         <CoverImage src={profile.photo} alt="" sizes="112px" />
                       </Link>
                       <div>
-                        <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">{category?.name}</p>
+                        <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">{category.name}</p>
                         <h3 className="mt-1 font-display text-3xl tracking-tight">
                           <Link href={`/profiles/${profile.slug}`} data-track="open_profile" className="hover:text-primary">
                             {profile.name}
@@ -202,7 +204,7 @@ export default async function HomePage() {
                       </div>
                       <Button asChild variant="ghost" className="hidden sm:inline-flex">
                         <Link href={`/profiles/${profile.slug}#work`} data-track="read_work">
-                          Read
+                          {copy.read}
                         </Link>
                       </Button>
                     </article>
@@ -216,13 +218,14 @@ export default async function HomePage() {
 
       <section id="categories" aria-labelledby="categories-heading" className="rise scroll-mt-20 border-t border-border">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
-          <p className="text-xs uppercase tracking-[0.2em] text-primary">Browse</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-primary">{copy.browse}</p>
           <h2 id="categories-heading" className="mt-3 font-display text-5xl tracking-tight sm:text-6xl">
-            Four ways in
+            {copy.fourWays}
           </h2>
           <ol className="mt-10 border-t border-border">
             {categories.map((category, index) => {
               const count = published.filter((profile) => profile.category === category.slug).length;
+              const name = categoryCopy(category.slug, locale).name;
               return (
                 <li key={category.slug} className="border-b border-border">
                   <Link
@@ -233,10 +236,10 @@ export default async function HomePage() {
                     <span className={`h-10 w-1 shrink-0 ${accentClass[category.accent]}`} aria-hidden="true" />
                     <span className="w-8 text-sm text-muted-foreground">0{index + 1}</span>
                     <span className="font-display text-3xl tracking-tight transition-colors group-hover:text-primary sm:text-5xl">
-                      {category.name}
+                      {name}
                     </span>
                     <span className="ml-auto text-sm text-muted-foreground">
-                      {count} {count === 1 ? "page" : "pages"}
+                      {count} {count === 1 ? copy.page : copy.pages}
                     </span>
                   </Link>
                 </li>
@@ -250,22 +253,13 @@ export default async function HomePage() {
         <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:px-8 md:grid-cols-3">
           <div className="md:col-span-3">
             <h2 id="arrive-heading" className="font-display text-4xl tracking-tight sm:text-5xl">
-              How a page arrives
+              {copy.howArrives}
             </h2>
           </div>
           {[
-            {
-              title: "Editors publish",
-              body: "A page is prepared with the work first, then the journey, then why it matters for Tanzania.",
-            },
-            {
-              title: "Anyone may suggest",
-              body: "If you know someone the record should hold, send a private note. It stays with the editors.",
-            },
-            {
-              title: "Readers share",
-              body: "Pass a page to a classroom, a newsroom, or a cousin abroad. The link is the introduction.",
-            },
+            { title: copy.arriveEditorsTitle, body: copy.arriveEditors },
+            { title: copy.arriveSuggestTitle, body: copy.arriveSuggest },
+            { title: copy.arriveShareTitle, body: copy.arriveShare },
           ].map((step) => (
             <div key={step.title}>
               <h3 className="font-display text-2xl">{step.title}</h3>
@@ -275,7 +269,7 @@ export default async function HomePage() {
           <div className="md:col-span-3">
             <Button asChild variant="outline" size="lg">
               <Link href="/suggest" data-track="suggest">
-                Suggest someone
+                {copy.suggestSomeone}
               </Link>
             </Button>
           </div>

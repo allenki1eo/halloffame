@@ -1,6 +1,9 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { SocialFields } from "@/components/social-fields";
 import { categories } from "@/lib/categories";
+import { getLocale } from "@/lib/i18n";
+import { messages } from "@/lib/messages";
 import {
   deleteMediaAction,
   deletePersonAction,
@@ -49,7 +52,7 @@ function Field({
   );
 }
 
-export function DeskEditor({
+export async function DeskEditor({
   profile,
   error,
   saved,
@@ -58,7 +61,9 @@ export function DeskEditor({
   error?: string;
   saved?: string;
 }) {
+  const copy = messages[await getLocale()];
   const notice = saved ? savedCopy[saved] : "";
+  const sw = profile?.sw;
 
   return (
     <div className="mx-auto max-w-3xl px-5 py-14">
@@ -145,6 +150,31 @@ export function DeskEditor({
         <Field id="whyItMatters" label="Why it matters for Tanzania" hint="Blank line between paragraphs.">
           <Textarea id="whyItMatters" name="whyItMatters" defaultValue={profile?.whyItMatters.join("\n\n") ?? ""} />
         </Field>
+        <SocialFields locale={await getLocale()} socials={profile?.socials ?? []} />
+        <details className="space-y-6 border border-border px-4 py-4">
+          <summary className="cursor-pointer font-display text-2xl">{copy.kiswahili}</summary>
+          <p className="mt-3 text-sm text-muted-foreground">{copy.kiswahiliHint}</p>
+          <div className="mt-6 grid gap-6 sm:grid-cols-2">
+            <Field id="roleSw" label="Role · Kiswahili">
+              <Input id="roleSw" name="roleSw" defaultValue={sw?.role ?? ""} />
+            </Field>
+            <Field id="placeSw" label="Place · Kiswahili">
+              <Input id="placeSw" name="placeSw" defaultValue={sw?.place ?? ""} />
+            </Field>
+          </div>
+          <Field id="oneLinerSw" label="One line · Kiswahili">
+            <Input id="oneLinerSw" name="oneLinerSw" defaultValue={sw?.oneLiner ?? ""} />
+          </Field>
+          <Field id="photoAltSw" label="Portrait description · Kiswahili">
+            <Input id="photoAltSw" name="photoAltSw" defaultValue={sw?.photoAlt ?? ""} />
+          </Field>
+          <Field id="journeySw" label="Journey · Kiswahili" hint="Blank line between paragraphs.">
+            <Textarea id="journeySw" name="journeySw" defaultValue={sw?.journey?.join("\n\n") ?? ""} />
+          </Field>
+          <Field id="whySw" label="Why it matters · Kiswahili" hint="Blank line between paragraphs.">
+            <Textarea id="whySw" name="whySw" defaultValue={sw?.whyItMatters?.join("\n\n") ?? ""} />
+          </Field>
+        </details>
         <Button type="submit">Save page</Button>
       </form>
 
@@ -187,6 +217,19 @@ export function DeskEditor({
                     <Field id={`outcome-${item.id}`} label="What changed">
                       <Textarea id={`outcome-${item.id}`} name="outcome" defaultValue={item.outcome} />
                     </Field>
+                    <details className="space-y-5 border border-border px-4 py-4">
+                      <summary className="cursor-pointer font-display text-xl">{copy.kiswahili}</summary>
+                      <p className="text-sm text-muted-foreground">{copy.kiswahiliHint}</p>
+                      <Field id={`title-sw-${item.id}`} label="Title · Kiswahili">
+                        <Input id={`title-sw-${item.id}`} name="titleSw" defaultValue={sw?.work?.[item.id]?.title ?? ""} />
+                      </Field>
+                      <Field id={`summary-sw-${item.id}`} label="Summary · Kiswahili">
+                        <Textarea id={`summary-sw-${item.id}`} name="summarySw" defaultValue={sw?.work?.[item.id]?.summary ?? ""} />
+                      </Field>
+                      <Field id={`outcome-sw-${item.id}`} label="What changed · Kiswahili">
+                        <Textarea id={`outcome-sw-${item.id}`} name="outcomeSw" defaultValue={sw?.work?.[item.id]?.outcome ?? ""} />
+                      </Field>
+                    </details>
                     <Button type="submit">Save this work</Button>
                   </form>
 
@@ -294,6 +337,19 @@ export function DeskEditor({
               <Field id="new-outcome" label="What changed">
                 <Textarea id="new-outcome" name="outcome" />
               </Field>
+              <details className="space-y-5 border border-border px-4 py-4">
+                <summary className="cursor-pointer font-display text-xl">{copy.kiswahili}</summary>
+                <p className="text-sm text-muted-foreground">{copy.kiswahiliHint}</p>
+                <Field id="new-title-sw" label="Title · Kiswahili">
+                  <Input id="new-title-sw" name="titleSw" />
+                </Field>
+                <Field id="new-summary-sw" label="Summary · Kiswahili">
+                  <Textarea id="new-summary-sw" name="summarySw" />
+                </Field>
+                <Field id="new-outcome-sw" label="What changed · Kiswahili">
+                  <Textarea id="new-outcome-sw" name="outcomeSw" />
+                </Field>
+              </details>
               <Button type="submit">Add work</Button>
             </form>
           </section>

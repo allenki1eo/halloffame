@@ -73,7 +73,69 @@
       "Tanzania’s clinics already hold the knowledge. Too much of it lives in books that cannot travel with a patient from a dispensary to a regional hospital.",
       "When a note survives the outage and the referral, a mother does not begin again, and a nurse keeps the hour she needed for care. That is quiet infrastructure, and it belongs where people can see it."
     ],
-    "honorMedal": "gold"
+    "honorMedal": "gold",
+    "sw": {
+      "role": "Mhandisi wa programu",
+      "oneLiner": "Huandaa kumbukumbu za kliniki zinazoendelea kufanya kazi hata umeme ukikatika.",
+      "photoAlt": "Picha ya Amina Juma, mwanamke mwenye nywele fupi nyeusi na miwani, akiwa amevaa shati la kijani kibichi, dhidi ya mandhari ya krimu.",
+      "journey": [
+        "Sikuanzia kutengeneza programu za afya. Nilianza kwa kuacha kumwona shangazi akisimulia hadithi yake mara mbili.",
+        "Alikuwa na daftari la samawati la kliniki na jingine la hospitali. Umeme ulipokatika, foleni ya mchana ilianza tena kutoka kwenye kumbukumbu. Nilikuwa mpwa mwenye kompyuta ndogo. Toleo la kwanza lilikuwa baya. Lakini lilibaki wazi hata balbu zikizima.",
+        "Ninachodaiwa na mji huu ni kumbukumbu inayoheshimu mtu aliyeshafanya kazi kwa uangalifu: muuguzi, mama, na karani mwenye karatasi ya kaboni. Zana isiyovumilia kukatika kwa umeme Jumanne Ubungo, bado haijawa tayari kwa Dar es Salaam."
+      ],
+      "whyItMatters": [
+        "Kliniki za Tanzania tayari zinashikilia maarifa. Mengi yake yako kwenye vitabu visivyoweza kusafiri na mgonjwa kutoka zahanati hadi hospitali ya mkoa.",
+        "Dokezo linapovumilia kukatika kwa umeme na rufaa, mama haanzii upya, na muuguzi anabaki na saa aliyohitaji kwa huduma. Hii ni miundombinu tulivu, na inastahili kuonekana."
+      ],
+      "work": {
+        "amina-juma-kadi-ya-kliniki": {
+          "title": "Kadi ya Kliniki",
+          "summary": "Kadi ya ziara inayofanya kazi hata bila mtandao, kwa zahanati ndogo. Wauguzi huandika ziara kwenye kompyuta kibao inayoshirikiwa. Kumbukumbu husubiri, kisha husawazishwa laini inaporudi.",
+          "outcome": "Zahanati tatu za Ubungo ziliacha kuandika upya maelezo yale yale ya wajawazito kwa mkono baada ya umeme kukosekana nusu ya siku.",
+          "media": {
+            "amina-juma-kadi-ya-kliniki-portrait": {
+              "title": "Picha",
+              "caption": "Picha iliyowekwa pamoja na kazi hii.",
+              "alt": "Picha ya kazi hii."
+            },
+            "amina-juma-kadi-ya-kliniki-note": {
+              "title": "Dokezo la mradi",
+              "caption": "Dokezo la hadhara ambalo wahariri wanaweza kulibadilisha na kumbukumbu halisi."
+            }
+          }
+        },
+        "amina-juma-pause-send": {
+          "title": "Simama na Tuma",
+          "summary": "Foleni ndogo, iliyoandikwa kwa Kiswahili, inayoonyesha maelezo yaliyobaki ndani ya jengo na yale yaliyofika kwenye faili ya wilaya.",
+          "outcome": "Wauguzi wa zamu ya usiku wanaweza kuona ambayo hayajaondoka kliniki, badala ya kukisia asubuhi.",
+          "media": {
+            "amina-juma-pause-send-note": {
+              "title": "Dokezo lingine",
+              "caption": "Kiungo kilichowekwa kando ya kazi hii."
+            }
+          }
+        },
+        "amina-juma-saturday-bench": {
+          "title": "Benchi ya Jumamosi",
+          "summary": "Meza ya kila mwezi na wanafunzi wa uuguzi. Huchambua daftari moja la karatasi na kulijenga upya kuwa skrini moja, sehemu kwa sehemu.",
+          "outcome": "Duara linalokua la wauguzi wanaoweza kueleza programu wanachotaka, badala ya kuipokea tu."
+        }
+      }
+    },
+    "socials": [
+      {
+        "kind": "website",
+        "url": "https://example.com/amina-juma"
+      },
+      {
+        "kind": "email",
+        "url": "amina.juma@example.com"
+      },
+      {
+        "kind": "whatsapp",
+        "url": "255700000101"
+      }
+    ]
   },
   {
     "slug": "halima-said",
@@ -149,7 +211,61 @@
       "Respectful maternity care depends on the people who are actually in the room at two in the morning. When those midwives can teach one another, the standard stays after a trainer has gone home.",
       "Mothers in Tanga then meet a ward that has rehearsed the hard hour, and a new midwife inherits a practice instead of a speech."
     ],
-    "honorMedal": "platinum"
+    "honorMedal": "platinum",
+    "sw": {
+      "role": "Mkunga na mwalimu",
+      "oneLiner": "Huwafundisha wakunga kufundishana, wodi kwa wodi.",
+      "photoAlt": "Picha ya Halima Said, mwanamke aliyevaa mtandio wa kijani wenye michoro, dhidi ya mandhari ya krimu.",
+      "journey": [
+        "Nilikuwa mkunga kwa sababu uchungu wa ndugu yangu wa kike uliwatisha wote chumbani, ikiwemo watu waliojua cha kufanya. Maarifa yalikuwepo. Hayakusonga.",
+        "Kwa hiyo niliacha kuyaweka kwenye daftari langu na kuyaanza kuacha wodi. Duara ni dogo kwa makusudi. Mkunga atasema ukweli kwa mwenzake anayemwamini kabla hajasema kwa mkufunzi mwenye chati.",
+        "Nataka mtu ajaye mlangoni aonane na timu ambayo tayari imejizoeza utulivu."
+      ],
+      "whyItMatters": [
+        "Huduma ya uzazi yenye heshima inategemea watu walioko chumbani saa nane za usiku. Wakunga hao wanapoweza kufundishana, kiwango kinabaki hata mkufunzi akiisha kwenda nyumbani.",
+        "Akina mama Tanga hukutana na wodi iliyojizoeza saa ngumu, na mkunga mpya hurithi mazoea badala ya hotuba."
+      ],
+      "work": {
+        "halima-said-circle-of-hands": {
+          "title": "Duara la Mikono",
+          "summary": "Duara la wodi ambapo wakunga hujizoeza nyakati ngumu wao kwa wao, kwa Kiswahili, zamu ikiisha.",
+          "outcome": "Wodi mbili za hospitali ziliendeleza duara baada ya Halima kuacha kuhudhuria. Hilo ndilo lengo.",
+          "media": {
+            "halima-said-circle-of-hands-portrait": {
+              "title": "Picha",
+              "caption": "Picha iliyowekwa pamoja na kazi hii.",
+              "alt": "Picha ya kazi hii."
+            },
+            "halima-said-circle-of-hands-note": {
+              "title": "Dokezo la mradi",
+              "caption": "Dokezo la hadhara ambalo wahariri wanaweza kulibadilisha na kumbukumbu halisi."
+            }
+          }
+        },
+        "halima-said-birth-prep-cards": {
+          "title": "Kadi za maandalizi ya kujifungua",
+          "summary": "Kadi zenye michoro kwa mazungumzo ya wajawazito: cha kuleta, nani anaweza kubaki, na dalili ya hatari inaonekanaje.",
+          "outcome": "Zahanati zilizokuwa zikiweka kando vipeperushi virefu sasa hutumia kadi katika ziara yenyewe.",
+          "media": {
+            "halima-said-birth-prep-cards-note": {
+              "title": "Dokezo lingine",
+              "caption": "Kiungo kilichowekwa kando ya kazi hii."
+            }
+          }
+        },
+        "halima-said-night-shift-notes": {
+          "title": "Maelezo ya zamu ya usiku",
+          "summary": "Ukurasa wa maelezo baada ya zamu, wenye maswali matatu, mfupi wa kumalizika kabla ya mapambazuko.",
+          "outcome": "Wasimamizi wanaweza kuona mwelekeo wa mwezi mzima bila kuwaomba wafanyakazi waliochoka kuandika insha."
+        }
+      }
+    },
+    "socials": [
+      {
+        "kind": "instagram",
+        "url": "https://example.com/instagram/halima-said"
+      }
+    ]
   },
   {
     "slug": "neema-shirima",
@@ -225,7 +341,56 @@
       "Young people in Arusha are often handed culture as something that happens on a stage they will visit later. Neema’s studio turns that around. The market is the archive, and the school is the workshop.",
       "Students learn that cloth is made by people they can name, and that making it can be a livelihood as well as a memory."
     ],
-    "honorMedal": "gold"
+    "honorMedal": "gold",
+    "sw": {
+      "role": "Msanii wa nguo na mwalimu",
+      "oneLiner": "Husuka nguo za soko zinazohifadhi majina ya wanawake walioshika vibanda.",
+      "photoAlt": "Picha ya Neema Shirima, mwanamke aliyevaa kitambaa cha bluu na mstari wa rangi ya kutu, na hereni ndogo, dhidi ya mandhari ya krimu.",
+      "journey": [
+        "Nilikulia chini ya meza ya kanga, nikikabidhi chenji juu kwa bibi. Watu huzungumza juu ya nguo kana kwamba ni urithi uliokwisha. Yeye aliziongelea kama Jumanne: nani hajalipwa, mtoto wa nani anahitaji ada, rangi gani inauzwa baada ya mvua.",
+        "Nilipoanza kusuka siku hizo kuwa paneli, niliuliza kwanza. Wanawake wengine walitaka majina yao kwenye pindo. Wengine walitaka mchoro tu. Kazi ni yao kabla haijawa yangu.",
+        "Chumba kisichoweza kuyataja majina hayo kwa uwazi kinajipamba tu."
+      ],
+      "whyItMatters": [
+        "Vijana wa Arusha mara nyingi hupewa utamaduni kama jambo litakalotokea jukwaani watakalotembelea baadaye. Studio ya Neema hugeuza hilo. Soko ndilo hifadhi, na shule ndiyo karakana.",
+        "Wanafunzi hujifunza kuwa nguo hufanywa na watu wanaoweza kuwataja, na kuifanya inaweza kuwa riziki pamoja na kumbukumbu."
+      ],
+      "work": {
+        "neema-shirima-soko-thread": {
+          "title": "Uzi wa Soko",
+          "summary": "Paneli za pamba zilizotiwa rangi kwa mimea ya kandokando ya Arusha. Kila paneli imeitwa kwa mwanamke wa soko aliyekubali kukumbukwa, kwa namna aliyoichagua.",
+          "outcome": "Paneli zilionyeshwa katika ukumbi wa shule uliokopwa, kisha zikarudishwa kwa familia zilizokopesha hadithi.",
+          "media": {
+            "neema-shirima-soko-thread-portrait": {
+              "title": "Picha",
+              "caption": "Picha iliyowekwa pamoja na kazi hii.",
+              "alt": "Picha ya kazi hii."
+            },
+            "neema-shirima-soko-thread-note": {
+              "title": "Dokezo la mradi",
+              "caption": "Dokezo la hadhara ambalo wahariri wanaweza kulibadilisha na kumbukumbu halisi."
+            }
+          }
+        },
+        "neema-shirima-dye-garden": {
+          "title": "Bustani ya rangi",
+          "summary": "Shamba nyuma ya shule ya sekondari ambapo wanafunzi hulima indigo na msharishari kwa chumba cha sanaa.",
+          "outcome": "Rangi ya darasa haitegemei tena duka moja mjini kuwa na bidhaa.",
+          "media": {
+            "neema-shirima-dye-garden-note": {
+              "title": "Dokezo lingine",
+              "caption": "Kiungo kilichowekwa kando ya kazi hii."
+            }
+          }
+        },
+        "neema-shirima-pattern-book": {
+          "title": "Kitabu cha michoro",
+          "summary": "Michoro ya muundo wa nguo, na maneno ya mfanyaji kando ya mchoro, kwa matamshi yake.",
+          "outcome": "Shule mbili hutumia kitabu kama mwanzo wa kurasa za wanafunzi wenyewe."
+        }
+      }
+    },
+    "socials": []
   },
   {
     "slug": "josephat-mushi",
@@ -301,7 +466,56 @@
       "Each year, young people in Kilimanjaro finish school able to learn a trade and short of a place that will pay them while they learn it.",
       "A local apprenticeship with a wage attached keeps that skill in the town, fills workshops that are already busy, and gives a family a path they can visit on a Saturday."
     ],
-    "honorMedal": "silver"
+    "honorMedal": "silver",
+    "sw": {
+      "role": "Fundi na mshauri wa karakana",
+      "oneLiner": "Hugeuza benchi za ukarabati wa barabarani kuwa mafunzo ya ufundi yanayolipwa kwa walioondoka shule.",
+      "photoAlt": "Picha ya Josephat Mushi, mwanamume mwenye ndevu fupi akiwa amevaa shati la kazi jeusi, dhidi ya mandhari ya krimu.",
+      "journey": [
+        "Nilimaliza kidato cha nne, kisha nikakaa juu ya kopo la mafuta hadi mtu akiniruhusu kushika spana. Mikono stadi ya mji huu haikuwa siri. Siri ilikuwa mwezi kati ya kuondoka shule na kuaminiwa kazi inayolipwa.",
+        "Kwa hiyo yadi hulipa mapema. Si mali. Inatosha mzazi kusema ndiyo. Kiwango kinabaki juu, kwa sababu bolti iliyolegea si wema.",
+        "Ukurasa ninaojali ni ule wa mwanafunzi aliyefunza ambaye sasa anaendesha benchi ya Jumamosi na kunirekebishia uchomaji."
+      ],
+      "whyItMatters": [
+        "Kila mwaka, vijana wa Kilimanjaro humaliza shule wakiwa na uwezo wa kujifunza fundi na kukosa mahali patakapolipa wanapojifunza.",
+        "Mafunzo ya ufundi ya hapa, yenye mshahara, hubakiza ujuzi mjini, hujaza karakana ambazo tayari zina kazi, na huipa familia njia wanayoweza kuitembelea Jumamosi."
+      ],
+      "work": {
+        "josephat-mushi-fundi-path": {
+          "title": "Fundi Path",
+          "summary": "Benchi ya miezi kumi na miwili ya ufundi mitambo, uchomeleaji, na ushonaji. Mshahara huanza mwezi wa tatu, umeandikwa tangu mwanzo.",
+          "outcome": "Wanafunzi wengi waliofunza huondoka na mwajiri aliyetajwa, pamoja na saa walizoshafanya kazi.",
+          "media": {
+            "josephat-mushi-fundi-path-portrait": {
+              "title": "Picha",
+              "caption": "Picha iliyowekwa pamoja na kazi hii.",
+              "alt": "Picha ya kazi hii."
+            },
+            "josephat-mushi-fundi-path-note": {
+              "title": "Dokezo la mradi",
+              "caption": "Dokezo la hadhara ambalo wahariri wanaweza kulibadilisha na kumbukumbu halisi."
+            }
+          }
+        },
+        "josephat-mushi-open-saturday": {
+          "title": "Jumamosi ya wazi",
+          "summary": "Yadi hufunguka kwa majirani wanaoleta baiskeli, pampu, au sare ya shule inayohitaji mshono. Wanafunzi waliofunza hufundisha ukarabati.",
+          "outcome": "Josephat anaweza kujua nani yuko tayari kwa kuwatazama wakimweleza jirani bolti.",
+          "media": {
+            "josephat-mushi-open-saturday-note": {
+              "title": "Dokezo lingine",
+              "caption": "Kiungo kilichowekwa kando ya kazi hii."
+            }
+          }
+        },
+        "josephat-mushi-employer-ledger": {
+          "title": "Daftari la waajiri",
+          "summary": "Orodha ya pamoja ya karakana za Kilimanjaro zitakazompokea mwanafunzi wa mwaka wa pili, fundi na mji vikiandikwa wazi.",
+          "outcome": "Familia zinaweza kuona njia inakoelekea kabla kijana hajaondoka shule."
+        }
+      }
+    },
+    "socials": []
   },
   {
     "slug": "zawadi-kimaro",
@@ -377,7 +591,65 @@
       "Small fishing crews around Zanzibar carry a great deal of the islands’ food and income, and they carry the risk that comes with a changing sea.",
       "A forecast written for a smartphone they do not own does not reach them. A short message, a radio minute, and a charged phone at the landing site do. More boats stay with weather they would have refused if someone had said it clearly."
     ],
-    "honorMedal": "diamond"
+    "honorMedal": "diamond",
+    "sw": {
+      "role": "Mtaalamu wa teknolojia ya bahari",
+      "oneLiner": "Hutuma hali ya bahari kwa lugha nyepesi kwa wavuvi wadogo kabla ya mapambazuko.",
+      "photoAlt": "Picha ya Zawadi Kimaro, mwanamke mwenye nywele zilizosukwa akiwa amevaa shati la buluu, dhidi ya mandhari ya krimu.",
+      "journey": [
+        "Nilijifunza kijito kwa kuambiwa nirudi maji yakionekana mabaya. Sentensi hiyo iliokoa watu. Pia ilitegemea nani yu macho kuyasema.",
+        "Nilisomea bahari, kisha nikajifunza kutuma sentensi ambayo kikosi kinaweza kuisoma bila mwongozo. Miundo si bidhaa. Bidhaa ni mtu kwenye mtumbwi anayebadili nia kwa wakati.",
+        "Dokezo likiwa werevu na kuchelewa, ni burudani. Likiwa wazi na kabla ya mapambazuko, ni huduma."
+      ],
+      "whyItMatters": [
+        "Vikosi vidogo vya uvuvi vya Zanzibar hubeba sehemu kubwa ya chakula na kipato cha visiwa, na hubeba hatari inayokuja na bahari inayobadilika.",
+        "Utabiri ulioandikwa kwa simu janja wasiyo nayo haufiki. Ujumbe mfupi, dakika ya redio, na simu iliyochajiwa kwenye kipwani hufika. Mitumbwi zaidi hubaki na hali ya hewa ambayo wangeikataa mtu angalisema wazi."
+      ],
+      "work": {
+        "zawadi-kimaro-bahari-ping": {
+          "title": "Bahari Ping",
+          "summary": "Ujumbe mfupi wa Kiswahili kabla ya mapambazuko: upepo, mawimbi, na mstari wazi kuhusu kama mitumbwi ya usiku isubiri.",
+          "outcome": "Mashirika mawili ya Unguja hubandika ujumbe kwenye kipwani kwa vikosi vinavyoshiriki simu moja.",
+          "media": {
+            "zawadi-kimaro-bahari-ping-portrait": {
+              "title": "Picha",
+              "caption": "Picha iliyowekwa pamoja na kazi hii.",
+              "alt": "Picha ya kazi hii."
+            },
+            "zawadi-kimaro-bahari-ping-note": {
+              "title": "Dokezo la mradi",
+              "caption": "Dokezo la hadhara ambalo wahariri wanaweza kulibadilisha na kumbukumbu halisi."
+            }
+          }
+        },
+        "zawadi-kimaro-radio-minute": {
+          "title": "Dakika ya redio",
+          "summary": "Dokezo lile lile, likisomwa mara moja kwenye kipindi cha asubuhi cha redio ya hapa, kwa mitumbwi isiyofungua simu.",
+          "outcome": "Vikosi vilivyoacha SMS bado husikia hali kabla ya kutia nanga.",
+          "media": {
+            "zawadi-kimaro-radio-minute-note": {
+              "title": "Dokezo lingine",
+              "caption": "Kiungo kilichowekwa kando ya kazi hii."
+            }
+          }
+        },
+        "zawadi-kimaro-landing-site-charge": {
+          "title": "Chaji ya kipwani",
+          "summary": "Sanduku la chaji la pamoja ili simu ya ushirika iwe hai saa kumi za usiku.",
+          "outcome": "Ujumbe hushindwa mara chache kwa sababu ya bei ndogo: betri iliyokufa."
+        }
+      }
+    },
+    "socials": [
+      {
+        "kind": "linkedin",
+        "url": "https://example.com/in/zawadi-kimaro"
+      },
+      {
+        "kind": "x",
+        "url": "https://example.com/x/zawadi"
+      }
+    ]
   },
   {
     "slug": "baraka-mwenda",
@@ -453,7 +725,56 @@
       "Along Lake Victoria, advice about water is often general, late, or locked in a report. Families decide every day anyway.",
       "Sampling at the landing, written in the language of the ward, lets a community act on its own shoreline. That protects children, and it treats fishers as partners in the evidence."
     ],
-    "honorMedal": "platinum"
+    "honorMedal": "platinum",
+    "sw": {
+      "role": "Mwanasayansi wa afya ya jamii",
+      "oneLiner": "Huchora ramani ya maji ya ufukweni ili familia zijue wakati wa kochemsha, kutibu, au kusubiri.",
+      "photoAlt": "Picha ya Baraka Mwenda, mwanamume mwenye ndevu fupi akiwa amevaa shati la khaki, dhidi ya mandhari ya krimu.",
+      "journey": [
+        "Baba alishona nyavu. Nilijifunza ziwa kwa kutumwa kuchota maji, na kwa kuambiwa, asubuhi nyingine, niyaache. Agizo lilikuwa daima kumbukumbu ya mtu. Nilisomea ili kumbukumbu hiyo iketi kando ya sampuli.",
+        "Kazi ni polepole kwa makusudi. Namba inayofika mara moja kwa mwaka kutoka maabara ya mbali haisaidii kaya Alhamisi. Namba iliyochukuliwa kipwani, ikisomwa kwa sauti, na kubandikwa mahali watu tayari wanakusanyika, inaweza.",
+        "Ninaomba kumbukumbu iwe na manufaa kwa watu wanaoishi na maji hayo."
+      ],
+      "whyItMatters": [
+        "Kando ya Ziwa Victoria, ushauri kuhusu maji mara nyingi huwa wa jumla, umechelewa, au umefungwa katika ripoti. Familia huamua kila siku hata hivyo.",
+        "Sampuli ya kipwani, iliyoandikwa kwa lugha ya kata, huruhusu jamii kutenda kwenye ufuko wake. Hilo hulinda watoto, na huwachukulia wavuvi kuwa washirika wa ushahidi."
+      ],
+      "work": {
+        "baraka-mwenda-ziwa-watch": {
+          "title": "Ziwa Watch",
+          "summary": "Zunguko la kuchukua sampuli ufukweni pamoja na ushirika wa wavuvi, katika vipwani vile vile kila mwezi.",
+          "outcome": "Chati ya ukutani katika kata mbili huonyesha wiki ambazo maji yanahitaji kuchemshwa, badala ya tetesi.",
+          "media": {
+            "baraka-mwenda-ziwa-watch-portrait": {
+              "title": "Picha",
+              "caption": "Picha iliyowekwa pamoja na kazi hii.",
+              "alt": "Picha ya kazi hii."
+            },
+            "baraka-mwenda-ziwa-watch-note": {
+              "title": "Dokezo la mradi",
+              "caption": "Dokezo la hadhara ambalo wahariri wanaweza kulibadilisha na kumbukumbu halisi."
+            }
+          }
+        },
+        "baraka-mwenda-school-kit": {
+          "title": "Kifaa cha shule",
+          "summary": "Beseni, bomba la uwazi wa maji, na somo ambalo wanafunzi wa sekondari wanaweza kufanya bila maabara.",
+          "outcome": "Shule nne huhifadhi usomaji wao wa Jumatatu na kuutuma kwa afisa wa kata.",
+          "media": {
+            "baraka-mwenda-school-kit-note": {
+              "title": "Dokezo lingine",
+              "caption": "Kiungo kilichowekwa kando ya kazi hii."
+            }
+          }
+        },
+        "baraka-mwenda-plain-language-brief": {
+          "title": "Maelezo ya lugha nyepesi",
+          "summary": "Dokezo la ukurasa mmoja la Kiswahili kwa zahanati, bila chati inayohitaji kompyuta ili ieleweke.",
+          "outcome": "Maafisa wa afya waliomba chapisho la pili kabla ya mvua."
+        }
+      }
+    },
+    "socials": []
   },
   {
     "slug": "eliud-komba",
@@ -529,7 +850,65 @@
       "A region remembers itself out loud. When local poems and news have a regular hour — and a paper copy for the weeks the tower is down — young people can see that serious language is already being made where they live.",
       "The stories stay in Mbeya, and a school gains a text that did not have to arrive from somewhere else."
     ],
-    "honorMedal": "bronze"
+    "honorMedal": "bronze",
+    "sw": {
+      "role": "Mtangazaji wa redio na mhifadhi wa kumbukumbu",
+      "oneLiner": "Huhifadhi saa ya kila wiki kwa mashairi, nyimbo, na habari za mji katika lugha ambazo watu huzungumza.",
+      "photoAlt": "Picha ya Eliud Komba, mwanamume mwenye masharubu na vipokea sauti shingoni, akiwa amevaa koti la kahawia, dhidi ya mandhari ya krimu.",
+      "journey": [
+        "Nilikuwa kondakta wa basi niliyeanza kusoma barua za watu kwenye basi la usiku, kwa sababu safari ilikuwa ndefu na vichekesho vilikuwa vimeisha. Mtu alisema niketi karibu na kipaza sauti. Sikujua hilo ni taaluma. Nilijua ni wajibu.",
+        "Mbeya hainihitaji nisikike kama mji mkuu. Inahitaji saa ambayo bibi husikia lugha anayoiamini, na mwanafunzi husikia kuwa mji wake unastahili shairi.",
+        "Ninahifadhi kanda. Pia ninahifadhi tahajia jinsi waandishi walivyozituma."
+      ],
+      "whyItMatters": [
+        "Mkoa hujikumbuka kwa sauti. Mashairi na habari za hapa yanapokuwa na saa ya kawaida — na nakala ya karatasi kwa wiki ambazo mnara umeshuka — vijana wanaweza kuona kuwa lugha nzito tayari inatengenezwa walipo.",
+        "Hadithi zinabaki Mbeya, na shule hupata maandishi ambayo hayakuhitaji kufika kutoka mahali pengine."
+      ],
+      "work": {
+        "eliud-komba-sauti-ya-jioni": {
+          "title": "Sauti ya Jioni",
+          "summary": "Saa ya Alhamisi jioni: shairi moja, wimbo mmoja, na habari moja ya mji, ikisomwa polepole ya kurudiwa nyumbani.",
+          "outcome": "Wasikilizaji hutuma mistari kwa mkono na kwa simu. Saa imeshika mwezi wake kwa miaka mitatu.",
+          "media": {
+            "eliud-komba-sauti-ya-jioni-portrait": {
+              "title": "Picha",
+              "caption": "Picha iliyowekwa pamoja na kazi hii.",
+              "alt": "Picha ya kazi hii."
+            },
+            "eliud-komba-sauti-ya-jioni-note": {
+              "title": "Dokezo la mradi",
+              "caption": "Dokezo la hadhara ambalo wahariri wanaweza kulibadilisha na kumbukumbu halisi."
+            }
+          }
+        },
+        "eliud-komba-writing-circle": {
+          "title": "Duara la uandishi",
+          "summary": "Vijana kumi na wawili, darasa lililokopwa, na rasimu ya kwanza inayoruhusiwa katika lugha yoyote inayozungumzwa mezani.",
+          "outcome": "Wachangiaji kadhaa sasa husoma kazi zao wenyewe kwenye saa hiyo.",
+          "media": {
+            "eliud-komba-writing-circle-note": {
+              "title": "Dokezo lingine",
+              "caption": "Kiungo kilichowekwa kando ya kazi hii."
+            }
+          }
+        },
+        "eliud-komba-transcript-shelf": {
+          "title": "Rafu ya nakala",
+          "summary": "Nakala za karatasi za vipindi, zikihifadhiwa katika maktaba ya jamii kwa wiki ambazo mawimbi yanashindwa.",
+          "outcome": "Wanafunzi hutumia rafu mwalimu anapoomba maandishi ya hapa na kitabu hakina."
+        }
+      }
+    },
+    "socials": [
+      {
+        "kind": "youtube",
+        "url": "https://example.com/youtube/eliud-komba"
+      },
+      {
+        "kind": "facebook",
+        "url": "https://example.com/facebook/eliud-komba"
+      }
+    ]
   },
   {
     "slug": "rehema-lyimo",
@@ -605,6 +984,55 @@
       "School meals and school science are often planned apart. A garden on the grounds joins them: pupils learn to keep a living plot through a dry term, and the lunch pot has food the school grew.",
       "In Dodoma, that is a practical answer to a hungry lesson and a hungry noon."
     ],
-    "honorMedal": "silver"
+    "honorMedal": "silver",
+    "sw": {
+      "role": "Mwalimu wa kilimo",
+      "oneLiner": "Hupanda bustani za shule zinazolisha sufuria ya mchana na somo la sayansi.",
+      "photoAlt": "Picha ya Rehema Lyimo, mwanamke mwenye nywele zilizofungwa, akiwa amevaa kofia ya nyasi na shati la kijani, dhidi ya mandhari ya krimu.",
+      "journey": [
+        "Nilichoka na mabango kuhusu mboga ambazo watoto hawajawahi kuzishika. Tuna jua. Tuna kalenda ya muhula. Tulikosa kitanda cha udongo, na mtu aliye tayari kuwajibika Ijumaa kabla ya mitihani.",
+        "Bustani si mapambo ya Siku ya Wageni. Isipofika sufuriani, nimefundisha picha. Watoto wanajua tofauti. Na wapishi pia.",
+        "Ukurasa huu bado uko kwa wahariri, wanaothibitisha tarehe na shule."
+      ],
+      "whyItMatters": [
+        "Milo ya shule na sayansi ya shule mara nyingi hupangwa mbali. Bustani uwanjani huviunganisha: wanafunzi hujifunza kutunza shamba hai katika muhula wa ukame, na sufuria ya mchana hupata chakula shule ilicholima.",
+        "Dodoma, hilo ni jibu la vitendo kwa somo lenye njaa na adhuhuri yenye njaa."
+      ],
+      "work": {
+        "rehema-lyimo-shamba-la-shule": {
+          "title": "Shamba la Shule",
+          "summary": "Vitanda vya bustani katika viwanja vitatu vya shule, vya ukubwa unaoruhusu darasa kupalilia ndani ya kipindi kimoja.",
+          "outcome": "Sufuria ya mchana hutumia kinachoota kwa msimu, na ziada huandikwa kwenye orodha ya wapishi kwenda nyumbani.",
+          "media": {
+            "rehema-lyimo-shamba-la-shule-portrait": {
+              "title": "Picha",
+              "caption": "Picha iliyowekwa pamoja na kazi hii.",
+              "alt": "Picha ya kazi hii."
+            },
+            "rehema-lyimo-shamba-la-shule-note": {
+              "title": "Dokezo la mradi",
+              "caption": "Dokezo la hadhara ambalo wahariri wanaweza kulibadilisha na kumbukumbu halisi."
+            }
+          }
+        },
+        "rehema-lyimo-watering-rota": {
+          "title": "Ratiba ya kumwagilia",
+          "summary": "Zamu ya mzazi na mwanafunzi inayoendelea likizoni, ikibandikwa mlangoni mwa jikoni.",
+          "outcome": "Bustani mbili zilidumu muhula mrefu wa ukame, ikiwemo wiki baada ya watoto kwenda nyumbani Desemba.",
+          "media": {
+            "rehema-lyimo-watering-rota-note": {
+              "title": "Dokezo lingine",
+              "caption": "Kiungo kilichowekwa kando ya kazi hii."
+            }
+          }
+        },
+        "rehema-lyimo-cook-s-notes": {
+          "title": "Maelezo ya mpishi",
+          "summary": "Ukurasa mfupi kwa wapishi wa shule kuhusu jinsi ya kutumia mavuno ya wiki, ulioandikwa pamoja nao.",
+          "outcome": "Chakula kilichotupwa kilipungua, kwa sababu somo na mlo vilipangwa kama kitu kimoja."
+        }
+      }
+    },
+    "socials": []
   }
 ]

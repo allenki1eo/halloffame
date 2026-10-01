@@ -4,6 +4,9 @@ import { CoverImage } from "@/components/cover-image";
 import { notFound } from "next/navigation";
 import { categories, getCategory } from "@/lib/categories";
 import { getPublishedByCategory } from "@/lib/content";
+import { categoryCopy, getLocale } from "@/lib/i18n";
+import { localizeProfile } from "@/lib/localize";
+import { messages } from "@/lib/messages";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -17,14 +20,16 @@ type PageProps = {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const category = getCategory(slug);
-  if (!category) return { title: "Category" };
+  const copy = messages[await getLocale()];
+  if (!category) return { title: copy.categoryLabel };
+  const text = categoryCopy(category.slug, await getLocale());
   return {
-    title: category.name,
-    description: category.blurb,
+    title: text.name,
+    description: text.blurb,
     alternates: { canonical: `/categories/${category.slug}` },
     openGraph: {
-      title: `${category.name} — Shukran TZ`,
-      description: category.blurb,
+      title: `${text.name} — Shukran TZ`,
+      description: text.blurb,
       url: `/categories/${category.slug}`,
     },
   };
@@ -45,7 +50,10 @@ export default async function CategoryPage({ params }: PageProps) {
   const { slug } = await params;
   const category = getCategory(slug);
   if (!category) notFound();
-  const profiles = await getPublishedByCategory(category.slug);
+  const locale = await getLocale();
+  const copy = messages[locale];
+  const text = categoryCopy(category.slug, locale);
+  const profiles = (await getPublishedByCategory(category.slug)).map((profile) => localizeProfile(profile, locale));
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-14 md:py-20">
@@ -53,25 +61,25 @@ export default async function CategoryPage({ params }: PageProps) {
         <ol className="flex flex-wrap gap-2">
           <li>
             <Link href="/categories" className="underline decoration-border underline-offset-4">
-              Categories
+              {copy.categories}
             </Link>
           </li>
           <li aria-hidden="true">/</li>
-          <li aria-current="page">{category.name}</li>
+          <li aria-current="page">{text.name}</li>
         </ol>
       </nav>
       <p className="mt-10 flex items-center gap-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
         <span className={`inline-block h-2.5 w-2.5 ${accentClass[category.accent]}`} aria-hidden="true" />
-        Category
+        {copy.categoryLabel}
       </p>
-      <h1 className="mt-4 font-display text-5xl leading-none tracking-tight sm:text-7xl">{category.name}</h1>
-      <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">{category.blurb}</p>
+      <h1 className="mt-4 font-display text-5xl leading-none tracking-tight sm:text-7xl">{text.name}</h1>
+      <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">{text.blurb}</p>
 
       {profiles.length === 0 ? (
         <p className="mt-14 border-t border-border py-12 text-lg">
-          No public page in this category yet. Editors publish from the desk, and anyone may{" "}
+          {copy.emptyCategory}{" "}
           <Link href="/suggest" className="underline decoration-primary underline-offset-4">
-            suggest someone
+            {copy.suggestLink}
           </Link>
           .
         </p>
@@ -102,7 +110,7 @@ export default async function CategoryPage({ params }: PageProps) {
                   {profile.work[0] ? (
                     <Card className="mt-6 max-w-2xl rounded-md bg-secondary shadow-none ring-0">
                       <CardContent className="pt-4">
-                        <p className="text-xs uppercase tracking-[0.16em] text-primary">Their work</p>
+                        <p className="text-xs uppercase tracking-[0.16em] text-primary">{copy.theirWork}</p>
                         <p className="mt-2 font-display text-2xl">{profile.work[0].title}</p>
                         <p className="mt-2 leading-relaxed text-muted-foreground">{profile.work[0].summary}</p>
                         <p className="mt-3">{profile.work[0].outcome}</p>
@@ -111,7 +119,7 @@ export default async function CategoryPage({ params }: PageProps) {
                   ) : null}
                   <Button asChild variant="link" className="mt-4 px-0">
                     <Link href={`/profiles/${profile.slug}#work`} data-track="read_work">
-                      Read the full record
+                      {copy.readFull}
                     </Link>
                   </Button>
                 </div>

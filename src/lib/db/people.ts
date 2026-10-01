@@ -4,7 +4,9 @@ import { people, workItems, workMedia } from "@/lib/db/schema";
 import { DeskError, missingDatabaseMessage } from "@/lib/desk-error";
 import { isMedal } from "@/lib/medals";
 import type { PersonDraft, WorkDraft, MediaDraft } from "@/lib/record";
-import { categorySlugs, type CategorySlug, type Medal, type MediaKind, type Profile, type ProfileStatus, type WorkItem, type WorkMedia } from "@/lib/types";
+import { parseSocialList } from "@/lib/socials";
+import { mergeWorkSw, parseSwCopy, parseSwWork, personSwJson, safeJson } from "@/lib/sw-copy";
+import { categorySlugs, type CategorySlug, type Medal, type MediaKind, type Profile, type ProfileStatus, type SwahiliCopy, type WorkItem, type WorkMedia } from "@/lib/types";
 
 type PersonRow = typeof people.$inferSelect;
 type WorkRow = typeof workItems.$inferSelect;
@@ -84,8 +86,28 @@ function toProfile(row: PersonRow, works: WorkRow[], media: MediaRow[]): Profile
     work: items,
     journey: parseList(row.journeyJson),
     whyItMatters: parseList(row.whyJson),
+    socials: parseSocialList(safeJson(row.socialsJson)),
+    sw: profileSw(
+      row.swJson,
+      works.filter((work) => work.personId === row.id),
+    ),
     updatedAt: row.updatedAt,
   };
+}
+
+function profileSw(personJson: string, works: WorkRow[]): SwahiliCopy {
+  const copy = parseSwCopy(safeJson(personJson));
+  const work = { ...(copy.work ?? {}) };
+  for (const item of works) {
+    const parsed = parseSwWork(safeJson(item.swJson));
+    if (Object.keys(parsed).length > 0) work[item.id] = parsed;
+  }
+  if (Object.keys(work).length === 0) {
+    const rest = { ...copy };
+    delete rest.work;
+    return rest;
+  }
+  return { ...copy, work };
 }
 
 async function hydrate(rows: PersonRow[]) {
@@ -170,6 +192,8 @@ export async function savePerson(draft: PersonDraft, photoUrl: string) {
       honorMedal: draft.honorMedal,
       journeyJson: JSON.stringify(draft.journey),
       whyJson: JSON.stringify(draft.whyItMatters),
+      swJson: personSwJson(draft.sw),
+      socialsJson: JSON.stringify(draft.socials),
       sortOrder,
       createdAt: now,
       updatedAt: now,
@@ -192,6 +216,8 @@ export async function savePerson(draft: PersonDraft, photoUrl: string) {
       honorMedal: draft.honorMedal,
       journeyJson: JSON.stringify(draft.journey),
       whyJson: JSON.stringify(draft.whyItMatters),
+      swJson: personSwJson(draft.sw),
+      socialsJson: JSON.stringify(draft.socials),
       updatedAt: now,
     })
     .where(eq(people.id, current.id));
@@ -244,6 +270,7 @@ export async function saveWork(draft: WorkDraft) {
       summary: draft.summary,
       outcome: draft.outcome,
       medal: draft.medal,
+      swJson: mergeWorkSw("{}", draft.sw),
       sortOrder,
       createdAt: now,
       updatedAt: now,
@@ -259,6 +286,7 @@ export async function saveWork(draft: WorkDraft) {
         summary: draft.summary,
         outcome: draft.outcome,
         medal: draft.medal,
+        swJson: mergeWorkSw(current.swJson, draft.sw),
         updatedAt: now,
       })
       .where(eq(workItems.id, current.id));
@@ -360,6 +388,8 @@ export async function replaceSeedPerson(profile: Profile, sortOrder: number) {
       honorMedal: profile.honorMedal,
       journeyJson: JSON.stringify(profile.journey),
       whyJson: JSON.stringify(profile.whyItMatters),
+      swJson: personSwJson(profile.sw),
+      socialsJson: JSON.stringify(profile.socials ?? []),
       sortOrder,
       createdAt: now,
       updatedAt: now,
@@ -379,6 +409,8 @@ export async function replaceSeedPerson(profile: Profile, sortOrder: number) {
         honorMedal: profile.honorMedal,
         journeyJson: JSON.stringify(profile.journey),
         whyJson: JSON.stringify(profile.whyItMatters),
+        swJson: personSwJson(profile.sw),
+        socialsJson: JSON.stringify(profile.socials ?? []),
         sortOrder,
         updatedAt: now,
       })
@@ -401,6 +433,7 @@ export async function replaceSeedPerson(profile: Profile, sortOrder: number) {
       summary: work.summary,
       outcome: work.outcome,
       medal: work.medal,
+      swJson: JSON.stringify(profile.sw?.work?.[work.id] ?? {}),
       sortOrder: index,
       createdAt: now,
       updatedAt: now,

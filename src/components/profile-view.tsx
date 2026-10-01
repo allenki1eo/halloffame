@@ -2,12 +2,16 @@ import Link from "next/link";
 import { getCategory } from "@/lib/categories";
 import { CoverImage } from "@/components/cover-image";
 import { MedalMark } from "@/components/medal-mark";
+import { ReachThem } from "@/components/reach-them";
 import { ShareBar } from "@/components/share-bar";
 import { WorkMediaList } from "@/components/work-media-list";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { categoryCopy, getLocale } from "@/lib/i18n";
+import { localizeProfile } from "@/lib/localize";
+import { messages } from "@/lib/messages";
 import type { Profile } from "@/lib/types";
 
 const accentClass = {
@@ -17,14 +21,18 @@ const accentClass = {
   gold: "bg-gold",
 } as const;
 
-export function ProfileView({
-  profile,
+export async function ProfileView({
+  profile: source,
   mode = "public",
 }: {
   profile: Profile;
   mode?: "public" | "preview";
 }) {
+  const locale = await getLocale();
+  const copy = messages[locale];
+  const profile = localizeProfile(source, locale);
   const category = getCategory(profile.category);
+  const categoryName = categoryCopy(profile.category, locale).name;
   const accent = category ? accentClass[category.accent] : "bg-pine";
   const publicPath = `/profiles/${profile.slug}`;
 
@@ -32,9 +40,7 @@ export function ProfileView({
     <article>
       {mode === "preview" ? (
         <p className="bg-foreground px-5 py-3 text-center text-sm text-background">
-          {profile.status === "published"
-            ? "Desk preview. This page is on the public site."
-            : "Desk preview. Editors have not published this page yet."}
+          {profile.status === "published" ? copy.previewPublic : copy.previewDraft}
         </p>
       ) : null}
 
@@ -43,7 +49,7 @@ export function ProfileView({
           <ol className="flex flex-wrap items-center gap-2">
             <li>
               <Link href="/" className="underline decoration-border underline-offset-4 hover:decoration-foreground">
-                Home
+                {copy.home}
               </Link>
             </li>
             <li aria-hidden="true">/</li>
@@ -53,10 +59,10 @@ export function ProfileView({
                   href={`/categories/${category.slug}`}
                   className="underline decoration-border underline-offset-4 hover:decoration-foreground"
                 >
-                  {category.name}
+                  {categoryName}
                 </Link>
               ) : (
-                "Category"
+                copy.categoryLabel
               )}
             </li>
             <li aria-hidden="true">/</li>
@@ -80,9 +86,15 @@ export function ProfileView({
             <div className="flex flex-wrap items-center gap-3">
               <p className="flex items-center gap-3 text-xs uppercase tracking-[0.2em] text-white/85">
                 <span className={`inline-block h-2.5 w-2.5 ${accent}`} aria-hidden="true" />
-                {category?.name}
+                {categoryName}
               </p>
-              <MedalMark medal={profile.honorMedal} kind="honor" tone="overlay" />
+              <MedalMark
+                medal={profile.honorMedal}
+                kind="honor"
+                tone="overlay"
+                honor={copy.honor}
+                medalName={copy.medals[profile.honorMedal]}
+              />
             </div>
             <h1 className="mt-4 max-w-4xl font-display text-5xl leading-[0.92] tracking-tight text-white sm:text-7xl">
               {profile.name}
@@ -97,24 +109,25 @@ export function ProfileView({
             </p>
             <Button asChild variant="secondary" className="mt-6">
               <a href="#work" data-track="read_work">
-                Their work
+                {copy.theirWork}
               </a>
             </Button>
           </figcaption>
         </figure>
-        <p className="mt-3 text-sm text-muted-foreground">{profile.place}. Portrait for this tribute page.</p>
+        <p className="mt-3 text-sm text-muted-foreground">
+          {profile.place}. {copy.portraitNote}
+        </p>
       </header>
+
+      <ReachThem links={profile.socials} messages={copy} />
 
       <section id="work" aria-labelledby="work-heading" className="rise scroll-mt-24 pt-20">
         <div className="mx-auto max-w-6xl px-5">
-          <p className="text-xs uppercase tracking-[0.2em] text-primary">Portfolio</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-primary">{copy.portfolio}</p>
           <h2 id="work-heading" className="mt-3 max-w-3xl font-display text-5xl leading-none tracking-tight sm:text-7xl">
-            Their work
+            {copy.theirWork}
           </h2>
-          <p className="mt-5 max-w-xl text-lg text-muted-foreground">
-            The record starts here: projects, what they asked of people, and what changed. Each piece carries an
-            editor’s honor.
-          </p>
+          <p className="mt-5 max-w-xl text-lg text-muted-foreground">{copy.workIntro}</p>
         </div>
         <ol className="mt-12">
           {profile.work.map((item) => (
@@ -123,7 +136,7 @@ export function ProfileView({
                 <div className="md:col-span-4">
                   <p className="font-display text-3xl tracking-tight text-primary">{item.years}</p>
                   <div className="mt-4">
-                    <MedalMark medal={item.medal} kind="work" />
+                    <MedalMark medal={item.medal} kind="work" honor={copy.honor} medalName={copy.medals[item.medal]} />
                   </div>
                 </div>
                 <div className="md:col-span-8">
@@ -132,12 +145,12 @@ export function ProfileView({
                   <Card className="mt-8 max-w-2xl rounded-md bg-secondary shadow-none ring-0">
                     <CardHeader>
                       <CardDescription className="text-xs uppercase tracking-[0.16em] text-primary">
-                        What changed
+                        {copy.whatChanged}
                       </CardDescription>
                       <CardTitle className="font-display text-2xl font-normal leading-snug">{item.outcome}</CardTitle>
                     </CardHeader>
                   </Card>
-                  <WorkMediaList media={item.media} />
+                  <WorkMediaList media={item.media} copy={copy} />
                 </div>
               </div>
             </li>
@@ -147,9 +160,9 @@ export function ProfileView({
 
       <section aria-labelledby="journey-heading" className="rise mx-auto grid max-w-6xl gap-10 px-5 py-20 lg:grid-cols-12">
         <div className="lg:col-span-4">
-          <p className="text-xs uppercase tracking-[0.2em] text-primary">Open letter</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-primary">{copy.openLetter}</p>
           <h2 id="journey-heading" className="mt-3 font-display text-5xl tracking-tight">
-            The journey
+            {copy.journey}
           </h2>
         </div>
         <div className="letter max-w-2xl space-y-6 text-lg leading-relaxed lg:col-span-8">
@@ -161,9 +174,9 @@ export function ProfileView({
 
       <section aria-labelledby="why-heading" className="rise bg-foreground text-background">
         <div className="mx-auto max-w-6xl px-5 py-20 sm:py-28">
-          <p className="text-xs uppercase tracking-[0.2em] text-background/70">For the country</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-background/70">{copy.forTheCountry}</p>
           <h2 id="why-heading" className="mt-4 max-w-4xl font-display text-4xl leading-tight tracking-tight sm:text-6xl">
-            Why this matters for Tanzania
+            {copy.whyHeading}
           </h2>
           <div className="mt-8 max-w-2xl space-y-5 text-lg leading-relaxed text-background/90">
             {profile.whyItMatters.map((paragraph) => (
@@ -178,22 +191,20 @@ export function ProfileView({
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h2 id="share-heading" className="font-display text-4xl tracking-tight">
-              Pass this page on
+              {copy.passOn}
             </h2>
             {profile.status === "published" ? (
-              <p className="mt-3 max-w-xl text-muted-foreground">
-                Share the work with a classroom, a newsroom, or someone far from home.
-              </p>
+              <p className="mt-3 max-w-xl text-muted-foreground">{copy.sharePublished}</p>
             ) : (
-              <p className="mt-3 max-w-xl text-muted-foreground">Sharing opens once editors publish this page.</p>
+              <p className="mt-3 max-w-xl text-muted-foreground">{copy.shareDraft}</p>
             )}
           </div>
           {profile.status === "published" ? (
-            <ShareBar name={profile.name} oneLiner={profile.oneLiner} path={publicPath} />
+            <ShareBar name={profile.name} oneLiner={profile.oneLiner} path={publicPath} copy={copy} />
           ) : null}
         </div>
         <Badge variant="outline" className="mt-8 h-7 px-3">
-          {category?.name}
+          {categoryName}
         </Badge>
       </section>
     </article>

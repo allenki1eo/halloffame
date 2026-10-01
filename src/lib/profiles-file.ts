@@ -2,6 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { isMedal } from "@/lib/medals";
 import { slugify } from "@/lib/slug";
+import { parseSocialList } from "@/lib/socials";
+import { parseSwCopy } from "@/lib/sw-copy";
 import { categorySlugs, type CategorySlug, type Medal, type MediaKind, type Profile, type ProfileStatus, type WorkItem, type WorkMedia } from "@/lib/types";
 
 export const profilesPath = path.join(process.cwd(), "data", "profiles.json");
@@ -95,6 +97,8 @@ export function normalizeProfile(value: unknown, index: number): Profile {
       .filter((item): item is WorkItem => item !== null),
     journey: stringList(row.journey),
     whyItMatters: stringList(row.whyItMatters),
+    socials: parseSocialList(row.socials),
+    sw: parseSwCopy(row.sw),
     updatedAt: text(row.updatedAt) || undefined,
   };
 }

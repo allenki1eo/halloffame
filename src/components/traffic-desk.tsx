@@ -1,4 +1,6 @@
 import { getTrafficReport, type TrafficReport } from "@/lib/traffic";
+import { getLocale } from "@/lib/i18n";
+import { messages } from "@/lib/messages";
 import { Separator } from "@/components/ui/separator";
 
 function formatWhen(iso: string) {
@@ -13,14 +15,16 @@ function Bars({
   rows,
   label,
   value,
+  empty,
 }: {
   rows: { name: string; count: number }[];
   label: string;
   value: (count: number) => string;
+  empty: string;
 }) {
   const max = rows.reduce((highest, row) => Math.max(highest, row.count), 0);
   if (rows.length === 0) {
-    return <p className="text-sm text-muted-foreground">Nothing in the last 30 days.</p>;
+    return <p className="text-sm text-muted-foreground">{empty}</p>;
   }
   return (
     <ol className="space-y-3">
@@ -42,14 +46,24 @@ function Bars({
   );
 }
 
-function Window({ title, views, clicks }: { title: string; views: number; clicks: number }) {
+function Window({
+  title,
+  views,
+  clicks,
+  copy,
+}: {
+  title: string;
+  views: number;
+  clicks: number;
+  copy: { pageView: string; pageViews: string; click: string; clicks: string };
+}) {
   return (
     <div className="border border-border px-4 py-4">
       <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">{title}</p>
       <p className="mt-3 font-display text-4xl tracking-tight">{views}</p>
-      <p className="text-sm text-muted-foreground">{views === 1 ? "page view" : "page views"}</p>
+      <p className="text-sm text-muted-foreground">{views === 1 ? copy.pageView : copy.pageViews}</p>
       <p className="mt-3 font-display text-2xl">{clicks}</p>
-      <p className="text-sm text-muted-foreground">{clicks === 1 ? "click" : "clicks"}</p>
+      <p className="text-sm text-muted-foreground">{clicks === 1 ? copy.click : copy.clicks}</p>
     </div>
   );
 }
@@ -66,36 +80,39 @@ function note(report: TrafficReport) {
 
 export async function TrafficDesk() {
   const report = await getTrafficReport();
+  const copy = messages[await getLocale()];
   return (
     <section aria-labelledby="traffic-heading" className="mt-12">
       <h2 id="traffic-heading" className="font-display text-3xl">
-        Traffic
+        {copy.traffic}
       </h2>
       <p className="mt-2 max-w-2xl text-muted-foreground">{note(report)}</p>
       <div className="mt-6 grid gap-3 sm:grid-cols-3">
-        <Window title="Today" views={report.today.views} clicks={report.today.clicks} />
-        <Window title="7 days" views={report.week.views} clicks={report.week.clicks} />
-        <Window title="30 days" views={report.month.views} clicks={report.month.clicks} />
+        <Window title={copy.today} views={report.today.views} clicks={report.today.clicks} copy={copy} />
+        <Window title={copy.week} views={report.week.views} clicks={report.week.clicks} copy={copy} />
+        <Window title={copy.month} views={report.month.views} clicks={report.month.clicks} copy={copy} />
       </div>
       <p className="mt-4 text-sm text-muted-foreground">
         Last 7 days: {report.devices.mobile} mobile, {report.devices.desktop} desktop. Times use Africa/Dar es Salaam.
       </p>
       <div className="mt-8 grid gap-10 lg:grid-cols-2">
         <div>
-          <h3 className="font-display text-2xl">Top pages</h3>
+          <h3 className="font-display text-2xl">{copy.topPages}</h3>
           <Separator className="my-3" />
           <Bars
             rows={report.topPages.map((row) => ({ name: row.path, count: row.views }))}
-            label="views"
+            label={copy.pageViews}
+            empty={copy.nothingYet}
             value={(count) => `${count}`}
           />
         </div>
         <div>
-          <h3 className="font-display text-2xl">Where visits start</h3>
+          <h3 className="font-display text-2xl">{copy.whereFrom}</h3>
           <Separator className="my-3" />
           <Bars
             rows={report.topReferrers.map((row) => ({ name: row.host, count: row.views }))}
-            label="visits"
+            label={copy.pageViews}
+            empty={copy.nothingYet}
             value={(count) => `${count}`}
           />
           <p className="mt-3 text-sm text-muted-foreground">
@@ -104,11 +121,12 @@ export async function TrafficDesk() {
         </div>
       </div>
       <div className="mt-10">
-        <h3 className="font-display text-2xl">Clicks</h3>
+        <h3 className="font-display text-2xl">{copy.clicks}</h3>
         <Separator className="my-3" />
         <Bars
           rows={report.topClicks.map((row) => ({ name: row.label, count: row.clicks }))}
-          label="clicks"
+          label={copy.clicks}
+          empty={copy.nothingYet}
           value={(count) => `${count}`}
         />
         {report.recentClicks.length > 0 ? (

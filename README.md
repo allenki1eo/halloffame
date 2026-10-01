@@ -21,6 +21,16 @@ Editors publish each page. A visitor may suggest someone; that note stays on the
 
 Categories: Tech & innovation, Science & health, Arts & culture, Community & service.
 
+## Language
+
+The public addresses stay as they are (`/`, `/profiles/amina-juma`, `/categories/tech`). English and Kiswahili share those URLs. A visitor chooses **EN** or **SW** in the header. The choice is stored in the cookie `shukran_lang` for a year and is available on a phone without opening the menu.
+
+Chrome (navigation, home, categories, suggest, and the desk labels) comes from dictionaries in `src/lib/messages.ts`. Tribute copy stays in English on each record. Kiswahili is an optional overlay (`sw` on a person, and on each piece of work). An empty Kiswahili field falls back to the English. Years that say “ongoing” read as “inaendelea” on the Kiswahili page. `html lang` follows the cookie (`en-TZ` or `sw-TZ`).
+
+## Reach them
+
+A person may have up to eight links: X, Instagram, LinkedIn, Facebook, YouTube, WhatsApp, a website, or email. The public profile shows them as a short **Reach them** / **Wafikie** row. Each link opens in a new tab. An empty list hides the row. Editors add and remove the links on the person form. Demo links use `example.com` and example addresses.
+
 ## Run
 
 ```bash
@@ -65,7 +75,7 @@ npm run db:migrate
 npm run db:seed
 ```
 
-`db:migrate` applies every file in `drizzle/`, in order: `0000_phase1.sql` and `0001_traffic.sql`. Run it again after pulling traffic so the new tables exist. `db:seed` upserts the people in `data/profiles.json`, including honor medals, work medals, and sample media. Running the seed again replaces work and media for those demo slugs. Traffic does not need a new environment variable.
+`db:migrate` applies every file in `drizzle/`, in order: `0000_phase1.sql`, `0001_traffic.sql`, and `0002_i18n_socials.sql`. Run it again after pulling Kiswahili and social links so the new columns exist. A second run skips a column that is already there. `db:seed` upserts the people in `data/profiles.json`, including honor medals, work medals, sample media, Kiswahili overlays, and demo social links. Running the seed again replaces work and media for those demo slugs and copies the overlay and links. Language and social links do not need a new environment variable.
 
 6. Open `/admin`, enter the pin, and edit. A portrait, image, or video file is stored in Blob. A pasted link is stored as media metadata and does not need Blob.
 
@@ -77,13 +87,15 @@ Medals are `bronze`, `silver`, `gold`, `platinum`, or `diamond`. A person has on
 
 | Table | What it holds |
 | --- | --- |
-| `people` | Slug, name, category, place, role, one line, portrait URL and description, `published` or `draft`, `honor_medal`, journey and why-it-matters as JSON text, `sort_order` |
-| `work_items` | Belongs to a person. Title, years, summary, outcome, `medal`, `sort_order` |
+| `people` | Slug, name, category, place, role, one line, portrait URL and description, `published` or `draft`, `honor_medal`, journey and why-it-matters as JSON text, `sw_json` (Kiswahili overlay), `socials_json` (optional links), `sort_order` |
+| `work_items` | Belongs to a person. Title, years, summary, outcome, `medal`, `sw_json`, `sort_order` |
 | `work_media` | Belongs to a work item. `kind` is `image`, `video`, or `link`, plus URL, title, caption, and alt text |
 | `page_views` | Public path, referrer host, `utm_source`, `utm_medium`, `utm_campaign`, coarse device (`mobile` or `desktop`), `created_at` |
 | `click_events` | `read_work`, `open_profile`, `open_category`, `suggest`, or `share`, plus path, target, referrer host, `utm_source` |
 
-Drizzle schema: `src/lib/db/schema.ts`. Migrations: `drizzle/0000_phase1.sql`, `drizzle/0001_traffic.sql`.
+Drizzle schema: `src/lib/db/schema.ts`. Migrations: `drizzle/0000_phase1.sql`, `drizzle/0001_traffic.sql`, `drizzle/0002_i18n_socials.sql`.
+
+Allen: if Turso is already connected, run `npm run db:migrate` again, then `npm run db:seed` if the live database should pick up the Kiswahili copy and the demo links. Without those variables the site reads `data/profiles.json`, which already includes both.
 
 ## Traffic
 
@@ -98,7 +110,7 @@ With `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` set, rows go to `page_views` an
 1. Open `/admin`.
 2. Enter the pin (`tribute`, unless `ADMIN_PIN` is set).
 3. Publish a draft, or return a public page to the desk.
-4. With Turso connected, use New page or Edit to set the honor medal, add work, set each work medal, and upload an image or video or paste a link.
+4. With Turso connected, use New page or Edit to set the honor medal, add work, set each work medal, upload an image or video or paste a link, add Reach them links, and fill optional Kiswahili fields.
 5. Preview reads the page before it is public. A draft address on the public site stays off the record.
 
 The session is an HTTP-only cookie, kept for twelve hours.

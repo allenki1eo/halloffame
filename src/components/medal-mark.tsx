@@ -1,5 +1,4 @@
 import { cn } from "cn";
-import { medalLabel } from "@/lib/medals";
 import type { Medal } from "@/lib/types";
 
 const medalChip: Record<Medal, string> = {
@@ -19,12 +18,15 @@ export function MedalMark({
   medal,
   kind,
   tone = "paper",
+  honor,
+  medalName,
 }: {
   medal: Medal;
   kind: "honor" | "work";
   tone?: "paper" | "overlay";
+  honor: string;
+  medalName: string;
 }) {
-  const label = medalLabel[medal];
   return (
     <span
       className={cn(
@@ -33,8 +35,8 @@ export function MedalMark({
         tone === "overlay" && "shadow-sm",
       )}
     >
-      <span className="sr-only">{kind === "honor" ? "Honor medal" : "Work medal"}: </span>
-      {kind === "honor" ? `Honor · ${label}` : label}
+      <span className="sr-only">{kind === "honor" ? honor : medalName}: </span>
+      {kind === "honor" ? `${honor} · ${medalName}` : medalName}
     </span>
   );
 }

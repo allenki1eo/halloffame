@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useActionState } from "react";
 import { categories } from "@/lib/categories";
 import { submitTip, type TipFormState } from "@/lib/actions";
+import { messages, type Locale } from "@/lib/messages";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -20,24 +21,20 @@ import { Textarea } from "@/components/ui/textarea";
 
 const initialState: TipFormState = {};
 
-export function SuggestForm() {
+export function SuggestForm({ locale }: { locale: Locale }) {
   const [state, formAction, pending] = useActionState(submitTip, initialState);
   const [category, setCategory] = useState("");
+  const copy = messages[locale];
 
   if (state.success) {
     return (
       <Card role="status" className="rounded-md border-primary/40 shadow-none">
         <CardContent className="space-y-4 px-6 py-8">
-          <p className="text-xs uppercase tracking-[0.2em] text-primary">Received</p>
-          <h2 className="font-display text-5xl tracking-tight">Thank you.</h2>
-          <p className="max-w-xl text-lg leading-relaxed">
-            Editors have this suggestion. It stays on the desk as a private note. It is not published,
-            and it is not arranged against anyone else.
-          </p>
+          <p className="text-xs uppercase tracking-[0.2em] text-primary">{copy.received}</p>
+          <h2 className="font-display text-5xl tracking-tight">{copy.thankYou}</h2>
+          <p className="max-w-xl text-lg leading-relaxed">{copy.receivedBody}</p>
           <p className="max-w-xl text-sm leading-relaxed text-muted-foreground">
-            {state.storage === "memory"
-              ? "This server could not write the note to disk, so it is held in memory for this process only. A production edition needs a database."
-              : "This preview stores the note in a file on the server. A production edition needs a database."}
+            {state.storage === "memory" ? copy.storedMemory : copy.storedFile}
           </p>
         </CardContent>
       </Card>
@@ -46,13 +43,10 @@ export function SuggestForm() {
 
   return (
     <form action={formAction} className="space-y-6" aria-busy={pending}>
-      <p className="text-muted-foreground">
-        Required fields are marked. Your name and contact are optional, and they are never placed on
-        the public site.
-      </p>
+      <p className="text-muted-foreground">{copy.suggestRequired}</p>
       {state.formError ? (
         <Alert variant="destructive">
-          <AlertTitle>Check the suggestion</AlertTitle>
+          <AlertTitle>{copy.checkSuggestion}</AlertTitle>
           <AlertDescription>{state.formError}</AlertDescription>
         </Alert>
       ) : null}
@@ -66,14 +60,16 @@ export function SuggestForm() {
         <Field
           id="personName"
           name="personName"
-          label="Their name"
+          label={copy.theirName}
+          requiredLabel={copy.required}
+          optionalLabel={copy.optional}
           required
           error={state.fieldErrors?.personName}
           autoComplete="off"
         />
         <div className="space-y-2">
           <Label htmlFor="category">
-            Category <span className="text-muted-foreground">(required)</span>
+            {copy.categoryLabel} <span className="text-muted-foreground">({copy.required})</span>
           </Label>
           <input type="hidden" name="category" value={category} />
           <Select value={category || undefined} onValueChange={setCategory}>
@@ -83,12 +79,12 @@ export function SuggestForm() {
               aria-invalid={state.fieldErrors?.category ? true : undefined}
               aria-describedby={state.fieldErrors?.category ? "category-error" : undefined}
             >
-              <SelectValue placeholder="Choose a category" />
+              <SelectValue placeholder={copy.chooseCategory} />
             </SelectTrigger>
             <SelectContent>
               {categories.map((item) => (
                 <SelectItem key={item.slug} value={item.slug}>
-                  {item.name}
+                  {copy.category[item.slug].name}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -104,7 +100,9 @@ export function SuggestForm() {
       <Field
         id="place"
         name="place"
-        label="Where they work"
+        label={copy.whereTheyWork}
+        requiredLabel={copy.required}
+        optionalLabel={copy.optional}
         required
         error={state.fieldErrors?.place}
         autoComplete="off"
@@ -113,8 +111,9 @@ export function SuggestForm() {
       <TextField
         id="workSummary"
         name="workSummary"
-        label="The work editors should see"
-        hint="Name a project, a practice, or a change you can point to. A few sentences is enough."
+        label={copy.workToSee}
+        hint={copy.workHint}
+        requiredLabel={copy.required}
         required
         error={state.fieldErrors?.workSummary}
       />
@@ -122,25 +121,35 @@ export function SuggestForm() {
       <TextField
         id="why"
         name="why"
-        label="Why you are suggesting them"
-        hint="What would a reader in Tanzania understand after spending time with this work?"
+        label={copy.whySuggest}
+        hint={copy.whyHint}
+        requiredLabel={copy.required}
         required
         error={state.fieldErrors?.why}
       />
 
       <div className="grid gap-6 sm:grid-cols-2">
-        <Field id="suggesterName" name="suggesterName" label="Your name" autoComplete="name" />
+        <Field
+          id="suggesterName"
+          name="suggesterName"
+          label={copy.yourName}
+          requiredLabel={copy.required}
+          optionalLabel={copy.optional}
+          autoComplete="name"
+        />
         <Field
           id="contact"
           name="contact"
-          label="How editors can reach you"
-          hint="Phone or email. Optional."
+          label={copy.howToReach}
+          hint={copy.contactHint}
+          requiredLabel={copy.required}
+          optionalLabel={copy.optional}
           autoComplete="on"
         />
       </div>
 
       <Button type="submit" size="lg" data-track="suggest" data-track-target="form" disabled={pending}>
-        {pending ? "Sending…" : "Send to the editors"}
+        {pending ? copy.sending : copy.sendEditors}
       </Button>
     </form>
   );
@@ -154,6 +163,8 @@ function Field({
   error,
   hint,
   autoComplete,
+  requiredLabel,
+  optionalLabel,
 }: {
   id: string;
   name: string;
@@ -162,6 +173,8 @@ function Field({
   error?: string;
   hint?: string;
   autoComplete?: string;
+  requiredLabel: string;
+  optionalLabel: string;
 }) {
   const errorId = `${id}-error`;
   return (
@@ -169,9 +182,9 @@ function Field({
       <Label htmlFor={id}>
         {label}{" "}
         {required ? (
-          <span className="text-muted-foreground">(required)</span>
+          <span className="text-muted-foreground">({requiredLabel})</span>
         ) : (
-          <span className="text-muted-foreground">(optional)</span>
+          <span className="text-muted-foreground">({optionalLabel})</span>
         )}
       </Label>
       {hint ? <p className="text-sm text-muted-foreground">{hint}</p> : null}
@@ -199,6 +212,7 @@ function TextField({
   hint,
   required,
   error,
+  requiredLabel,
 }: {
   id: string;
   name: string;
@@ -206,12 +220,13 @@ function TextField({
   hint: string;
   required?: boolean;
   error?: string;
+  requiredLabel: string;
 }) {
   const errorId = `${id}-error`;
   return (
     <div className="space-y-2">
       <Label htmlFor={id}>
-        {label} {required ? <span className="text-muted-foreground">(required)</span> : null}
+        {label} {required ? <span className="text-muted-foreground">({requiredLabel})</span> : null}
       </Label>
       <p className="text-sm text-muted-foreground">{hint}</p>
       <Textarea
