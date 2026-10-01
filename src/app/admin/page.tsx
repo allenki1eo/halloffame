@@ -6,6 +6,7 @@ import { isAdmin } from "@/lib/admin-auth";
 import { MedalMark } from "@/components/medal-mark";
 import { DeskStats } from "@/components/desk-stats";
 import { blobConfigured } from "@/lib/blob";
+import { databaseFailure, type DatabaseFailure } from "@/lib/desk-error";
 import { isDemoSlug, isProduction } from "@/lib/demo";
 import { getCategory } from "@/lib/categories";
 import { categoryCopy } from "@/lib/i18n";
@@ -60,13 +61,17 @@ export default async function AdminPage({ searchParams }: PageProps) {
 
   const [loaded, report, tips, updated] = await Promise.all([
     getAllProfiles()
-      .then((profiles) => ({ profiles, recordUnavailable: false }))
-      .catch(() => ({ profiles: [] as Profile[], recordUnavailable: true })),
+      .then((profiles) => ({ profiles, recordUnavailable: false, recordFailure: null as DatabaseFailure | null }))
+      .catch((error: unknown) => ({
+        profiles: [] as Profile[],
+        recordUnavailable: true,
+        recordFailure: databaseFailure(error) ?? ("unreachable" as const),
+      })),
     getTrafficReport(),
     Promise.resolve(getTips()),
-    query.updated ? getProfile(query.updated) : Promise.resolve(null),
+    query.updated ? getProfile(query.updated).catch(() => null) : Promise.resolve(null),
   ]);
-  const { profiles, recordUnavailable } = loaded;
+  const { profiles, recordUnavailable, recordFailure } = loaded;
   const drafts = profiles.filter((profile) => profile.status === "draft");
   const published = profiles.filter((profile) => profile.status === "published");
   const workCount = profiles.reduce((total, profile) => total + profile.work.length, 0);
@@ -76,9 +81,11 @@ export default async function AdminPage({ searchParams }: PageProps) {
   );
   const database = tursoConfigured();
   const uploads = blobConfigured();
-  const storageLine = recordUnavailable
-    ? copy.trafficNoteUnavailable
-    : !database
+  const storageLine = recordFailure === "credentials"
+    ? copy.databaseCredentials
+    : recordUnavailable
+      ? copy.databaseUnreachable
+      : !database
       ? isProduction()
         ? copy.storageMissing
         : copy.storageLocal
@@ -112,7 +119,14 @@ export default async function AdminPage({ searchParams }: PageProps) {
         </div>
       </div>
 
-      <p className="mt-6 max-w-2xl text-sm text-muted-foreground">{storageLine}</p>
+      {recordUnavailable ? (
+        <Alert className="mt-6" variant="destructive" role="alert">
+          <AlertTitle>{copy.editorialDesk}</AlertTitle>
+          <AlertDescription>{storageLine}</AlertDescription>
+        </Alert>
+      ) : (
+        <p className="mt-6 max-w-2xl text-sm text-muted-foreground">{storageLine}</p>
+      )}
       {database && profiles.some((profile) => isDemoSlug(profile.slug)) ? (
         <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
           Fictional pages in this database stay off the public site. Delete them here, or run npm run db:clear-demos with

@@ -166,9 +166,12 @@ export type Messages = {
   storageNoBlob: string;
   storageMissing: string;
   storageLocal: string;
+  databaseCredentials: string;
+  databaseUnreachable: string;
   trafficNoteTurso: string;
   trafficNoteFile: string;
   trafficNoteUnavailable: string;
+  trafficNoteCredentials: string;
   devicesLine: string;
   recentOn: string;
 };
@@ -371,9 +374,14 @@ export const messages: Record<Locale, Messages> = {
     storageNoBlob: "Turso is connected. File uploads need the Blob token. A pasted link still works.",
     storageMissing: "Turso is not connected. The counters stay at zero until the database is set.",
     storageLocal: "Local preview. These counts include the fictional pages. Production does not.",
+    databaseCredentials: "The database rejected these credentials. Check TURSO_DATABASE_URL and TURSO_AUTH_TOKEN.",
+    databaseUnreachable: "The database could not be reached. Check TURSO_DATABASE_URL and TURSO_AUTH_TOKEN.",
     trafficNoteTurso: "Stored in Turso. No cookies. The desk itself is not counted.",
     trafficNoteFile: "Turso is unset, so this preview reads data/traffic.json. A missed write is dropped.",
-    trafficNoteUnavailable: "Turso is connected, and traffic could not be read just now. The public pages keep working.",
+    trafficNoteUnavailable:
+      "Turso is configured, but the desk could not read page views or clicks. The counts below are not a real zero. Public pages keep working.",
+    trafficNoteCredentials:
+      "The database rejected these credentials. Check TURSO_DATABASE_URL and TURSO_AUTH_TOKEN. View and click counts below are not live.",
     devicesLine: "Last 7 days: {mobile} mobile, {desktop} desktop. Times use Africa/Dar es Salaam.",
     recentOn: "on",
   },
@@ -572,9 +580,14 @@ export const messages: Record<Locale, Messages> = {
     storageNoBlob: "Turso imeunganishwa. Upakiaji wa faili unahitaji tokeni ya Blob. Kiungo kilichobandikwa bado kinafanya kazi.",
     storageMissing: "Turso haijaunganishwa. Vihesabuji vinabaki sufuri hadi hifadhidata iwekwe.",
     storageLocal: "Onyesho la hapa. Hesabu hii inajumuisha kurasa za kubuni. Tovuti ya uzalishaji haizionyeshi.",
+    databaseCredentials: "Hifadhidata imekataa hati hizi. Angalia TURSO_DATABASE_URL na TURSO_AUTH_TOKEN.",
+    databaseUnreachable: "Hifadhidata haikufikiwa. Angalia TURSO_DATABASE_URL na TURSO_AUTH_TOKEN.",
     trafficNoteTurso: "Imehifadhiwa Turso. Hakuna vidakuzi. Meza yenyewe haihesabiwi.",
     trafficNoteFile: "Turso haijawekwa, kwa hiyo onyesho hili linasoma data/traffic.json. Andiko lililoshindwa linaachwa.",
-    trafficNoteUnavailable: "Turso imeunganishwa, na wageni hawakuweza kusomwa sasa hivi. Kurasa za hadhara zinaendelea kufanya kazi.",
+    trafficNoteUnavailable:
+      "Turso imewekwa, lakini meza haikuweza kusoma mwonekano wala mibofyo. Hesabu hapa chini si sufuri halisi. Kurasa za hadhara zinaendelea kufanya kazi.",
+    trafficNoteCredentials:
+      "Hifadhidata imekataa hati hizi. Angalia TURSO_DATABASE_URL na TURSO_AUTH_TOKEN. Mwonekano na mibofyo hapa chini si vya moja kwa moja.",
     devicesLine: "Siku 7 zilizopita: {mobile} simu, {desktop} kompyuta. Muda ni wa Afrika/Dar es Salaam.",
     recentOn: "kwenye",
   },
