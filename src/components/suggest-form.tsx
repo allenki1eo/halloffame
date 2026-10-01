@@ -1,50 +1,65 @@
 "use client";
 
+import { useState } from "react";
 import { useActionState } from "react";
 import { categories } from "@/lib/categories";
 import { submitTip, type TipFormState } from "@/lib/actions";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 const initialState: TipFormState = {};
 
-const fieldClass =
-  "mt-2 w-full rounded-md border border-line bg-paper-raised px-3 py-3 text-base text-ink outline-none";
-
 export function SuggestForm() {
   const [state, formAction, pending] = useActionState(submitTip, initialState);
+  const [category, setCategory] = useState("");
 
   if (state.success) {
     return (
-      <div role="status" className="border border-pine bg-paper-raised px-6 py-8">
-        <p className="text-xs uppercase tracking-[0.18em] text-pine">Received</p>
-        <h2 className="mt-2 font-display text-4xl tracking-tight">Thank you.</h2>
-        <p className="mt-4 max-w-xl text-lg leading-relaxed">
-          Editors have this suggestion. It stays on the desk as a private note. It is not published,
-          and it is not arranged against anyone else.
-        </p>
-        <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted">
-          {state.storage === "memory"
-            ? "This server could not write the note to disk, so it is held in memory for this process only. A production edition needs a database."
-            : "This preview stores the note in a file on the server. A production edition needs a database."}
-        </p>
-      </div>
+      <Card role="status" className="rounded-md border-primary/40 shadow-none">
+        <CardContent className="space-y-4 px-6 py-8">
+          <p className="text-xs uppercase tracking-[0.2em] text-primary">Received</p>
+          <h2 className="font-display text-5xl tracking-tight">Thank you.</h2>
+          <p className="max-w-xl text-lg leading-relaxed">
+            Editors have this suggestion. It stays on the desk as a private note. It is not published,
+            and it is not arranged against anyone else.
+          </p>
+          <p className="max-w-xl text-sm leading-relaxed text-muted-foreground">
+            {state.storage === "memory"
+              ? "This server could not write the note to disk, so it is held in memory for this process only. A production edition needs a database."
+              : "This preview stores the note in a file on the server. A production edition needs a database."}
+          </p>
+        </CardContent>
+      </Card>
     );
   }
 
   return (
     <form action={formAction} className="space-y-6" aria-busy={pending}>
-      <p className="text-muted">
+      <p className="text-muted-foreground">
         Required fields are marked. Your name and contact are optional, and they are never placed on
         the public site.
       </p>
       {state.formError ? (
-        <p role="alert" className="border border-clay bg-paper-raised px-4 py-3 text-clay">
-          {state.formError}
-        </p>
+        <Alert variant="destructive">
+          <AlertTitle>Check the suggestion</AlertTitle>
+          <AlertDescription>{state.formError}</AlertDescription>
+        </Alert>
       ) : null}
 
       <div hidden>
-        <label htmlFor="company">Company</label>
-        <input id="company" name="company" tabIndex={-1} autoComplete="off" />
+        <Label htmlFor="company">Company</Label>
+        <Input id="company" name="company" tabIndex={-1} autoComplete="off" />
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2">
@@ -56,30 +71,30 @@ export function SuggestForm() {
           error={state.fieldErrors?.personName}
           autoComplete="off"
         />
-        <div>
-          <label htmlFor="category" className="text-sm font-medium">
-            Category <span className="text-muted">(required)</span>
-          </label>
-          <select
-            id="category"
-            name="category"
-            required
-            defaultValue=""
-            aria-invalid={state.fieldErrors?.category ? true : undefined}
-            aria-describedby={state.fieldErrors?.category ? "category-error" : undefined}
-            className={fieldClass}
-          >
-            <option value="" disabled>
-              Choose a category
-            </option>
-            {categories.map((category) => (
-              <option key={category.slug} value={category.slug}>
-                {category.name}
-              </option>
-            ))}
-          </select>
+        <div className="space-y-2">
+          <Label htmlFor="category">
+            Category <span className="text-muted-foreground">(required)</span>
+          </Label>
+          <input type="hidden" name="category" value={category} />
+          <Select value={category || undefined} onValueChange={setCategory}>
+            <SelectTrigger
+              id="category"
+              className="h-11 w-full rounded-md text-base"
+              aria-invalid={state.fieldErrors?.category ? true : undefined}
+              aria-describedby={state.fieldErrors?.category ? "category-error" : undefined}
+            >
+              <SelectValue placeholder="Choose a category" />
+            </SelectTrigger>
+            <SelectContent>
+              {categories.map((item) => (
+                <SelectItem key={item.slug} value={item.slug}>
+                  {item.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           {state.fieldErrors?.category ? (
-            <p id="category-error" className="mt-2 text-sm text-clay">
+            <p id="category-error" className="text-sm text-destructive">
               {state.fieldErrors.category}
             </p>
           ) : null}
@@ -95,7 +110,7 @@ export function SuggestForm() {
         autoComplete="off"
       />
 
-      <TextArea
+      <TextField
         id="workSummary"
         name="workSummary"
         label="The work editors should see"
@@ -104,7 +119,7 @@ export function SuggestForm() {
         error={state.fieldErrors?.workSummary}
       />
 
-      <TextArea
+      <TextField
         id="why"
         name="why"
         label="Why you are suggesting them"
@@ -114,12 +129,7 @@ export function SuggestForm() {
       />
 
       <div className="grid gap-6 sm:grid-cols-2">
-        <Field
-          id="suggesterName"
-          name="suggesterName"
-          label="Your name"
-          autoComplete="name"
-        />
+        <Field id="suggesterName" name="suggesterName" label="Your name" autoComplete="name" />
         <Field
           id="contact"
           name="contact"
@@ -129,13 +139,9 @@ export function SuggestForm() {
         />
       </div>
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="inline-flex min-h-11 cursor-pointer items-center rounded-full bg-pine px-6 text-paper hover:bg-pine-deep disabled:cursor-wait disabled:opacity-70"
-      >
+      <Button type="submit" size="lg" disabled={pending}>
         {pending ? "Sending…" : "Send to the editors"}
-      </button>
+      </Button>
     </form>
   );
 }
@@ -159,23 +165,26 @@ function Field({
 }) {
   const errorId = `${id}-error`;
   return (
-    <div>
-      <label htmlFor={id} className="text-sm font-medium">
+    <div className="space-y-2">
+      <Label htmlFor={id}>
         {label}{" "}
-        {required ? <span className="text-muted">(required)</span> : <span className="text-muted">(optional)</span>}
-      </label>
-      {hint ? <p className="mt-1 text-sm text-muted">{hint}</p> : null}
-      <input
+        {required ? (
+          <span className="text-muted-foreground">(required)</span>
+        ) : (
+          <span className="text-muted-foreground">(optional)</span>
+        )}
+      </Label>
+      {hint ? <p className="text-sm text-muted-foreground">{hint}</p> : null}
+      <Input
         id={id}
         name={name}
         required={required}
         autoComplete={autoComplete}
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? errorId : undefined}
-        className={fieldClass}
       />
       {error ? (
-        <p id={errorId} className="mt-2 text-sm text-clay">
+        <p id={errorId} className="text-sm text-destructive">
           {error}
         </p>
       ) : null}
@@ -183,7 +192,7 @@ function Field({
   );
 }
 
-function TextArea({
+function TextField({
   id,
   name,
   label,
@@ -200,22 +209,21 @@ function TextArea({
 }) {
   const errorId = `${id}-error`;
   return (
-    <div>
-      <label htmlFor={id} className="text-sm font-medium">
-        {label} {required ? <span className="text-muted">(required)</span> : null}
-      </label>
-      <p className="mt-1 text-sm text-muted">{hint}</p>
-      <textarea
+    <div className="space-y-2">
+      <Label htmlFor={id}>
+        {label} {required ? <span className="text-muted-foreground">(required)</span> : null}
+      </Label>
+      <p className="text-sm text-muted-foreground">{hint}</p>
+      <Textarea
         id={id}
         name={name}
         required={required}
         rows={5}
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? errorId : undefined}
-        className={fieldClass}
       />
       {error ? (
-        <p id={errorId} className="mt-2 text-sm text-clay">
+        <p id={errorId} className="text-sm text-destructive">
           {error}
         </p>
       ) : null}
