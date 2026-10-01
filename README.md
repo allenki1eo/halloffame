@@ -65,7 +65,7 @@ npm run db:migrate
 npm run db:seed
 ```
 
-`db:migrate` runs `drizzle/0000_phase1.sql`. `db:seed` upserts the people in `data/profiles.json`, including honor medals, work medals, and sample media. Running the seed again replaces work and media for those demo slugs.
+`db:migrate` applies every file in `drizzle/`, in order: `0000_phase1.sql` and `0001_traffic.sql`. Run it again after pulling traffic so the new tables exist. `db:seed` upserts the people in `data/profiles.json`, including honor medals, work medals, and sample media. Running the seed again replaces work and media for those demo slugs. Traffic does not need a new environment variable.
 
 6. Open `/admin`, enter the pin, and edit. A portrait, image, or video file is stored in Blob. A pasted link is stored as media metadata and does not need Blob.
 
@@ -80,8 +80,18 @@ Medals are `bronze`, `silver`, `gold`, `platinum`, or `diamond`. A person has on
 | `people` | Slug, name, category, place, role, one line, portrait URL and description, `published` or `draft`, `honor_medal`, journey and why-it-matters as JSON text, `sort_order` |
 | `work_items` | Belongs to a person. Title, years, summary, outcome, `medal`, `sort_order` |
 | `work_media` | Belongs to a work item. `kind` is `image`, `video`, or `link`, plus URL, title, caption, and alt text |
+| `page_views` | Public path, referrer host, `utm_source`, `utm_medium`, `utm_campaign`, coarse device (`mobile` or `desktop`), `created_at` |
+| `click_events` | `read_work`, `open_profile`, `open_category`, `suggest`, or `share`, plus path, target, referrer host, `utm_source` |
 
-Drizzle schema: `src/lib/db/schema.ts`. Migration: `drizzle/0000_phase1.sql`.
+Drizzle schema: `src/lib/db/schema.ts`. Migrations: `drizzle/0000_phase1.sql`, `drizzle/0001_traffic.sql`.
+
+## Traffic
+
+Public pages send a small beacon to `POST /api/traffic` after they load, and again when someone uses Read the work, a profile link, a category link, Suggest someone, or Pass this page on. There is no cookie and no account. The editorial desk is not counted. A missed beacon does not change the page.
+
+With `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` set, rows go to `page_views` and `click_events`. Without them, the server appends `data/traffic.json` (kept out of git). If that write fails, the event is dropped.
+
+`/admin` shows today, 7 days, and 30 days, top pages, referrer hosts, and recent clicks. Allen: after this deploy, run `npm run db:migrate` once against the existing Turso database. No extra Vercel product is required.
 
 ## Editorial desk
 

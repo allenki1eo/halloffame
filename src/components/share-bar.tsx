@@ -71,15 +71,17 @@ export function ShareBar({ name, oneLiner, path }: ShareBarProps) {
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-2">
-            <Button type="button" variant="secondary" onClick={shareFromDevice}>
+            <Button type="button" variant="secondary" data-track="share" data-track-target="device" onClick={shareFromDevice}>
               Share from this device
             </Button>
-            <Button type="button" variant="outline" onClick={copyLink}>
+            <Button type="button" variant="outline" data-track="share" data-track-target="copy" onClick={copyLink}>
               Copy link
             </Button>
             <Button
               type="button"
               variant="outline"
+              data-track="share"
+              data-track-target="whatsapp"
               onClick={() => openShare(`https://wa.me/?text=${encodeURIComponent(`${shareText()} ${pageUrl()}`)}`)}
             >
               WhatsApp
@@ -87,6 +89,8 @@ export function ShareBar({ name, oneLiner, path }: ShareBarProps) {
             <Button
               type="button"
               variant="outline"
+              data-track="share"
+              data-track-target="x"
               onClick={() =>
                 openShare(
                   `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText())}&url=${encodeURIComponent(pageUrl())}`,
@@ -98,6 +102,8 @@ export function ShareBar({ name, oneLiner, path }: ShareBarProps) {
             <Button
               type="button"
               variant="outline"
+              data-track="share"
+              data-track-target="email"
               onClick={() => {
                 window.location.href = `mailto:?subject=${encodeURIComponent(name)}&body=${encodeURIComponent(`${shareText()}\n\n${pageUrl()}`)}`;
               }}

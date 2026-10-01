@@ -91,7 +91,7 @@ export default async function CategoryPage({ params }: PageProps) {
                 <div>
                   <Badge variant="outline">{profile.place}</Badge>
                   <h2 className="mt-3 font-display text-4xl tracking-tight sm:text-5xl">
-                    <Link href={`/profiles/${profile.slug}`} className="hover:text-primary">
+                    <Link href={`/profiles/${profile.slug}`} data-track="open_profile" className="hover:text-primary">
                       {profile.name}
                     </Link>
                   </h2>
@@ -110,7 +110,9 @@ export default async function CategoryPage({ params }: PageProps) {
                     </Card>
                   ) : null}
                   <Button asChild variant="link" className="mt-4 px-0">
-                    <Link href={`/profiles/${profile.slug}#work`}>Read the full record</Link>
+                    <Link href={`/profiles/${profile.slug}#work`} data-track="read_work">
+                      Read the full record
+                    </Link>
                   </Button>
                 </div>
               </article>

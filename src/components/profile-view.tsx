@@ -96,7 +96,9 @@ export function ProfileView({
               {profile.place}
             </p>
             <Button asChild variant="secondary" className="mt-6">
-              <a href="#work">Their work</a>
+              <a href="#work" data-track="read_work">
+                Their work
+              </a>
             </Button>
           </figcaption>
         </figure>
