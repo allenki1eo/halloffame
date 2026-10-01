@@ -4,6 +4,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { categories, getCategory } from "@/lib/categories";
 import { getPublishedByCategory } from "@/lib/content";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 export const dynamic = "force-dynamic";
 
@@ -45,11 +48,11 @@ export default async function CategoryPage({ params }: PageProps) {
   const profiles = getPublishedByCategory(category.slug);
 
   return (
-    <div className="mx-auto max-w-6xl px-5 py-12 md:py-16">
-      <nav aria-label="Breadcrumb" className="text-sm text-muted">
+    <div className="mx-auto max-w-6xl px-5 py-14 md:py-20">
+      <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground">
         <ol className="flex flex-wrap gap-2">
           <li>
-            <Link href="/categories" className="underline decoration-line underline-offset-4">
+            <Link href="/categories" className="underline decoration-border underline-offset-4">
               Categories
             </Link>
           </li>
@@ -57,52 +60,59 @@ export default async function CategoryPage({ params }: PageProps) {
           <li aria-current="page">{category.name}</li>
         </ol>
       </nav>
-      <p className="mt-8 flex items-center gap-3 text-xs uppercase tracking-[0.18em] text-muted">
+      <p className="mt-10 flex items-center gap-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
         <span className={`inline-block h-2.5 w-2.5 ${accentClass[category.accent]}`} aria-hidden="true" />
         Category
       </p>
-      <h1 className="mt-3 font-display text-5xl leading-none tracking-tight sm:text-6xl">{category.name}</h1>
-      <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted">{category.blurb}</p>
+      <h1 className="mt-4 font-display text-5xl leading-none tracking-tight sm:text-7xl">{category.name}</h1>
+      <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">{category.blurb}</p>
 
       {profiles.length === 0 ? (
-        <p className="mt-12 border-t border-line py-10 text-lg">
+        <p className="mt-14 border-t border-border py-12 text-lg">
           No public page in this category yet. Editors publish from the desk, and anyone may{" "}
-          <Link href="/suggest" className="underline decoration-pine underline-offset-4">
+          <Link href="/suggest" className="underline decoration-primary underline-offset-4">
             suggest someone
           </Link>
           .
         </p>
       ) : (
-        <ol className="mt-12 divide-y divide-line border-t border-line">
+        <ol className="mt-14 space-y-8">
           {profiles.map((profile) => (
-            <li key={profile.slug} className="grid gap-6 py-8 md:grid-cols-[9rem_1fr] md:items-start">
-              <Link href={`/profiles/${profile.slug}`} tabIndex={-1} aria-hidden="true" className="relative block aspect-[3/4] overflow-hidden bg-line">
-                <Image src={profile.photo} alt="" fill sizes="144px" className="object-cover" />
-              </Link>
-              <article>
-                <p className="text-sm text-muted">
-                  {profile.role} · {profile.place}
-                </p>
-                <h2 className="mt-1 font-display text-4xl tracking-tight">
-                  <Link href={`/profiles/${profile.slug}`} className="hover:text-pine">
-                    {profile.name}
-                  </Link>
-                </h2>
-                <p className="mt-3 max-w-2xl text-lg">{profile.oneLiner}</p>
-                {profile.work[0] ? (
-                  <p className="mt-5 max-w-2xl border-l-2 border-line pl-4">
-                    <span className="text-xs uppercase tracking-[0.16em] text-pine">Their work</span>
-                    <span className="mt-2 block font-display text-2xl">{profile.work[0].title}</span>
-                    <span className="mt-2 block leading-relaxed text-muted">{profile.work[0].summary}</span>
-                    <span className="mt-2 block">{profile.work[0].outcome}</span>
-                  </p>
-                ) : null}
+            <li key={profile.slug}>
+              <article className="grid gap-6 border-t border-border pt-8 md:grid-cols-[11rem_1fr] md:items-start">
                 <Link
-                  href={`/profiles/${profile.slug}#work`}
-                  className="mt-5 inline-flex min-h-11 items-center text-sm uppercase tracking-[0.14em] underline decoration-pine/40 underline-offset-4"
+                  href={`/profiles/${profile.slug}`}
+                  tabIndex={-1}
+                  aria-hidden="true"
+                  className="frame relative block aspect-[3/4] overflow-hidden bg-muted"
                 >
-                  Read the full record
+                  <Image src={profile.photo} alt="" fill sizes="176px" className="object-cover" />
                 </Link>
+                <div>
+                  <Badge variant="outline">{profile.place}</Badge>
+                  <h2 className="mt-3 font-display text-4xl tracking-tight sm:text-5xl">
+                    <Link href={`/profiles/${profile.slug}`} className="hover:text-primary">
+                      {profile.name}
+                    </Link>
+                  </h2>
+                  <p className="mt-2 text-muted-foreground">
+                    {profile.role}
+                  </p>
+                  <p className="mt-4 max-w-2xl text-lg">{profile.oneLiner}</p>
+                  {profile.work[0] ? (
+                    <Card className="mt-6 max-w-2xl rounded-md bg-secondary shadow-none ring-0">
+                      <CardContent className="pt-4">
+                        <p className="text-xs uppercase tracking-[0.16em] text-primary">Their work</p>
+                        <p className="mt-2 font-display text-2xl">{profile.work[0].title}</p>
+                        <p className="mt-2 leading-relaxed text-muted-foreground">{profile.work[0].summary}</p>
+                        <p className="mt-3">{profile.work[0].outcome}</p>
+                      </CardContent>
+                    </Card>
+                  ) : null}
+                  <Button asChild variant="link" className="mt-4 px-0">
+                    <Link href={`/profiles/${profile.slug}#work`}>Read the full record</Link>
+                  </Button>
+                </div>
               </article>
             </li>
           ))}

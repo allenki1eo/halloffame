@@ -22,8 +22,8 @@ export default async function PreviewPage({ params }: PageProps) {
 
   return (
     <>
-      <p className="bg-paper px-5 py-3 text-center text-sm">
-        <Link href="/admin" className="underline decoration-pine underline-offset-4">
+      <p className="border-b border-border bg-secondary px-5 py-3 text-center text-sm">
+        <Link href="/admin" className="underline decoration-primary/40 underline-offset-4">
           Back to the desk
         </Link>
       </p>

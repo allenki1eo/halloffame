@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { siteDescription, siteName, siteUrl } from "@/lib/site";
 import "./globals.css";
+import { cn } from "@/lib/utils";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -52,8 +53,8 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en-TZ" className={`${fraunces.variable} ${sourceSans.variable}`}>
-      <body className="flex min-h-screen flex-col font-sans antialiased">
+    <html lang="en-TZ" className={cn(fraunces.variable, sourceSans.variable)}>
+      <body className="flex min-h-screen flex-col antialiased">
         <a href="#content" className="skip-link">
           Skip to content
         </a>

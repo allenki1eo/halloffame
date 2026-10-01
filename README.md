@@ -81,6 +81,10 @@ Published pages and drafts live in `data/profiles.json`. Portrait files live in 
 
 This preview stores pages and suggestions as JSON files on the server. That is enough to run and review the product. A public deployment needs a database (and real stories, with consent). If the disk is read-only, a suggestion is held in memory for that server process only, and the confirmation says so.
 
+## Design
+
+The public site is an editorial layout: warm paper, a deep green, Fraunces for display type, and Source Sans 3 for reading. Photography is full-bleed. Motion is a short rise as a section enters, and a slight scale on a portrait, both dropped when reduced motion is requested. Interface pieces (buttons, sheets, dialogs, fields, cards, badges) come from shadcn/ui and are tuned so the pages do not look like a default dashboard.
+
 ## Stack
 
-Next.js (App Router), React, TypeScript, Tailwind CSS.
+Next.js (App Router), React, TypeScript, Tailwind CSS, shadcn/ui.

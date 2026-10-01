@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { categories } from "@/lib/categories";
 import { getPublishedByCategory } from "@/lib/content";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const dynamic = "force-dynamic";
 
@@ -21,31 +22,35 @@ const accentClass = {
 
 export default function CategoriesPage() {
   return (
-    <div className="mx-auto max-w-6xl px-5 py-12 md:py-16">
-      <p className="text-xs uppercase tracking-[0.18em] text-pine">Browse</p>
-      <h1 className="mt-3 max-w-[14ch] font-display text-5xl leading-none tracking-tight sm:text-6xl">
+    <div className="mx-auto max-w-6xl px-5 py-14 md:py-20">
+      <p className="text-xs uppercase tracking-[0.22em] text-primary">Browse</p>
+      <h1 className="mt-4 max-w-[12ch] font-display text-5xl leading-[0.92] tracking-tight sm:text-7xl">
         Four rooms, one record.
       </h1>
-      <p className="mt-5 max-w-xl text-lg text-muted">
+      <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
         Choose a category and read the work. Pages are published by editors and offered side by side.
       </p>
-      <ul className="mt-12 grid gap-5 md:grid-cols-2">
-        {categories.map((category, index) => {
+      <ul className="mt-14 grid gap-4 md:grid-cols-2">
+        {categories.map((category) => {
           const count = getPublishedByCategory(category.slug).length;
           return (
             <li key={category.slug}>
-              <Link
-                href={`/categories/${category.slug}`}
-                className="block h-full border border-line bg-paper-raised p-7 hover:border-ink"
-              >
-                <span className="font-display text-2xl text-pine">{String(index + 1).padStart(2, "0")}</span>
-                <span className={`mt-6 block h-1.5 w-12 ${accentClass[category.accent]}`} aria-hidden="true" />
-                <span className="mt-4 block font-display text-4xl tracking-tight">{category.name}</span>
-                <span className="mt-3 block leading-relaxed text-muted">{category.blurb}</span>
-                <span className="mt-6 block text-sm uppercase tracking-[0.14em]">
-                  {count} {count === 1 ? "public page" : "public pages"}
-                </span>
-              </Link>
+              <Card className="relative h-full rounded-md shadow-none transition-colors hover:bg-secondary">
+                <CardHeader>
+                  <span className={`h-1.5 w-12 ${accentClass[category.accent]}`} aria-hidden="true" />
+                  <CardTitle className="mt-5 font-display text-4xl font-normal tracking-tight">
+                    <Link href={`/categories/${category.slug}`} className="after:absolute after:inset-0">
+                      {category.name}
+                    </Link>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="leading-relaxed text-muted-foreground">{category.blurb}</p>
+                  <p className="mt-6 text-xs uppercase tracking-[0.16em]">
+                    {count} {count === 1 ? "public page" : "public pages"}
+                  </p>
+                </CardContent>
+              </Card>
             </li>
           );
         })}

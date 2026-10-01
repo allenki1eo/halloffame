@@ -6,6 +6,11 @@ import { isAdmin } from "@/lib/admin-auth";
 import { getCategory } from "@/lib/categories";
 import { getAllProfiles, getProfile } from "@/lib/content";
 import { getTips } from "@/lib/tips";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 export const metadata: Metadata = {
   title: "Editorial desk",
@@ -30,10 +35,10 @@ export default async function AdminPage({ searchParams }: PageProps) {
 
   if (!admin) {
     return (
-      <div className="mx-auto max-w-3xl px-5 py-14">
-        <p className="text-xs uppercase tracking-[0.18em] text-pine">Editors</p>
-        <h1 className="mt-3 font-display text-5xl tracking-tight">Editorial desk</h1>
-        <p className="mt-4 max-w-xl text-lg text-muted">
+      <div className="mx-auto max-w-3xl px-5 py-16">
+        <p className="text-xs uppercase tracking-[0.2em] text-primary">Editors</p>
+        <h1 className="mt-3 font-display text-5xl tracking-tight sm:text-6xl">Editorial desk</h1>
+        <p className="mt-4 max-w-xl text-lg text-muted-foreground">
           Publish a page onto the public site, or return it to the desk. Suggestions stay here.
         </p>
         <div className="mt-8">
@@ -57,69 +62,65 @@ export default async function AdminPage({ searchParams }: PageProps) {
         : "";
 
   return (
-    <div className="mx-auto max-w-6xl px-5 py-12">
+    <div className="mx-auto max-w-6xl px-5 py-14">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-xs uppercase tracking-[0.18em] text-pine">Editors</p>
-          <h1 className="mt-2 font-display text-5xl tracking-tight">Editorial desk</h1>
+          <p className="text-xs uppercase tracking-[0.2em] text-primary">Editors</p>
+          <h1 className="mt-2 font-display text-5xl tracking-tight sm:text-6xl">Editorial desk</h1>
         </div>
         <form action={logoutAdmin}>
-          <button
-            type="submit"
-            className="inline-flex min-h-11 cursor-pointer items-center rounded-full border border-line px-4 text-sm"
-          >
+          <Button type="submit" variant="outline">
             Lock the desk
-          </button>
+          </Button>
         </form>
       </div>
 
       {notice ? (
-        <p role="status" className="mt-6 border border-pine bg-paper-raised px-4 py-3">
-          {notice}
-        </p>
+        <Alert className="mt-8" role="status">
+          <AlertTitle>Updated</AlertTitle>
+          <AlertDescription>{notice}</AlertDescription>
+        </Alert>
       ) : null}
 
-      <section aria-labelledby="pages-heading" className="mt-10">
+      <section aria-labelledby="pages-heading" className="mt-12">
         <h2 id="pages-heading" className="font-display text-3xl">
           Pages
         </h2>
-        <ul className="mt-4 divide-y divide-line border-y border-line">
+        <Separator className="mt-4" />
+        <ul>
           {ordered.map((profile) => {
             const category = getCategory(profile.category);
             const nextStatus = profile.status === "published" ? "draft" : "published";
             return (
-              <li key={profile.slug} className="flex flex-col gap-4 py-5 sm:flex-row sm:items-center sm:justify-between">
+              <li
+                key={profile.slug}
+                className="flex flex-col gap-4 border-b border-border py-5 sm:flex-row sm:items-center sm:justify-between"
+              >
                 <div>
-                  <p className="text-xs uppercase tracking-[0.16em] text-muted">{category?.name}</p>
+                  <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">{category?.name}</p>
                   <h3 className="font-display text-2xl">{profile.name}</h3>
-                  <p className="text-sm text-muted">
-                    {profile.status === "published" ? "On the public site" : "Desk draft"} · {profile.place}
-                  </p>
+                  <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+                    <Badge variant={profile.status === "published" ? "default" : "secondary"}>
+                      {profile.status === "published" ? "On the public site" : "Desk draft"}
+                    </Badge>
+                    <span>{profile.place}</span>
+                  </div>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <Link
-                    href={`/admin/preview/${profile.slug}`}
-                    className="inline-flex min-h-11 items-center rounded-full border border-line px-4 text-sm"
-                  >
-                    Preview
-                  </Link>
+                  <Button asChild variant="outline">
+                    <Link href={`/admin/preview/${profile.slug}`}>Preview</Link>
+                  </Button>
                   {profile.status === "published" ? (
-                    <Link
-                      href={`/profiles/${profile.slug}`}
-                      className="inline-flex min-h-11 items-center rounded-full border border-line px-4 text-sm"
-                    >
-                      Public page
-                    </Link>
+                    <Button asChild variant="ghost">
+                      <Link href={`/profiles/${profile.slug}`}>Public page</Link>
+                    </Button>
                   ) : null}
                   <form action={setProfileStatus}>
                     <input type="hidden" name="slug" value={profile.slug} />
                     <input type="hidden" name="status" value={nextStatus} />
-                    <button
-                      type="submit"
-                      className="inline-flex min-h-11 cursor-pointer items-center rounded-full bg-pine px-4 text-sm text-paper hover:bg-pine-deep"
-                    >
+                    <Button type="submit" variant={profile.status === "published" ? "secondary" : "default"}>
                       {profile.status === "published" ? "Unpublish" : "Publish"}
-                    </button>
+                    </Button>
                   </form>
                 </div>
               </li>
@@ -128,34 +129,40 @@ export default async function AdminPage({ searchParams }: PageProps) {
         </ul>
       </section>
 
-      <section aria-labelledby="tips-heading" className="mt-14">
+      <section aria-labelledby="tips-heading" className="mt-16">
         <h2 id="tips-heading" className="font-display text-3xl">
           Suggestions
         </h2>
-        <p className="mt-2 max-w-2xl text-muted">
-          Private notes for editors. They are not published and they are not counted in public.
-          This preview keeps them in a file. Production needs a database.
+        <p className="mt-2 max-w-2xl text-muted-foreground">
+          Private notes for editors. They are not published and they are not counted in public. This
+          preview keeps them in a file. Production needs a database.
         </p>
         {tips.length === 0 ? (
-          <p className="mt-6 border border-dashed border-line px-4 py-6 text-muted">
-            No suggestions yet.
-          </p>
+          <Card className="mt-6 rounded-md border-dashed shadow-none">
+            <CardContent className="py-8 text-muted-foreground">No suggestions yet.</CardContent>
+          </Card>
         ) : (
           <ul className="mt-6 space-y-4">
             {tips.map((tip) => (
-              <li key={tip.id} className="border border-line bg-paper-raised p-5">
-                <p className="text-xs uppercase tracking-[0.14em] text-muted">
-                  {formatWhen(tip.createdAt)} · {getCategory(tip.category)?.name} ·{" "}
-                  {tip.storage === "memory" ? "Held in memory" : "Saved to file"}
-                </p>
-                <h3 className="mt-2 font-display text-2xl">{tip.personName}</h3>
-                <p className="text-sm text-muted">{tip.place}</p>
-                <p className="mt-3 leading-relaxed">{tip.workSummary}</p>
-                <p className="mt-3 leading-relaxed text-muted">{tip.why}</p>
-                <p className="mt-3 text-sm">
-                  From {tip.suggesterName || "someone who left no name"}
-                  {tip.contact ? ` · ${tip.contact}` : ""}
-                </p>
+              <li key={tip.id}>
+                <Card className="rounded-md shadow-none">
+                  <CardHeader>
+                    <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                      {formatWhen(tip.createdAt)} · {getCategory(tip.category)?.name} ·{" "}
+                      {tip.storage === "memory" ? "Held in memory" : "Saved to file"}
+                    </p>
+                    <CardTitle className="font-display text-2xl font-normal">{tip.personName}</CardTitle>
+                    <p className="text-sm text-muted-foreground">{tip.place}</p>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <p className="leading-relaxed">{tip.workSummary}</p>
+                    <p className="leading-relaxed text-muted-foreground">{tip.why}</p>
+                    <p className="text-sm">
+                      From {tip.suggesterName || "someone who left no name"}
+                      {tip.contact ? ` · ${tip.contact}` : ""}
+                    </p>
+                  </CardContent>
+                </Card>
               </li>
             ))}
           </ul>
