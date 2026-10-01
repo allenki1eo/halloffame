@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-source), "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), "Iowan Old Style", Palatino, serif;
+  --color-paper: #f4efe6;
+  --color-paper-raised: #fbf8f3;
+  --color-ink: #1b1814;
+  --color-muted: #514b43;
+  --color-line: #d9d0c3;
+  --color-pine: #1c5c44;
+  --color-pine-deep: #12382b;
+  --color-clay: #8f4030;
+  --color-gold: #7a5b28;
+  --color-plum: #5e3b58;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background-color: var(--color-paper);
+  background-image:
+    radial-gradient(ellipse 80% 40% at 10% -10%, rgb(255 252 247 / 0.9), transparent 50%),
+    linear-gradient(180deg, #f7f3ec 0%, var(--color-paper) 18rem);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: #d5e6dc;
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-pine);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 50;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  padding: 0.75rem 1rem;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+.letter p:first-of-type::first-letter {
+  float: left;
+  margin: 0.15rem 0.55rem 0 0;
+  font-family: var(--font-display), Palatino, serif;
+  font-size: 3.35rem;
+  line-height: 0.8;
+  color: var(--color-pine);
+}
+
+@media print {
+  header,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+  }
+}
