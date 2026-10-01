@@ -40,7 +40,11 @@ export default async function CategoriesPage() {
                 <CardHeader>
                   <span className={`h-1.5 w-12 ${accentClass[category.accent]}`} aria-hidden="true" />
                   <CardTitle className="mt-5 font-display text-4xl font-normal tracking-tight">
-                    <Link href={`/categories/${category.slug}`} className="after:absolute after:inset-0">
+                    <Link
+                      href={`/categories/${category.slug}`}
+                      data-track="open_category"
+                      className="after:absolute after:inset-0"
+                    >
                       {category.name}
                     </Link>
                   </CardTitle>

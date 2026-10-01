@@ -12,12 +12,18 @@ async function main() {
     process.exit(1);
   }
 
-  const sqlPath = path.join(process.cwd(), "drizzle", "0000_phase1.sql");
-  const sql = fs.readFileSync(sqlPath, "utf8");
+  const directory = path.join(process.cwd(), "drizzle");
+  const files = fs
+    .readdirSync(directory)
+    .filter((name) => name.endsWith(".sql"))
+    .sort();
   const client = createClient({ url, authToken });
   await client.execute("PRAGMA foreign_keys = ON");
-  await client.executeMultiple(sql);
-  console.log("Applied drizzle/0000_phase1.sql");
+  for (const file of files) {
+    const sql = fs.readFileSync(path.join(directory, file), "utf8");
+    await client.executeMultiple(sql);
+    console.log(`Applied drizzle/${file}`);
+  }
 }
 
 main().catch((error: unknown) => {

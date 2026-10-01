@@ -139,7 +139,7 @@ export function SuggestForm() {
         />
       </div>
 
-      <Button type="submit" size="lg" disabled={pending}>
+      <Button type="submit" size="lg" data-track="suggest" data-track-target="form" disabled={pending}>
         {pending ? "Sending…" : "Send to the editors"}
       </Button>
     </form>

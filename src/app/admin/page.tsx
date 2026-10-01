@@ -13,6 +13,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { TrafficDesk } from "@/components/traffic-desk";
 import { Separator } from "@/components/ui/separator";
 
 export const metadata: Metadata = {
@@ -119,7 +120,9 @@ export default async function AdminPage({ searchParams }: PageProps) {
         </Alert>
       ) : null}
 
-      <section aria-labelledby="pages-heading" className="mt-12">
+      <TrafficDesk />
+
+      <section aria-labelledby="pages-heading" className="mt-16">
         <h2 id="pages-heading" className="font-display text-3xl">
           Pages
         </h2>

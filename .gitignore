@@ -27,3 +27,6 @@ npm-debug.log*
 
 # vercel
 .vercel
+
+# Local traffic preview when Turso is unset. Production uses Turso.
+/data/traffic.json

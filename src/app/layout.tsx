@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Fraunces, Source_Sans_3 } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { TrafficBeacon } from "@/components/traffic-beacon";
 import { siteDescription, siteName, siteUrl } from "@/lib/site";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -58,6 +59,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <a href="#content" className="skip-link">
           Skip to content
         </a>
+        <TrafficBeacon />
         <SiteHeader />
         <main id="content" tabIndex={-1} className="flex-1 outline-none">
           {children}

@@ -26,10 +26,18 @@ export function SiteFooter() {
             </p>
           </div>
           <nav aria-label="Footer" className="flex flex-col gap-3 text-lg">
-            <Link href="/categories" className="underline decoration-primary-foreground/30 underline-offset-4">
+            <Link
+              href="/categories"
+              data-track="open_category"
+              className="inline-flex min-h-11 items-center underline decoration-primary-foreground/30 underline-offset-4"
+            >
               Categories
             </Link>
-            <Link href="/suggest" className="underline decoration-primary-foreground/30 underline-offset-4">
+            <Link
+              href="/suggest"
+              data-track="suggest"
+              className="inline-flex min-h-11 items-center underline decoration-primary-foreground/30 underline-offset-4"
+            >
               Suggest someone
             </Link>
             <Link href="/admin" className="underline decoration-primary-foreground/30 underline-offset-4">

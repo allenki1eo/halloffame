@@ -16,9 +16,9 @@ import {
 } from "@/components/ui/sheet";
 
 const links = [
-  { href: "/", label: "Home" },
-  { href: "/categories", label: "Categories" },
-  { href: "/suggest", label: "Suggest someone" },
+  { href: "/", label: "Home", track: undefined },
+  { href: "/categories", label: "Categories", track: "open_category" },
+  { href: "/suggest", label: "Suggest someone", track: "suggest" },
 ];
 
 function isCurrent(pathname: string, href: string) {
@@ -47,7 +47,7 @@ export function SiteHeader() {
             const current = isCurrent(pathname, link.href);
             return (
               <Button key={link.href} asChild variant={current ? "secondary" : "ghost"}>
-                <Link href={link.href} aria-current={current ? "page" : undefined}>
+                <Link href={link.href} aria-current={current ? "page" : undefined} data-track={link.track}>
                   {link.label}
                 </Link>
               </Button>
@@ -75,6 +75,7 @@ export function SiteHeader() {
                     <Link
                       href={link.href}
                       aria-current={current ? "page" : undefined}
+                      data-track={link.track}
                       className="flex min-h-12 items-center font-display text-3xl tracking-tight"
                     >
                       {link.label}

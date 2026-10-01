@@ -38,6 +38,35 @@ export const workItems = sqliteTable(
   (table) => [index("work_items_person_idx").on(table.personId, table.sortOrder)],
 );
 
+export const pageViews = sqliteTable(
+  "page_views",
+  {
+    id: text("id").primaryKey(),
+    path: text("path").notNull(),
+    referrerHost: text("referrer_host").notNull().default(""),
+    utmSource: text("utm_source").notNull().default(""),
+    utmMedium: text("utm_medium").notNull().default(""),
+    utmCampaign: text("utm_campaign").notNull().default(""),
+    device: text("device").notNull().default(""),
+    createdAt: text("created_at").notNull(),
+  },
+  (table) => [index("page_views_created_idx").on(table.createdAt), index("page_views_path_idx").on(table.path)],
+);
+
+export const clickEvents = sqliteTable(
+  "click_events",
+  {
+    id: text("id").primaryKey(),
+    path: text("path").notNull(),
+    event: text("event").notNull(),
+    target: text("target").notNull().default(""),
+    referrerHost: text("referrer_host").notNull().default(""),
+    utmSource: text("utm_source").notNull().default(""),
+    createdAt: text("created_at").notNull(),
+  },
+  (table) => [index("click_events_created_idx").on(table.createdAt), index("click_events_event_idx").on(table.event)],
+);
+
 export const workMedia = sqliteTable(
   "work_media",
   {
