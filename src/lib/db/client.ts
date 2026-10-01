@@ -21,7 +21,10 @@ export function getDb() {
   const config = tursoConfig();
   if (!config) return null;
   if (!ready) {
-    ready = openDatabase(config);
+    ready = openDatabase(config).catch((error: unknown) => {
+      ready = null;
+      throw error;
+    });
   }
   return ready;
 }

@@ -3,6 +3,7 @@ import path from "node:path";
 import { and, count, desc, eq, gte, ne } from "drizzle-orm";
 import { getDb, tursoConfigured } from "@/lib/db/client";
 import { clickEvents, pageViews } from "@/lib/db/schema";
+import { databaseFailure, type DatabaseFailure } from "@/lib/desk-error";
 import { siteUrl } from "@/lib/site";
 
 const trafficPath = path.join(process.cwd(), "data", "traffic.json");
@@ -49,6 +50,7 @@ type TrafficFile = {
 export type TrafficReport = {
   storage: "turso" | "file";
   unavailable: boolean;
+  failure: DatabaseFailure | null;
   today: { views: number; clicks: number };
   week: { views: number; clicks: number };
   month: { views: number; clicks: number };
@@ -70,10 +72,15 @@ export type TrafficInput = {
   target?: unknown;
 };
 
-function emptyReport(storage: TrafficReport["storage"], unavailable = false): TrafficReport {
+function emptyReport(
+  storage: TrafficReport["storage"],
+  unavailable = false,
+  failure: DatabaseFailure | null = null,
+): TrafficReport {
   return {
     storage,
     unavailable,
+    failure,
     today: { views: 0, clicks: 0 },
     week: { views: 0, clicks: 0 },
     month: { views: 0, clicks: 0 },
@@ -196,9 +203,14 @@ export async function recordTraffic(input: TrafficInput, userAgent: string) {
       createdAt: now,
     };
     if (tursoConfigured()) {
-      const db = await getDb();
-      if (!db) return;
-      await db.insert(pageViews).values(row);
+      try {
+        const db = await getDb();
+        if (!db) return;
+        await db.insert(pageViews).values(row);
+      } catch (error) {
+        if (databaseFailure(error)) return;
+        throw error;
+      }
       return;
     }
     const data = readFileStore();
@@ -220,9 +232,14 @@ export async function recordTraffic(input: TrafficInput, userAgent: string) {
     createdAt: now,
   };
   if (tursoConfigured()) {
-    const db = await getDb();
-    if (!db) return;
-    await db.insert(clickEvents).values(row);
+    try {
+      const db = await getDb();
+      if (!db) return;
+      await db.insert(clickEvents).values(row);
+    } catch (error) {
+      if (databaseFailure(error)) return;
+      throw error;
+    }
     return;
   }
   const data = readFileStore();
@@ -254,6 +271,7 @@ function reportFromFile(data: TrafficFile): TrafficReport {
   return {
     storage: "file",
     unavailable: false,
+    failure: null,
     today: { views: tally(data.views, today), clicks: tally(data.clicks, today) },
     week: { views: weekViews.length, clicks: tally(data.clicks, week) },
     month: { views: tally(data.views, month), clicks: tally(data.clicks, month) },
@@ -299,7 +317,7 @@ export async function getTrafficReport(): Promise<TrafficReport> {
 
   try {
     const db = await getDb();
-    if (!db) return emptyReport("turso", true);
+    if (!db) return emptyReport("turso", true, "unreachable");
     const today = darDayStart();
     const week = daysAgo(7);
     const month = daysAgo(30);
@@ -347,6 +365,7 @@ export async function getTrafficReport(): Promise<TrafficReport> {
     return {
       storage: "turso",
       unavailable: false,
+      failure: null,
       today: { views: asNumber(todayViews[0]?.value), clicks: asNumber(todayClicks[0]?.value) },
       week: { views: asNumber(weekViews[0]?.value), clicks: asNumber(weekClicks[0]?.value) },
       month: { views: asNumber(monthViews[0]?.value), clicks: asNumber(monthClicks[0]?.value) },
@@ -366,7 +385,7 @@ export async function getTrafficReport(): Promise<TrafficReport> {
         createdAt: row.createdAt,
       })),
     };
-  } catch {
-    return emptyReport("turso", true);
+  } catch (error) {
+    return emptyReport("turso", true, databaseFailure(error) ?? "unreachable");
   }
 }

@@ -1,5 +1,6 @@
 import type { Messages } from "@/lib/messages";
 import type { TrafficReport } from "@/lib/traffic";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
 
 function formatWhen(iso: string) {
@@ -46,6 +47,7 @@ function Bars({
 }
 
 function note(report: TrafficReport, copy: Messages) {
+  if (report.failure === "credentials") return copy.trafficNoteCredentials;
   if (report.unavailable) return copy.trafficNoteUnavailable;
   if (report.storage === "turso") return copy.trafficNoteTurso;
   return copy.trafficNoteFile;
@@ -61,7 +63,14 @@ export function TrafficDesk({ report, copy }: { report: TrafficReport; copy: Mes
       <h2 id="traffic-heading" className="font-display text-4xl tracking-tight">
         {copy.traffic}
       </h2>
-      <p className="mt-2 max-w-2xl text-muted-foreground">{note(report, copy)}</p>
+      {report.unavailable ? (
+        <Alert className="mt-4" variant="destructive" role="alert">
+          <AlertTitle>{copy.traffic}</AlertTitle>
+          <AlertDescription>{note(report, copy)}</AlertDescription>
+        </Alert>
+      ) : (
+        <p className="mt-2 max-w-2xl text-muted-foreground">{note(report, copy)}</p>
+      )}
       <p className="mt-3 text-sm text-muted-foreground">{devices}</p>
       <div className="mt-8 grid gap-10 lg:grid-cols-2">
         <div>

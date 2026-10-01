@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { DeskEditor } from "@/components/desk-editor";
 import { isAdmin } from "@/lib/admin-auth";
 import { getProfile } from "@/lib/content";
+import { databaseFailure, deskErrorMessage } from "@/lib/desk-error";
 
 export const dynamic = "force-dynamic";
 
@@ -20,7 +21,15 @@ export default async function EditPersonPage({ params, searchParams }: PageProps
   if (!(await isAdmin())) redirect("/admin");
   const { slug } = await params;
   const query = await searchParams;
-  const profile = await getProfile(slug);
+  let profile = null;
+  let databaseMessage = "";
+  try {
+    profile = await getProfile(slug);
+  } catch (error) {
+    if (!databaseFailure(error)) throw error;
+    databaseMessage = deskErrorMessage(error);
+  }
+  if (databaseMessage) return <DeskEditor error={query.error || databaseMessage} />;
   if (!profile) notFound();
   return <DeskEditor profile={profile} error={query.error} saved={query.saved} />;
 }
