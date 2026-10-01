@@ -3,6 +3,7 @@ import path from "node:path";
 import { ImageResponse } from "next/og";
 import { getCategory } from "@/lib/categories";
 import { getPublishedProfile } from "@/lib/content";
+import { medalLabel } from "@/lib/medals";
 
 export const runtime = "nodejs";
 export const size = { width: 1200, height: 630 };
@@ -15,7 +16,7 @@ export default async function ProfileOpenGraphImage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const profile = getPublishedProfile(slug);
+  const profile = await getPublishedProfile(slug);
 
   if (!profile) {
     return new ImageResponse(
@@ -39,9 +40,9 @@ export default async function ProfileOpenGraphImage({
     );
   }
 
-  const bytes = await readFile(path.join(process.cwd(), "public", profile.photo.replace(/^\//, "")));
-  const src = `data:image/jpeg;base64,${bytes.toString("base64")}`;
+  const src = await portraitDataUrl(profile.photo);
   const category = getCategory(profile.category);
+  const honor = medalLabel[profile.honorMedal];
 
   return new ImageResponse(
     (
@@ -54,7 +55,11 @@ export default async function ProfileOpenGraphImage({
           color: "#1b1814",
         }}
       >
-        <img src={src} alt="" width={500} height={630} style={{ width: 500, height: 630, objectFit: "cover" }} />
+        {src ? (
+          <img src={src} alt="" width={500} height={630} style={{ width: 500, height: 630, objectFit: "cover" }} />
+        ) : (
+          <div style={{ width: 500, height: 630, background: "#1c5c44" }} />
+        )}
         <div
           style={{
             display: "flex",
@@ -69,11 +74,32 @@ export default async function ProfileOpenGraphImage({
             {profile.oneLiner}
           </div>
           <div style={{ display: "flex", marginTop: "auto", fontSize: 22 }}>
-            {category?.name} · {profile.place}
+            {category?.name} · {profile.place} · Honor {honor}
           </div>
         </div>
       </div>
     ),
     { ...size },
   );
+}
+
+async function portraitDataUrl(photo: string) {
+  try {
+    if (photo.startsWith("/")) {
+      const bytes = await readFile(path.join(process.cwd(), "public", photo.replace(/^\//, "")));
+      const ext = path.extname(photo).toLowerCase();
+      const mime = ext === ".png" ? "image/png" : ext === ".webp" ? "image/webp" : "image/jpeg";
+      return `data:${mime};base64,${bytes.toString("base64")}`;
+    }
+    if (photo.startsWith("https://")) {
+      const response = await fetch(photo);
+      if (!response.ok) return null;
+      const bytes = Buffer.from(await response.arrayBuffer());
+      const mime = response.headers.get("content-type")?.split(";")[0] || "image/jpeg";
+      return `data:${mime};base64,${bytes.toString("base64")}`;
+    }
+  } catch {
+    return null;
+  }
+  return null;
 }

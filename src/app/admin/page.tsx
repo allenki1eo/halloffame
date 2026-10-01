@@ -3,8 +3,11 @@ import Link from "next/link";
 import { AdminLogin } from "@/components/admin-login";
 import { logoutAdmin, setProfileStatus } from "@/lib/actions";
 import { isAdmin } from "@/lib/admin-auth";
+import { blobConfigured } from "@/lib/blob";
 import { getCategory } from "@/lib/categories";
 import { getAllProfiles, getProfile } from "@/lib/content";
+import { tursoConfigured } from "@/lib/db/client";
+import { medalLabel } from "@/lib/medals";
 import { getTips } from "@/lib/tips";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
@@ -18,7 +21,7 @@ export const metadata: Metadata = {
 };
 
 type PageProps = {
-  searchParams: Promise<{ updated?: string; status?: string }>;
+  searchParams: Promise<{ updated?: string; status?: string; error?: string; removed?: string }>;
 };
 
 function formatWhen(iso: string) {
@@ -48,12 +51,14 @@ export default async function AdminPage({ searchParams }: PageProps) {
     );
   }
 
-  const profiles = getAllProfiles();
+  const profiles = await getAllProfiles();
   const drafts = profiles.filter((profile) => profile.status === "draft");
   const published = profiles.filter((profile) => profile.status === "published");
   const ordered = [...drafts, ...published];
   const tips = getTips();
-  const updated = query.updated ? getProfile(query.updated) : null;
+  const updated = query.updated ? await getProfile(query.updated) : null;
+  const database = tursoConfigured();
+  const uploads = blobConfigured();
   const notice =
     updated && query.status === "published"
       ? `${updated.name} is on the public site.`
@@ -68,12 +73,44 @@ export default async function AdminPage({ searchParams }: PageProps) {
           <p className="text-xs uppercase tracking-[0.2em] text-primary">Editors</p>
           <h1 className="mt-2 font-display text-5xl tracking-tight sm:text-6xl">Editorial desk</h1>
         </div>
-        <form action={logoutAdmin}>
-          <Button type="submit" variant="outline">
-            Lock the desk
+        <div className="flex flex-wrap gap-2">
+          <Button asChild>
+            <Link href="/admin/people/new">New page</Link>
           </Button>
-        </form>
+          <form action={logoutAdmin}>
+            <Button type="submit" variant="outline">
+              Lock the desk
+            </Button>
+          </form>
+        </div>
       </div>
+
+      <Alert className="mt-8">
+        <AlertTitle>{database ? "Turso is connected" : "Demo record"}</AlertTitle>
+        <AlertDescription>
+          {database
+            ? uploads
+              ? "Pages, work, medals, and media notes are stored in Turso. Image and video files go to Vercel Blob."
+              : "Pages are stored in Turso. File uploads need BLOB_READ_WRITE_TOKEN. You can still paste an image, video, or link URL."
+            : "This desk is reading data/profiles.json. Publish and unpublish update that file. Creating and editing people, work, and media needs TURSO_DATABASE_URL and TURSO_AUTH_TOKEN. Uploads also need BLOB_READ_WRITE_TOKEN."}
+          {database && profiles.length === 0
+            ? " The database has no pages yet. Run npm run db:seed, or create a page."
+            : ""}
+        </AlertDescription>
+      </Alert>
+
+      {query.error ? (
+        <Alert className="mt-4" variant="destructive" role="alert">
+          <AlertTitle>The desk could not save that</AlertTitle>
+          <AlertDescription>{query.error}</AlertDescription>
+        </Alert>
+      ) : null}
+      {query.removed ? (
+        <Alert className="mt-4" role="status">
+          <AlertTitle>Removed</AlertTitle>
+          <AlertDescription>{query.removed} is off the record.</AlertDescription>
+        </Alert>
+      ) : null}
 
       {notice ? (
         <Alert className="mt-8" role="status">
@@ -103,10 +140,14 @@ export default async function AdminPage({ searchParams }: PageProps) {
                     <Badge variant={profile.status === "published" ? "default" : "secondary"}>
                       {profile.status === "published" ? "On the public site" : "Desk draft"}
                     </Badge>
+                    <span>Honor · {medalLabel[profile.honorMedal]}</span>
                     <span>{profile.place}</span>
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2">
+                  <Button asChild>
+                    <Link href={`/admin/people/${profile.slug}`}>Edit</Link>
+                  </Button>
                   <Button asChild variant="outline">
                     <Link href={`/admin/preview/${profile.slug}`}>Preview</Link>
                   </Button>
@@ -134,8 +175,7 @@ export default async function AdminPage({ searchParams }: PageProps) {
           Suggestions
         </h2>
         <p className="mt-2 max-w-2xl text-muted-foreground">
-          Private notes for editors. They are not published and they are not counted in public. This
-          preview keeps them in a file. Production needs a database.
+          Private notes for editors. They stay in a file on this preview and they are not part of the public record.
         </p>
         {tips.length === 0 ? (
           <Card className="mt-6 rounded-md border-dashed shadow-none">

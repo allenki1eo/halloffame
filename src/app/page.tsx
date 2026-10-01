@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import { categories } from "@/lib/categories";
-import { getPublishedByCategory, getPublishedProfiles } from "@/lib/content";
+import { CoverImage } from "@/components/cover-image";
+import { getPublishedProfiles } from "@/lib/content";
 import { absoluteUrl } from "@/lib/site";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,8 +17,8 @@ const accentClass = {
   gold: "bg-gold",
 } as const;
 
-export default function HomePage() {
-  const published = getPublishedProfiles();
+export default async function HomePage() {
+  const published = await getPublishedProfiles();
   const opening = published[0];
   const rest = published.slice(1);
   const jsonLd = {
@@ -51,10 +51,9 @@ export default function HomePage() {
         {opening ? (
           <article className="lg:col-span-7">
             <figure className="frame relative aspect-[4/5] overflow-hidden bg-muted sm:aspect-[5/6]">
-              <Image
+              <CoverImage
                 src={opening.photo}
                 alt={opening.photoAlt}
-                fill
                 priority
                 sizes="(min-width: 1024px) 55vw, 100vw"
                 className="object-cover object-[center_18%]"
@@ -112,7 +111,7 @@ export default function HomePage() {
                         aria-hidden="true"
                         className="frame relative block aspect-[3/4] overflow-hidden bg-muted"
                       >
-                        <Image src={profile.photo} alt="" fill sizes="88px" className="object-cover" />
+                        <CoverImage src={profile.photo} alt="" sizes="88px" />
                       </Link>
                       <div>
                         <Badge variant="outline" className="h-6">
@@ -148,7 +147,7 @@ export default function HomePage() {
         </h2>
         <ul className="mt-8 grid gap-4 sm:grid-cols-2">
           {categories.map((category) => {
-            const count = getPublishedByCategory(category.slug).length;
+            const count = published.filter((profile) => profile.category === category.slug).length;
             return (
               <li key={category.slug}>
                 <Card className="relative h-full rounded-md shadow-none transition-colors hover:bg-secondary">

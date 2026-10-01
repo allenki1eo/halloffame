@@ -1,54 +1,56 @@
 import { cache } from "react";
 import fs from "node:fs";
-import path from "node:path";
+import { tursoConfigured } from "@/lib/db/client";
+import { findPerson, listPeople, setPersonStatus } from "@/lib/db/people";
+import { profilesPath, readProfiles, writeProfiles } from "@/lib/profiles-file";
 import type { CategorySlug, Profile, ProfileStatus } from "@/lib/types";
 
-const profilesPath = path.join(process.cwd(), "data", "profiles.json");
+export const getAllProfiles = cache(async function getAllProfiles(): Promise<Profile[]> {
+  if (!tursoConfigured()) return readProfiles();
+  return listPeople();
+});
 
-function readProfiles(): Profile[] {
-  const raw = fs.readFileSync(profilesPath, "utf8");
-  const parsed: unknown = JSON.parse(raw);
-  if (!Array.isArray(parsed)) {
-    throw new Error("data/profiles.json must be an array.");
-  }
-  return parsed as Profile[];
+export async function getPublishedProfiles() {
+  const profiles = await getAllProfiles();
+  return profiles.filter((profile) => profile.status === "published");
 }
 
-export const getAllProfiles = cache(readProfiles);
-
-export function getPublishedProfiles() {
-  return getAllProfiles().filter((profile) => profile.status === "published");
+export async function getProfile(slug: string) {
+  if (tursoConfigured()) return findPerson(slug);
+  const profiles = await getAllProfiles();
+  return profiles.find((profile) => profile.slug === slug) ?? null;
 }
 
-export function getProfile(slug: string) {
-  return getAllProfiles().find((profile) => profile.slug === slug) ?? null;
-}
-
-export function getPublishedProfile(slug: string) {
-  const profile = getProfile(slug);
+export async function getPublishedProfile(slug: string) {
+  const profile = await getProfile(slug);
   if (!profile || profile.status !== "published") return null;
   return profile;
 }
 
-export function getPublishedByCategory(slug: CategorySlug) {
-  return getPublishedProfiles().filter((profile) => profile.category === slug);
+export async function getPublishedByCategory(slug: CategorySlug) {
+  const profiles = await getPublishedProfiles();
+  return profiles.filter((profile) => profile.category === slug);
 }
 
-export function profilesUpdatedAt() {
-  return fs.statSync(profilesPath).mtime;
+export async function profilesUpdatedAt() {
+  if (!tursoConfigured()) return fs.statSync(profilesPath).mtime;
+  const profiles = await getAllProfiles();
+  const times = profiles
+    .map((profile) => Date.parse(profile.updatedAt ?? ""))
+    .filter((value) => !Number.isNaN(value));
+  if (times.length === 0) return new Date();
+  return new Date(Math.max(...times));
 }
 
-export function updateProfileStatus(slug: string, status: ProfileStatus) {
+export async function updateProfileStatus(slug: string, status: ProfileStatus) {
+  if (tursoConfigured()) return setPersonStatus(slug, status);
   const profiles = readProfiles();
   const index = profiles.findIndex((profile) => profile.slug === slug);
   if (index === -1) return null;
   const current = profiles[index];
   if (!current) return null;
-  const next = { ...current, status };
+  const next = { ...current, status, updatedAt: new Date().toISOString() };
   profiles[index] = next;
-  const payload = `${JSON.stringify(profiles, null, 2)}\n`;
-  const tempPath = `${profilesPath}.tmp`;
-  fs.writeFileSync(tempPath, payload, "utf8");
-  fs.renameSync(tempPath, profilesPath);
+  writeProfiles(profiles);
   return next;
 }

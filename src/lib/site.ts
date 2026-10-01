@@ -12,3 +12,8 @@ export function absoluteUrl(path: string) {
   const normalized = path.startsWith("/") ? path : `/${path}`;
   return `${siteUrl()}${normalized}`;
 }
+
+export function mediaUrl(path: string) {
+  if (/^https?:\/\//i.test(path)) return path;
+  return absoluteUrl(path || "/");
+}

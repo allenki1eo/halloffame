@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { categories } from "@/lib/categories";
-import { getPublishedByCategory } from "@/lib/content";
+import { getPublishedProfiles } from "@/lib/content";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const dynamic = "force-dynamic";
@@ -20,7 +20,8 @@ const accentClass = {
   gold: "bg-gold",
 } as const;
 
-export default function CategoriesPage() {
+export default async function CategoriesPage() {
+  const published = await getPublishedProfiles();
   return (
     <div className="mx-auto max-w-6xl px-5 py-14 md:py-20">
       <p className="text-xs uppercase tracking-[0.22em] text-primary">Browse</p>
@@ -32,7 +33,7 @@ export default function CategoriesPage() {
       </p>
       <ul className="mt-14 grid gap-4 md:grid-cols-2">
         {categories.map((category) => {
-          const count = getPublishedByCategory(category.slug).length;
+          const count = published.filter((profile) => profile.category === category.slug).length;
           return (
             <li key={category.slug}>
               <Card className="relative h-full rounded-md shadow-none transition-colors hover:bg-secondary">

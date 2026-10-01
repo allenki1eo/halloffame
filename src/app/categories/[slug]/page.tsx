@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
+import { CoverImage } from "@/components/cover-image";
 import { notFound } from "next/navigation";
 import { categories, getCategory } from "@/lib/categories";
 import { getPublishedByCategory } from "@/lib/content";
@@ -45,7 +45,7 @@ export default async function CategoryPage({ params }: PageProps) {
   const { slug } = await params;
   const category = getCategory(slug);
   if (!category) notFound();
-  const profiles = getPublishedByCategory(category.slug);
+  const profiles = await getPublishedByCategory(category.slug);
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-14 md:py-20">
@@ -86,7 +86,7 @@ export default async function CategoryPage({ params }: PageProps) {
                   aria-hidden="true"
                   className="frame relative block aspect-[3/4] overflow-hidden bg-muted"
                 >
-                  <Image src={profile.photo} alt="" fill sizes="176px" className="object-cover" />
+                  <CoverImage src={profile.photo} alt="" sizes="176px" />
                 </Link>
                 <div>
                   <Badge variant="outline">{profile.place}</Badge>

@@ -11,22 +11,57 @@
     "status": "published",
     "work": [
       {
+        "id": "amina-juma-kadi-ya-kliniki",
         "title": "Kadi ya Kliniki",
         "years": "2023 — ongoing",
         "summary": "An offline-first visit card for small dispensaries. Nurses write the visit on a shared tablet. The record waits, then syncs when the line comes back.",
-        "outcome": "Three Ubungo dispensaries stopped rewriting the same antenatal notes by hand after a half-day outage."
+        "outcome": "Three Ubungo dispensaries stopped rewriting the same antenatal notes by hand after a half-day outage.",
+        "medal": "gold",
+        "media": [
+          {
+            "id": "amina-juma-kadi-ya-kliniki-portrait",
+            "kind": "image",
+            "url": "/portraits/amina-juma.jpg",
+            "title": "Photograph",
+            "caption": "A photograph kept with this piece of work.",
+            "alt": "Portrait of Amina Juma, a woman with short dark hair and glasses, wearing an olive shirt against a warm cream backdrop."
+          },
+          {
+            "id": "amina-juma-kadi-ya-kliniki-note",
+            "kind": "link",
+            "url": "https://example.com/shukran/amina-juma/kadi-ya-kliniki",
+            "title": "Project note",
+            "caption": "A public note editors can replace with the real record.",
+            "alt": ""
+          }
+        ]
       },
       {
+        "id": "amina-juma-pause-send",
         "title": "Pause & Send",
         "years": "2024",
         "summary": "A small queue, written in Swahili, that shows which notes are still in the building and which have reached the district file.",
-        "outcome": "Night-shift nurses can see what has not left the clinic, instead of guessing in the morning."
+        "outcome": "Night-shift nurses can see what has not left the clinic, instead of guessing in the morning.",
+        "medal": "platinum",
+        "media": [
+          {
+            "id": "amina-juma-pause-send-note",
+            "kind": "link",
+            "url": "https://example.com/shukran/amina-juma/pause-send",
+            "title": "Further note",
+            "caption": "A link kept beside this piece of work.",
+            "alt": ""
+          }
+        ]
       },
       {
+        "id": "amina-juma-saturday-bench",
         "title": "Saturday bench",
         "years": "2022 — ongoing",
         "summary": "A monthly table with nursing students. They take one paper register apart and rebuild a single screen of it, field by field.",
-        "outcome": "A growing circle of nurses who can specify software, rather than only receive it."
+        "outcome": "A growing circle of nurses who can specify software, rather than only receive it.",
+        "medal": "diamond",
+        "media": []
       }
     ],
     "journey": [
@@ -37,7 +72,8 @@
     "whyItMatters": [
       "Tanzania’s clinics already hold the knowledge. Too much of it lives in books that cannot travel with a patient from a dispensary to a regional hospital.",
       "When a note survives the outage and the referral, a mother does not begin again, and a nurse keeps the hour she needed for care. That is quiet infrastructure, and it belongs where people can see it."
-    ]
+    ],
+    "honorMedal": "gold"
   },
   {
     "slug": "halima-said",
@@ -51,22 +87,57 @@
     "status": "published",
     "work": [
       {
+        "id": "halima-said-circle-of-hands",
         "title": "Circle of Hands",
         "years": "2017 — ongoing",
         "summary": "A ward circle where midwives rehearse difficult moments with one another, in Swahili, after the shift has ended.",
-        "outcome": "Two hospital wards kept the circle after Halima stopped attending. That was the aim."
+        "outcome": "Two hospital wards kept the circle after Halima stopped attending. That was the aim.",
+        "medal": "platinum",
+        "media": [
+          {
+            "id": "halima-said-circle-of-hands-portrait",
+            "kind": "image",
+            "url": "/portraits/halima-said.jpg",
+            "title": "Photograph",
+            "caption": "A photograph kept with this piece of work.",
+            "alt": "Portrait of Halima Said, a woman wearing a patterned green headscarf, photographed against a warm cream backdrop."
+          },
+          {
+            "id": "halima-said-circle-of-hands-note",
+            "kind": "link",
+            "url": "https://example.com/shukran/halima-said/circle-of-hands",
+            "title": "Project note",
+            "caption": "A public note editors can replace with the real record.",
+            "alt": ""
+          }
+        ]
       },
       {
+        "id": "halima-said-birth-prep-cards",
         "title": "Birth-prep cards",
         "years": "2021",
         "summary": "Illustrated cards for antenatal conversations: what to bring, who may stay, and what a danger sign looks like.",
-        "outcome": "Dispensaries that had set long leaflets aside now use the cards in the visit itself."
+        "outcome": "Dispensaries that had set long leaflets aside now use the cards in the visit itself.",
+        "medal": "diamond",
+        "media": [
+          {
+            "id": "halima-said-birth-prep-cards-note",
+            "kind": "link",
+            "url": "https://example.com/shukran/halima-said/birth-prep-cards",
+            "title": "Further note",
+            "caption": "A link kept beside this piece of work.",
+            "alt": ""
+          }
+        ]
       },
       {
+        "id": "halima-said-night-shift-notes",
         "title": "Night-shift notes",
         "years": "2023",
         "summary": "A debrief page with three questions, short enough to finish before dawn.",
-        "outcome": "Supervisors can see patterns across a month without asking exhausted staff to write an essay."
+        "outcome": "Supervisors can see patterns across a month without asking exhausted staff to write an essay.",
+        "medal": "bronze",
+        "media": []
       }
     ],
     "journey": [
@@ -77,7 +148,8 @@
     "whyItMatters": [
       "Respectful maternity care depends on the people who are actually in the room at two in the morning. When those midwives can teach one another, the standard stays after a trainer has gone home.",
       "Mothers in Tanga then meet a ward that has rehearsed the hard hour, and a new midwife inherits a practice instead of a speech."
-    ]
+    ],
+    "honorMedal": "platinum"
   },
   {
     "slug": "neema-shirima",
@@ -91,22 +163,57 @@
     "status": "published",
     "work": [
       {
+        "id": "neema-shirima-soko-thread",
         "title": "Soko Thread",
         "years": "2019 — ongoing",
         "summary": "Cotton panels dyed with plants from around Arusha. Each panel is named for a market woman who agreed to be remembered, in the form she chose.",
-        "outcome": "The panels were shown in a borrowed school hall, then returned to the families who lent the stories."
+        "outcome": "The panels were shown in a borrowed school hall, then returned to the families who lent the stories.",
+        "medal": "gold",
+        "media": [
+          {
+            "id": "neema-shirima-soko-thread-portrait",
+            "kind": "image",
+            "url": "/portraits/neema-shirima.jpg",
+            "title": "Photograph",
+            "caption": "A photograph kept with this piece of work.",
+            "alt": "Portrait of Neema Shirima, a woman wearing an indigo headwrap with a rust band and small earrings, against a warm cream backdrop."
+          },
+          {
+            "id": "neema-shirima-soko-thread-note",
+            "kind": "link",
+            "url": "https://example.com/shukran/neema-shirima/soko-thread",
+            "title": "Project note",
+            "caption": "A public note editors can replace with the real record.",
+            "alt": ""
+          }
+        ]
       },
       {
+        "id": "neema-shirima-dye-garden",
         "title": "Dye garden",
         "years": "2022",
         "summary": "A plot behind a secondary school where students grow indigo and marigold for the art room.",
-        "outcome": "Colour for class no longer depends on a single shop in town having stock."
+        "outcome": "Colour for class no longer depends on a single shop in town having stock.",
+        "medal": "platinum",
+        "media": [
+          {
+            "id": "neema-shirima-dye-garden-note",
+            "kind": "link",
+            "url": "https://example.com/shukran/neema-shirima/dye-garden",
+            "title": "Further note",
+            "caption": "A link kept beside this piece of work.",
+            "alt": ""
+          }
+        ]
       },
       {
+        "id": "neema-shirima-pattern-book",
         "title": "Pattern book",
         "years": "2024",
         "summary": "Drawings of cloth structures with the maker’s words beside the sketch, in her phrasing.",
-        "outcome": "Two schools use the book as a starting point for students’ own pages."
+        "outcome": "Two schools use the book as a starting point for students’ own pages.",
+        "medal": "diamond",
+        "media": []
       }
     ],
     "journey": [
@@ -117,7 +224,8 @@
     "whyItMatters": [
       "Young people in Arusha are often handed culture as something that happens on a stage they will visit later. Neema’s studio turns that around. The market is the archive, and the school is the workshop.",
       "Students learn that cloth is made by people they can name, and that making it can be a livelihood as well as a memory."
-    ]
+    ],
+    "honorMedal": "gold"
   },
   {
     "slug": "josephat-mushi",
@@ -131,22 +239,57 @@
     "status": "published",
     "work": [
       {
+        "id": "josephat-mushi-fundi-path",
         "title": "Fundi Path",
         "years": "2018 — ongoing",
         "summary": "A twelve-month bench in mechanics, welding, and tailoring. A wage starts in the third month, written down at the beginning.",
-        "outcome": "Most apprentices leave with a named employer, as well as the hours they have already worked."
+        "outcome": "Most apprentices leave with a named employer, as well as the hours they have already worked.",
+        "medal": "silver",
+        "media": [
+          {
+            "id": "josephat-mushi-fundi-path-portrait",
+            "kind": "image",
+            "url": "/portraits/josephat-mushi.jpg",
+            "title": "Photograph",
+            "caption": "A photograph kept with this piece of work.",
+            "alt": "Portrait of Josephat Mushi, a man with a short beard in a dark work shirt, photographed against a warm cream backdrop."
+          },
+          {
+            "id": "josephat-mushi-fundi-path-note",
+            "kind": "link",
+            "url": "https://example.com/shukran/josephat-mushi/fundi-path",
+            "title": "Project note",
+            "caption": "A public note editors can replace with the real record.",
+            "alt": ""
+          }
+        ]
       },
       {
+        "id": "josephat-mushi-open-saturday",
         "title": "Open Saturday",
         "years": "2020 — ongoing",
         "summary": "The yard opens to neighbours who bring a bicycle, a pump, or a school uniform that needs a seam. Apprentices teach the repair.",
-        "outcome": "Josephat can tell who is ready by watching them explain a bolt to a neighbour."
+        "outcome": "Josephat can tell who is ready by watching them explain a bolt to a neighbour.",
+        "medal": "gold",
+        "media": [
+          {
+            "id": "josephat-mushi-open-saturday-note",
+            "kind": "link",
+            "url": "https://example.com/shukran/josephat-mushi/open-saturday",
+            "title": "Further note",
+            "caption": "A link kept beside this piece of work.",
+            "alt": ""
+          }
+        ]
       },
       {
+        "id": "josephat-mushi-employer-ledger",
         "title": "Employer ledger",
         "years": "2023",
         "summary": "A shared sheet of workshops in Kilimanjaro that will take a second-year apprentice, with the trade and the town written plainly.",
-        "outcome": "Families can see where the path goes before a young person leaves school."
+        "outcome": "Families can see where the path goes before a young person leaves school.",
+        "medal": "platinum",
+        "media": []
       }
     ],
     "journey": [
@@ -157,7 +300,8 @@
     "whyItMatters": [
       "Each year, young people in Kilimanjaro finish school able to learn a trade and short of a place that will pay them while they learn it.",
       "A local apprenticeship with a wage attached keeps that skill in the town, fills workshops that are already busy, and gives a family a path they can visit on a Saturday."
-    ]
+    ],
+    "honorMedal": "silver"
   },
   {
     "slug": "zawadi-kimaro",
@@ -171,22 +315,57 @@
     "status": "published",
     "work": [
       {
+        "id": "zawadi-kimaro-bahari-ping",
         "title": "Bahari Ping",
         "years": "2022 — ongoing",
         "summary": "A short Swahili message before first light: wind, swell, and a plain line about whether night boats should wait.",
-        "outcome": "Two cooperatives on Unguja pin the message at the landing site for crews who share one phone."
+        "outcome": "Two cooperatives on Unguja pin the message at the landing site for crews who share one phone.",
+        "medal": "diamond",
+        "media": [
+          {
+            "id": "zawadi-kimaro-bahari-ping-portrait",
+            "kind": "image",
+            "url": "/portraits/zawadi-kimaro.jpg",
+            "title": "Photograph",
+            "caption": "A photograph kept with this piece of work.",
+            "alt": "Portrait of Zawadi Kimaro, a woman with braided hair wearing a light blue shirt, against a warm cream backdrop."
+          },
+          {
+            "id": "zawadi-kimaro-bahari-ping-note",
+            "kind": "link",
+            "url": "https://example.com/shukran/zawadi-kimaro/bahari-ping",
+            "title": "Project note",
+            "caption": "A public note editors can replace with the real record.",
+            "alt": ""
+          }
+        ]
       },
       {
+        "id": "zawadi-kimaro-radio-minute",
         "title": "Radio minute",
         "years": "2023",
         "summary": "The same note, read once on a local morning slot, for boats that never open a handset.",
-        "outcome": "Crews who stepped away from SMS still hear the condition before they cast off."
+        "outcome": "Crews who stepped away from SMS still hear the condition before they cast off.",
+        "medal": "bronze",
+        "media": [
+          {
+            "id": "zawadi-kimaro-radio-minute-note",
+            "kind": "link",
+            "url": "https://example.com/shukran/zawadi-kimaro/radio-minute",
+            "title": "Further note",
+            "caption": "A link kept beside this piece of work.",
+            "alt": ""
+          }
+        ]
       },
       {
+        "id": "zawadi-kimaro-landing-site-charge",
         "title": "Landing-site charge",
         "years": "2024",
         "summary": "A shared charging box so the cooperative phone is alive at four in the morning.",
-        "outcome": "The message fails less often for the least expensive reason: a dark battery."
+        "outcome": "The message fails less often for the least expensive reason: a dark battery.",
+        "medal": "silver",
+        "media": []
       }
     ],
     "journey": [
@@ -197,7 +376,8 @@
     "whyItMatters": [
       "Small fishing crews around Zanzibar carry a great deal of the islands’ food and income, and they carry the risk that comes with a changing sea.",
       "A forecast written for a smartphone they do not own does not reach them. A short message, a radio minute, and a charged phone at the landing site do. More boats stay with weather they would have refused if someone had said it clearly."
-    ]
+    ],
+    "honorMedal": "diamond"
   },
   {
     "slug": "baraka-mwenda",
@@ -211,22 +391,57 @@
     "status": "published",
     "work": [
       {
+        "id": "baraka-mwenda-ziwa-watch",
         "title": "Ziwa Watch",
         "years": "2021 — ongoing",
         "summary": "A shoreline sampling round with fishing cooperatives, taken at the same landing sites each month.",
-        "outcome": "A wall chart in two wards shows the weeks when the water needs boiling, in place of a rumour."
+        "outcome": "A wall chart in two wards shows the weeks when the water needs boiling, in place of a rumour.",
+        "medal": "platinum",
+        "media": [
+          {
+            "id": "baraka-mwenda-ziwa-watch-portrait",
+            "kind": "image",
+            "url": "/portraits/baraka-mwenda.jpg",
+            "title": "Photograph",
+            "caption": "A photograph kept with this piece of work.",
+            "alt": "Portrait of Baraka Mwenda, a man with a short beard in a khaki collared shirt, against a warm cream backdrop."
+          },
+          {
+            "id": "baraka-mwenda-ziwa-watch-note",
+            "kind": "link",
+            "url": "https://example.com/shukran/baraka-mwenda/ziwa-watch",
+            "title": "Project note",
+            "caption": "A public note editors can replace with the real record.",
+            "alt": ""
+          }
+        ]
       },
       {
+        "id": "baraka-mwenda-school-kit",
         "title": "School kit",
         "years": "2023",
         "summary": "A basin, a turbidity tube, and a lesson secondary students can run without a laboratory.",
-        "outcome": "Four schools keep their own Monday reading and send it to the ward officer."
+        "outcome": "Four schools keep their own Monday reading and send it to the ward officer.",
+        "medal": "diamond",
+        "media": [
+          {
+            "id": "baraka-mwenda-school-kit-note",
+            "kind": "link",
+            "url": "https://example.com/shukran/baraka-mwenda/school-kit",
+            "title": "Further note",
+            "caption": "A link kept beside this piece of work.",
+            "alt": ""
+          }
+        ]
       },
       {
+        "id": "baraka-mwenda-plain-language-brief",
         "title": "Plain-language brief",
         "years": "2024",
         "summary": "A one-page Swahili note for dispensaries, with no chart that requires a laptop to understand.",
-        "outcome": "Health officers asked for a second print run before the rains."
+        "outcome": "Health officers asked for a second print run before the rains.",
+        "medal": "bronze",
+        "media": []
       }
     ],
     "journey": [
@@ -237,7 +452,8 @@
     "whyItMatters": [
       "Along Lake Victoria, advice about water is often general, late, or locked in a report. Families decide every day anyway.",
       "Sampling at the landing, written in the language of the ward, lets a community act on its own shoreline. That protects children, and it treats fishers as partners in the evidence."
-    ]
+    ],
+    "honorMedal": "platinum"
   },
   {
     "slug": "eliud-komba",
@@ -251,22 +467,57 @@
     "status": "published",
     "work": [
       {
+        "id": "eliud-komba-sauti-ya-jioni",
         "title": "Sauti ya Jioni",
         "years": "2015 — ongoing",
         "summary": "A Thursday evening hour: one poem, one song, and one piece of town news, read slowly enough to be repeated at home.",
-        "outcome": "Listeners send lines by hand and by phone. The hour has kept its month for three years."
+        "outcome": "Listeners send lines by hand and by phone. The hour has kept its month for three years.",
+        "medal": "bronze",
+        "media": [
+          {
+            "id": "eliud-komba-sauti-ya-jioni-portrait",
+            "kind": "image",
+            "url": "/portraits/eliud-komba.jpg",
+            "title": "Photograph",
+            "caption": "A photograph kept with this piece of work.",
+            "alt": "Portrait of Eliud Komba, a man with a mustache and headphones around his neck, wearing a brown jacket against a warm cream backdrop."
+          },
+          {
+            "id": "eliud-komba-sauti-ya-jioni-note",
+            "kind": "link",
+            "url": "https://example.com/shukran/eliud-komba/sauti-ya-jioni",
+            "title": "Project note",
+            "caption": "A public note editors can replace with the real record.",
+            "alt": ""
+          }
+        ]
       },
       {
+        "id": "eliud-komba-writing-circle",
         "title": "Writing circle",
         "years": "2019 — ongoing",
         "summary": "Twelve young people, a borrowed classroom, and a first draft allowed in any language spoken at the table.",
-        "outcome": "Several contributors now read their own work on the hour."
+        "outcome": "Several contributors now read their own work on the hour.",
+        "medal": "silver",
+        "media": [
+          {
+            "id": "eliud-komba-writing-circle-note",
+            "kind": "link",
+            "url": "https://example.com/shukran/eliud-komba/writing-circle",
+            "title": "Further note",
+            "caption": "A link kept beside this piece of work.",
+            "alt": ""
+          }
+        ]
       },
       {
+        "id": "eliud-komba-transcript-shelf",
         "title": "Transcript shelf",
         "years": "2022 — ongoing",
         "summary": "Paper copies of episodes, kept at a community library for the weeks the signal fails.",
-        "outcome": "Students use the shelf when a teacher asks for a local text and the textbook has none."
+        "outcome": "Students use the shelf when a teacher asks for a local text and the textbook has none.",
+        "medal": "gold",
+        "media": []
       }
     ],
     "journey": [
@@ -277,7 +528,8 @@
     "whyItMatters": [
       "A region remembers itself out loud. When local poems and news have a regular hour — and a paper copy for the weeks the tower is down — young people can see that serious language is already being made where they live.",
       "The stories stay in Mbeya, and a school gains a text that did not have to arrive from somewhere else."
-    ]
+    ],
+    "honorMedal": "bronze"
   },
   {
     "slug": "rehema-lyimo",
@@ -291,22 +543,57 @@
     "status": "draft",
     "work": [
       {
+        "id": "rehema-lyimo-shamba-la-shule",
         "title": "Shamba la Shule",
         "years": "2020 — ongoing",
         "summary": "Garden beds on three school grounds, sized so a class can weed them inside one period.",
-        "outcome": "The lunch pot uses what the beds grow in season, and the surplus is written on the cooks’ list to go home."
+        "outcome": "The lunch pot uses what the beds grow in season, and the surplus is written on the cooks’ list to go home.",
+        "medal": "silver",
+        "media": [
+          {
+            "id": "rehema-lyimo-shamba-la-shule-portrait",
+            "kind": "image",
+            "url": "/portraits/rehema-lyimo.jpg",
+            "title": "Photograph",
+            "caption": "A photograph kept with this piece of work.",
+            "alt": "Portrait of Rehema Lyimo, a woman with her hair in a bun, wearing a straw hat and a green shirt, against a warm cream backdrop."
+          },
+          {
+            "id": "rehema-lyimo-shamba-la-shule-note",
+            "kind": "link",
+            "url": "https://example.com/shukran/rehema-lyimo/shamba-la-shule",
+            "title": "Project note",
+            "caption": "A public note editors can replace with the real record.",
+            "alt": ""
+          }
+        ]
       },
       {
+        "id": "rehema-lyimo-watering-rota",
         "title": "Watering rota",
         "years": "2021",
         "summary": "A parent and pupil rota that continues through the holidays, posted on the kitchen door.",
-        "outcome": "Two gardens lasted a long dry term, including the weeks after the children had gone home in December."
+        "outcome": "Two gardens lasted a long dry term, including the weeks after the children had gone home in December.",
+        "medal": "gold",
+        "media": [
+          {
+            "id": "rehema-lyimo-watering-rota-note",
+            "kind": "link",
+            "url": "https://example.com/shukran/rehema-lyimo/watering-rota",
+            "title": "Further note",
+            "caption": "A link kept beside this piece of work.",
+            "alt": ""
+          }
+        ]
       },
       {
+        "id": "rehema-lyimo-cook-s-notes",
         "title": "Cook’s notes",
         "years": "2024",
         "summary": "A short page for school cooks on how to use the week’s harvest, written with them.",
-        "outcome": "Less food was thrown away, because the lesson and the meal were planned as one thing."
+        "outcome": "Less food was thrown away, because the lesson and the meal were planned as one thing.",
+        "medal": "platinum",
+        "media": []
       }
     ],
     "journey": [
@@ -317,6 +604,7 @@
     "whyItMatters": [
       "School meals and school science are often planned apart. A garden on the grounds joins them: pupils learn to keep a living plot through a dry term, and the lunch pot has food the school grew.",
       "In Dodoma, that is a practical answer to a hungry lesson and a hungry noon."
-    ]
+    ],
+    "honorMedal": "silver"
   }
 ]

@@ -17,7 +17,7 @@ type PageProps = {
 export default async function PreviewPage({ params }: PageProps) {
   if (!(await isAdmin())) redirect("/admin");
   const { slug } = await params;
-  const profile = getProfile(slug);
+  const profile = await getProfile(slug);
   if (!profile) notFound();
 
   return (

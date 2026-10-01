@@ -1,7 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 import { getCategory } from "@/lib/categories";
+import { CoverImage } from "@/components/cover-image";
+import { MedalMark } from "@/components/medal-mark";
 import { ShareBar } from "@/components/share-bar";
+import { WorkMediaList } from "@/components/work-media-list";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -67,19 +69,21 @@ export function ProfileView({
 
       <header className="mx-auto mt-6 max-w-6xl px-5">
         <figure className="frame relative min-h-[70vh] overflow-hidden bg-muted lg:min-h-[82vh]">
-          <Image
+          <CoverImage
             src={profile.photo}
             alt={profile.photoAlt}
-            fill
             priority
             sizes="(min-width: 1152px) 1152px, 100vw"
             className="object-cover object-[center_20%]"
           />
           <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/50 to-transparent px-5 pb-8 pt-28 text-white sm:px-10 sm:pb-12">
-            <p className="flex items-center gap-3 text-xs uppercase tracking-[0.2em] text-white/85">
-              <span className={`inline-block h-2.5 w-2.5 ${accent}`} aria-hidden="true" />
-              {category?.name}
-            </p>
+            <div className="flex flex-wrap items-center gap-3">
+              <p className="flex items-center gap-3 text-xs uppercase tracking-[0.2em] text-white/85">
+                <span className={`inline-block h-2.5 w-2.5 ${accent}`} aria-hidden="true" />
+                {category?.name}
+              </p>
+              <MedalMark medal={profile.honorMedal} kind="honor" tone="overlay" />
+            </div>
             <h1 className="mt-4 max-w-4xl font-display text-5xl leading-[0.92] tracking-tight text-white sm:text-7xl">
               {profile.name}
             </h1>
@@ -106,14 +110,20 @@ export function ProfileView({
             Their work
           </h2>
           <p className="mt-5 max-w-xl text-lg text-muted-foreground">
-            The record starts here: projects, what they asked of people, and what changed.
+            The record starts here: projects, what they asked of people, and what changed. Each piece carries an
+            editor’s honor.
           </p>
         </div>
         <ol className="mt-12">
           {profile.work.map((item) => (
-            <li key={item.title} className="border-t border-border">
+            <li key={item.id} className="border-t border-border">
               <div className="mx-auto grid max-w-6xl gap-8 px-5 py-14 md:grid-cols-12 md:py-20">
-                <p className="font-display text-3xl tracking-tight text-primary md:col-span-4">{item.years}</p>
+                <div className="md:col-span-4">
+                  <p className="font-display text-3xl tracking-tight text-primary">{item.years}</p>
+                  <div className="mt-4">
+                    <MedalMark medal={item.medal} kind="work" />
+                  </div>
+                </div>
                 <div className="md:col-span-8">
                   <h3 className="font-display text-4xl leading-none tracking-tight sm:text-6xl">{item.title}</h3>
                   <p className="mt-6 max-w-2xl text-lg leading-relaxed">{item.summary}</p>
@@ -125,6 +135,7 @@ export function ProfileView({
                       <CardTitle className="font-display text-2xl font-normal leading-snug">{item.outcome}</CardTitle>
                     </CardHeader>
                   </Card>
+                  <WorkMediaList media={item.media} />
                 </div>
               </div>
             </li>
