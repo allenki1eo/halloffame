@@ -2,9 +2,12 @@ import fs from "node:fs";
 import path from "node:path";
 import { isMedal } from "@/lib/medals";
 import { slugify } from "@/lib/slug";
+import { parseSocialList } from "@/lib/socials";
+import { parseSwCopy } from "@/lib/sw-copy";
 import { categorySlugs, type CategorySlug, type Medal, type MediaKind, type Profile, type ProfileStatus, type WorkItem, type WorkMedia } from "@/lib/types";
 
 export const profilesPath = path.join(process.cwd(), "data", "profiles.json");
+export const demoProfilesPath = path.join(process.cwd(), "data", "demo-profiles.json");
 
 function text(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
@@ -95,22 +98,40 @@ export function normalizeProfile(value: unknown, index: number): Profile {
       .filter((item): item is WorkItem => item !== null),
     journey: stringList(row.journey),
     whyItMatters: stringList(row.whyItMatters),
+    socials: parseSocialList(row.socials),
+    sw: parseSwCopy(row.sw),
     updatedAt: text(row.updatedAt) || undefined,
   };
 }
 
-export function readProfiles(): Profile[] {
-  const raw = fs.readFileSync(profilesPath, "utf8");
+function readProfileFile(filePath: string): Profile[] {
+  const raw = fs.readFileSync(filePath, "utf8");
   const parsed: unknown = JSON.parse(raw);
   if (!Array.isArray(parsed)) {
-    throw new Error("data/profiles.json must be an array.");
+    throw new Error(`${path.relative(process.cwd(), filePath)} must be an array.`);
   }
   return parsed.map((item, index) => normalizeProfile(item, index));
 }
 
-export function writeProfiles(profiles: Profile[]) {
+export function readProfiles(): Profile[] {
+  return readProfileFile(profilesPath);
+}
+
+export function readDemoProfiles(): Profile[] {
+  return readProfileFile(demoProfilesPath);
+}
+
+function writeProfileFile(filePath: string, profiles: Profile[]) {
   const payload = `${JSON.stringify(profiles, null, 2)}\n`;
-  const tempPath = `${profilesPath}.tmp`;
+  const tempPath = `${filePath}.tmp`;
   fs.writeFileSync(tempPath, payload, "utf8");
-  fs.renameSync(tempPath, profilesPath);
+  fs.renameSync(tempPath, filePath);
+}
+
+export function writeProfiles(profiles: Profile[]) {
+  writeProfileFile(profilesPath, profiles);
+}
+
+export function writeDemoProfiles(profiles: Profile[]) {
+  writeProfileFile(demoProfilesPath, profiles);
 }

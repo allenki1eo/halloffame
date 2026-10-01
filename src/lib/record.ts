@@ -2,7 +2,8 @@ import { categories } from "@/lib/categories";
 import { DeskError } from "@/lib/desk-error";
 import { isMedal, isMediaKind } from "@/lib/medals";
 import { isSlug, slugify } from "@/lib/slug";
-import type { CategorySlug, Medal, MediaKind, ProfileStatus } from "@/lib/types";
+import { isSocialKind } from "@/lib/socials";
+import type { CategorySlug, Medal, MediaKind, ProfileStatus, SocialLink } from "@/lib/types";
 
 export type PersonDraft = {
   originalSlug: string;
@@ -18,6 +19,15 @@ export type PersonDraft = {
   honorMedal: Medal;
   journey: string[];
   whyItMatters: string[];
+  socials: SocialLink[];
+  sw: {
+    role: string;
+    place: string;
+    oneLiner: string;
+    photoAlt: string;
+    journey: string[];
+    whyItMatters: string[];
+  };
 };
 
 export type WorkDraft = {
@@ -28,6 +38,11 @@ export type WorkDraft = {
   summary: string;
   outcome: string;
   medal: Medal;
+  sw: {
+    title: string;
+    summary: string;
+    outcome: string;
+  };
 };
 
 export type MediaDraft = {
@@ -109,7 +124,55 @@ export function parsePerson(formData: FormData): PersonDraft {
     honorMedal,
     journey: paragraphs(field(formData, "journey")),
     whyItMatters: paragraphs(field(formData, "whyItMatters")),
+    socials: parseSocials(formData),
+    sw: {
+      role: clip(field(formData, "roleSw"), 120),
+      place: clip(field(formData, "placeSw"), 120),
+      oneLiner: clip(field(formData, "oneLinerSw"), 240),
+      photoAlt: clip(field(formData, "photoAltSw"), 300),
+      journey: paragraphs(field(formData, "journeySw")),
+      whyItMatters: paragraphs(field(formData, "whySw")),
+    },
   };
+}
+
+function parseSocials(formData: FormData): SocialLink[] {
+  const kinds = formData.getAll("socialKind");
+  const urls = formData.getAll("socialUrl");
+  const links: SocialLink[] = [];
+  const count = Math.max(kinds.length, urls.length);
+  for (let index = 0; index < count; index += 1) {
+    const kindValue = kinds[index];
+    const urlValue = urls[index];
+    const kindRaw = typeof kindValue === "string" ? kindValue : "";
+    const url = clip(typeof urlValue === "string" ? urlValue : "", 500);
+    if (!url) continue;
+    if (!isSocialKind(kindRaw)) throw new DeskError("Choose a kind of link.");
+    if (kindRaw === "email") {
+      const address = url.replace(/^mailto:/i, "");
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(address)) {
+        throw new DeskError("Use an email address for that link.");
+      }
+      links.push({ kind: "email", url: address });
+      continue;
+    }
+    if (kindRaw === "whatsapp") {
+      if (/^https?:\/\//i.test(url)) {
+        assertHttpUrl(url);
+        links.push({ kind: "whatsapp", url });
+      } else {
+        const digits = url.replace(/\D/g, "");
+        if (digits.length < 8) throw new DeskError("Use a WhatsApp number or a wa.me link.");
+        links.push({ kind: "whatsapp", url: digits });
+      }
+      continue;
+    }
+    assertHttpUrl(url);
+    if (!/^https?:\/\//i.test(url)) throw new DeskError("Social links use a full http(s) address.");
+    links.push({ kind: kindRaw, url });
+  }
+  if (links.length > 8) throw new DeskError("A page can hold eight links.");
+  return links;
 }
 
 export function parseWork(formData: FormData): WorkDraft {
@@ -130,6 +193,11 @@ export function parseWork(formData: FormData): WorkDraft {
     summary: clip(field(formData, "summary"), 4000),
     outcome: clip(field(formData, "outcome"), 2000),
     medal,
+    sw: {
+      title: clip(field(formData, "titleSw"), 160),
+      summary: clip(field(formData, "summarySw"), 4000),
+      outcome: clip(field(formData, "outcomeSw"), 2000),
+    },
   };
 }
 

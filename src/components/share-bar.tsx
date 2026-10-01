@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import type { Messages } from "@/lib/messages";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,9 +16,10 @@ type ShareBarProps = {
   name: string;
   oneLiner: string;
   path: string;
+  copy: Messages;
 };
 
-export function ShareBar({ name, oneLiner, path }: ShareBarProps) {
+export function ShareBar({ name, oneLiner, path, copy }: ShareBarProps) {
   const [notice, setNotice] = useState("");
   const [open, setOpen] = useState(false);
 
@@ -32,7 +34,7 @@ export function ShareBar({ name, oneLiner, path }: ShareBarProps) {
   async function shareFromDevice() {
     const url = pageUrl();
     if (!navigator.share) {
-      setNotice("Use one of the options below.");
+      setNotice(copy.shareDeviceMissing);
       return;
     }
     try {
@@ -40,16 +42,16 @@ export function ShareBar({ name, oneLiner, path }: ShareBarProps) {
       setOpen(false);
     } catch (error) {
       if (error instanceof Error && error.name === "AbortError") return;
-      setNotice("The device share sheet did not open. Use one of the options below.");
+      setNotice(copy.shareSheetFailed);
     }
   }
 
   async function copyLink() {
     try {
       await navigator.clipboard.writeText(pageUrl());
-      setNotice("Link copied.");
+      setNotice(copy.shareCopied);
     } catch {
-      setNotice("Copy the address from the browser bar.");
+      setNotice(copy.shareCopyFailed);
     }
   }
 
@@ -61,21 +63,19 @@ export function ShareBar({ name, oneLiner, path }: ShareBarProps) {
     <div className="no-print">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button size="lg">Pass this page on</Button>
+          <Button size="lg">{copy.passOn}</Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle className="font-display text-3xl font-normal">Pass this page on</DialogTitle>
-            <DialogDescription>
-              Share {name} with someone who should read the work. The link opens this tribute.
-            </DialogDescription>
+            <DialogTitle className="font-display text-3xl font-normal">{copy.passOn}</DialogTitle>
+            <DialogDescription>{copy.shareIntro.replace("{name}", name)}</DialogDescription>
           </DialogHeader>
           <div className="grid gap-2">
             <Button type="button" variant="secondary" data-track="share" data-track-target="device" onClick={shareFromDevice}>
-              Share from this device
+              {copy.shareDevice}
             </Button>
             <Button type="button" variant="outline" data-track="share" data-track-target="copy" onClick={copyLink}>
-              Copy link
+              {copy.shareCopy}
             </Button>
             <Button
               type="button"
@@ -84,7 +84,7 @@ export function ShareBar({ name, oneLiner, path }: ShareBarProps) {
               data-track-target="whatsapp"
               onClick={() => openShare(`https://wa.me/?text=${encodeURIComponent(`${shareText()} ${pageUrl()}`)}`)}
             >
-              WhatsApp
+              {copy.shareWhatsapp}
             </Button>
             <Button
               type="button"
@@ -108,7 +108,7 @@ export function ShareBar({ name, oneLiner, path }: ShareBarProps) {
                 window.location.href = `mailto:?subject=${encodeURIComponent(name)}&body=${encodeURIComponent(`${shareText()}\n\n${pageUrl()}`)}`;
               }}
             >
-              Email
+              {copy.shareEmail}
             </Button>
           </div>
           <p aria-live="polite" className="min-h-6 text-sm text-muted-foreground">

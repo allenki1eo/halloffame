@@ -1,26 +1,26 @@
 import type { Metadata } from "next";
 import { SuggestForm } from "@/components/suggest-form";
+import { getLocale } from "@/lib/i18n";
+import { messages } from "@/lib/messages";
 
-export const metadata: Metadata = {
-  title: "Suggest someone",
-  description:
-    "Send editors a private suggestion for the Shukran TZ living tribute. The note stays on the desk.",
-  alternates: { canonical: "/suggest" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const copy = messages[await getLocale()];
+  return {
+    title: copy.suggestSomeone,
+    description: copy.suggestDek,
+    alternates: { canonical: "/suggest" },
+  };
+}
 
-export default function SuggestPage() {
+export default async function SuggestPage() {
+  const copy = messages[await getLocale()];
   return (
     <div className="mx-auto max-w-3xl px-5 py-12 md:py-16">
-      <p className="text-xs uppercase tracking-[0.18em] text-pine">A private tip</p>
-      <h1 className="mt-4 font-display text-5xl leading-[0.92] tracking-tight sm:text-7xl">
-        Suggest someone
-      </h1>
-      <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
-        Tell the editors about a person and the work they have done. The note is for the desk. It
-        does not appear on the site, and it is not placed beside other names.
-      </p>
+      <p className="text-xs uppercase tracking-[0.18em] text-pine">{copy.suggestKicker}</p>
+      <h1 className="mt-4 font-display text-5xl leading-[0.92] tracking-tight sm:text-7xl">{copy.suggestSomeone}</h1>
+      <p className="mt-5 text-lg leading-relaxed text-muted-foreground">{copy.suggestDek}</p>
       <div className="mt-10">
-        <SuggestForm />
+        <SuggestForm locale={await getLocale()} />
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ async function main() {
   const authToken = process.env.TURSO_AUTH_TOKEN?.trim();
   if (!url || !authToken) {
     console.error(
-      "Set TURSO_DATABASE_URL and TURSO_AUTH_TOKEN before migrating. Without them, the site keeps reading data/profiles.json.",
+      "Set TURSO_DATABASE_URL and TURSO_AUTH_TOKEN before migrating. Production stays empty until those variables are set and this command has been run.",
     );
     process.exit(1);
   }
@@ -21,7 +21,19 @@ async function main() {
   await client.execute("PRAGMA foreign_keys = ON");
   for (const file of files) {
     const sql = fs.readFileSync(path.join(directory, file), "utf8");
-    await client.executeMultiple(sql);
+    const statements = sql
+      .split(/;\s*(?:\r?\n|$)/)
+      .map((statement) => statement.trim())
+      .filter(Boolean);
+    for (const statement of statements) {
+      try {
+        await client.execute(statement);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        if (/duplicate column name/i.test(message)) continue;
+        throw error;
+      }
+    }
     console.log(`Applied drizzle/${file}`);
   }
 }

@@ -12,6 +12,38 @@ export const mediaKinds = ["image", "video", "link"] as const;
 
 export type MediaKind = (typeof mediaKinds)[number];
 
+export const socialKinds = ["x", "instagram", "linkedin", "facebook", "youtube", "whatsapp", "website", "email"] as const;
+
+export type SocialKind = (typeof socialKinds)[number];
+
+export interface SocialLink {
+  kind: SocialKind;
+  url: string;
+}
+
+export interface SwahiliMedia {
+  title?: string;
+  caption?: string;
+  alt?: string;
+}
+
+export interface SwahiliWork {
+  title?: string;
+  summary?: string;
+  outcome?: string;
+  media?: Record<string, SwahiliMedia>;
+}
+
+export interface SwahiliCopy {
+  role?: string;
+  place?: string;
+  oneLiner?: string;
+  photoAlt?: string;
+  journey?: string[];
+  whyItMatters?: string[];
+  work?: Record<string, SwahiliWork>;
+}
+
 export interface WorkMedia {
   id: string;
   kind: MediaKind;
@@ -45,6 +77,8 @@ export interface Profile {
   work: WorkItem[];
   journey: string[];
   whyItMatters: string[];
+  socials: SocialLink[];
+  sw?: SwahiliCopy;
   updatedAt?: string;
 }
 

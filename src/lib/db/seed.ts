@@ -1,8 +1,8 @@
 import { replaceSeedPerson } from "@/lib/db/people";
-import { readProfiles } from "@/lib/profiles-file";
+import { readDemoProfiles } from "@/lib/profiles-file";
 
 export async function seedProfiles() {
-  const profiles = readProfiles();
+  const profiles = readDemoProfiles();
   for (const [index, profile] of profiles.entries()) {
     await replaceSeedPerson(profile, index);
   }

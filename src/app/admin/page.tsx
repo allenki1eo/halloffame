@@ -4,9 +4,13 @@ import { AdminLogin } from "@/components/admin-login";
 import { logoutAdmin, setProfileStatus } from "@/lib/actions";
 import { isAdmin } from "@/lib/admin-auth";
 import { blobConfigured } from "@/lib/blob";
+import { isDemoSlug, isProduction } from "@/lib/demo";
 import { getCategory } from "@/lib/categories";
+import { categoryCopy } from "@/lib/i18n";
 import { getAllProfiles, getProfile } from "@/lib/content";
 import { tursoConfigured } from "@/lib/db/client";
+import { getLocale } from "@/lib/i18n";
+import { messages } from "@/lib/messages";
 import { medalLabel } from "@/lib/medals";
 import { getTips } from "@/lib/tips";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -36,17 +40,17 @@ function formatWhen(iso: string) {
 export default async function AdminPage({ searchParams }: PageProps) {
   const admin = await isAdmin();
   const query = await searchParams;
+  const locale = await getLocale();
+  const copy = messages[locale];
 
   if (!admin) {
     return (
       <div className="mx-auto max-w-3xl px-5 py-16">
-        <p className="text-xs uppercase tracking-[0.2em] text-primary">Editors</p>
-        <h1 className="mt-3 font-display text-5xl tracking-tight sm:text-6xl">Editorial desk</h1>
-        <p className="mt-4 max-w-xl text-lg text-muted-foreground">
-          Publish a page onto the public site, or return it to the desk. Suggestions stay here.
-        </p>
+        <p className="text-xs uppercase tracking-[0.2em] text-primary">{copy.editorialDesk}</p>
+        <h1 className="mt-3 font-display text-5xl tracking-tight sm:text-6xl">{copy.editorialDesk}</h1>
+        <p className="mt-4 max-w-xl text-lg text-muted-foreground">{copy.deskIntro}</p>
         <div className="mt-8">
-          <AdminLogin />
+          <AdminLogin locale={locale} />
         </div>
       </div>
     );
@@ -71,31 +75,34 @@ export default async function AdminPage({ searchParams }: PageProps) {
     <div className="mx-auto max-w-6xl px-5 py-14">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-primary">Editors</p>
-          <h1 className="mt-2 font-display text-5xl tracking-tight sm:text-6xl">Editorial desk</h1>
+          <p className="text-xs uppercase tracking-[0.2em] text-primary">{copy.editorialDesk}</p>
+          <h1 className="mt-2 font-display text-5xl tracking-tight sm:text-6xl">{copy.editorialDesk}</h1>
         </div>
         <div className="flex flex-wrap gap-2">
           <Button asChild>
-            <Link href="/admin/people/new">New page</Link>
+            <Link href="/admin/people/new">{copy.newPage}</Link>
           </Button>
           <form action={logoutAdmin}>
             <Button type="submit" variant="outline">
-              Lock the desk
+              {copy.lockDesk}
             </Button>
           </form>
         </div>
       </div>
 
       <Alert className="mt-8">
-        <AlertTitle>{database ? "Turso is connected" : "Demo record"}</AlertTitle>
+        <AlertTitle>{database ? "Turso is connected" : "Database not connected"}</AlertTitle>
         <AlertDescription>
           {database
             ? uploads
-              ? "Pages, work, medals, and media notes are stored in Turso. Image and video files go to Vercel Blob."
-              : "Pages are stored in Turso. File uploads need BLOB_READ_WRITE_TOKEN. You can still paste an image, video, or link URL."
-            : "This desk is reading data/profiles.json. Publish and unpublish update that file. Creating and editing people, work, and media needs TURSO_DATABASE_URL and TURSO_AUTH_TOKEN. Uploads also need BLOB_READ_WRITE_TOKEN."}
-          {database && profiles.length === 0
-            ? " The database has no pages yet. Run npm run db:seed, or create a page."
+              ? "Pages, work, medals, and links are stored in Turso. Image and video files go to the Blob store named by BLOB_STORE_ID, using BLOB_READ_WRITE_TOKEN."
+              : "Pages are stored in Turso. File uploads need BLOB_READ_WRITE_TOKEN and BLOB_STORE_ID. You can still paste an image, video, or link URL."
+            : isProduction()
+              ? "The public site stays empty until TURSO_DATABASE_URL and TURSO_AUTH_TOKEN are set. This desk does not publish the fictional file. Uploads also need BLOB_READ_WRITE_TOKEN."
+              : "This local preview is reading data/demo-profiles.json. Production ignores that file. Creating and editing people needs Turso. Uploads need BLOB_READ_WRITE_TOKEN."}
+          {database && profiles.length === 0 ? " The database has no pages yet. Create a page from this desk. Do not seed the fictional people into production." : ""}
+          {database && profiles.some((profile) => isDemoSlug(profile.slug))
+            ? " Fictional pages in this database stay off the public site. Delete them here, or run npm run db:clear-demos with CONFIRM_CLEAR_DEMOS=1."
             : ""}
         </AlertDescription>
       </Alert>
@@ -124,12 +131,12 @@ export default async function AdminPage({ searchParams }: PageProps) {
 
       <section aria-labelledby="pages-heading" className="mt-16">
         <h2 id="pages-heading" className="font-display text-3xl">
-          Pages
+          {copy.pages}
         </h2>
         <Separator className="mt-4" />
         <ul>
           {ordered.map((profile) => {
-            const category = getCategory(profile.category);
+            const category = categoryCopy(profile.category, locale);
             const nextStatus = profile.status === "published" ? "draft" : "published";
             return (
               <li
@@ -137,33 +144,35 @@ export default async function AdminPage({ searchParams }: PageProps) {
                 className="flex flex-col gap-4 border-b border-border py-5 sm:flex-row sm:items-center sm:justify-between"
               >
                 <div>
-                  <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">{category?.name}</p>
+                  <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">{category.name}</p>
                   <h3 className="font-display text-2xl">{profile.name}</h3>
                   <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
                     <Badge variant={profile.status === "published" ? "default" : "secondary"}>
-                      {profile.status === "published" ? "On the public site" : "Desk draft"}
+                      {profile.status === "published" ? copy.onTheSite : copy.deskDraft}
                     </Badge>
-                    <span>Honor · {medalLabel[profile.honorMedal]}</span>
+                    <span>
+                      {copy.honor} · {copy.medals[profile.honorMedal] ?? medalLabel[profile.honorMedal]}
+                    </span>
                     <span>{profile.place}</span>
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   <Button asChild>
-                    <Link href={`/admin/people/${profile.slug}`}>Edit</Link>
+                    <Link href={`/admin/people/${profile.slug}`}>{copy.edit}</Link>
                   </Button>
                   <Button asChild variant="outline">
-                    <Link href={`/admin/preview/${profile.slug}`}>Preview</Link>
+                    <Link href={`/admin/preview/${profile.slug}`}>{copy.preview}</Link>
                   </Button>
                   {profile.status === "published" ? (
                     <Button asChild variant="ghost">
-                      <Link href={`/profiles/${profile.slug}`}>Public page</Link>
+                      <Link href={`/profiles/${profile.slug}`}>{copy.publicPage}</Link>
                     </Button>
                   ) : null}
                   <form action={setProfileStatus}>
                     <input type="hidden" name="slug" value={profile.slug} />
                     <input type="hidden" name="status" value={nextStatus} />
                     <Button type="submit" variant={profile.status === "published" ? "secondary" : "default"}>
-                      {profile.status === "published" ? "Unpublish" : "Publish"}
+                      {profile.status === "published" ? copy.unpublish : copy.publish}
                     </Button>
                   </form>
                 </div>
@@ -175,14 +184,14 @@ export default async function AdminPage({ searchParams }: PageProps) {
 
       <section aria-labelledby="tips-heading" className="mt-16">
         <h2 id="tips-heading" className="font-display text-3xl">
-          Suggestions
+          {copy.suggestions}
         </h2>
         <p className="mt-2 max-w-2xl text-muted-foreground">
           Private notes for editors. They stay in a file on this preview and they are not part of the public record.
         </p>
         {tips.length === 0 ? (
           <Card className="mt-6 rounded-md border-dashed shadow-none">
-            <CardContent className="py-8 text-muted-foreground">No suggestions yet.</CardContent>
+            <CardContent className="py-8 text-muted-foreground">{copy.noSuggestions}</CardContent>
           </Card>
         ) : (
           <ul className="mt-6 space-y-4">

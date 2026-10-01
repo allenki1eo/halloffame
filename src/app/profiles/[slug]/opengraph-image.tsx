@@ -1,9 +1,10 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { ImageResponse } from "next/og";
-import { getCategory } from "@/lib/categories";
 import { getPublishedProfile } from "@/lib/content";
-import { medalLabel } from "@/lib/medals";
+import { categoryCopy, getLocale } from "@/lib/i18n";
+import { localizeProfile } from "@/lib/localize";
+import { messages } from "@/lib/messages";
 
 export const runtime = "nodejs";
 export const size = { width: 1200, height: 630 };
@@ -16,7 +17,10 @@ export default async function ProfileOpenGraphImage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const profile = await getPublishedProfile(slug);
+  const locale = await getLocale();
+  const copy = messages[locale];
+  const source = await getPublishedProfile(slug);
+  const profile = source ? localizeProfile(source, locale) : null;
 
   if (!profile) {
     return new ImageResponse(
@@ -33,7 +37,7 @@ export default async function ProfileOpenGraphImage({
             fontSize: 56,
           }}
         >
-          Not on the record
+          {copy.notOnRecord}
         </div>
       ),
       { ...size },
@@ -41,8 +45,8 @@ export default async function ProfileOpenGraphImage({
   }
 
   const src = await portraitDataUrl(profile.photo);
-  const category = getCategory(profile.category);
-  const honor = medalLabel[profile.honorMedal];
+  const category = categoryCopy(profile.category, locale);
+  const honor = copy.medals[profile.honorMedal];
 
   return new ImageResponse(
     (
@@ -74,7 +78,7 @@ export default async function ProfileOpenGraphImage({
             {profile.oneLiner}
           </div>
           <div style={{ display: "flex", marginTop: "auto", fontSize: 22 }}>
-            {category?.name} · {profile.place} · Honor {honor}
+            {category.name} · {profile.place} · {copy.honor} {honor}
           </div>
         </div>
       </div>
