@@ -1,10 +1,11 @@
 "use server";
 
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { redirect, unstable_rethrow } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { clearAdminCookie, isAdmin, pinMatches, setAdminCookie } from "@/lib/admin-auth";
 import { updateProfileStatus } from "@/lib/content";
+import { deskErrorMessage } from "@/lib/desk-error";
 import { parseTipInput, saveTip, type TipField } from "@/lib/tips";
 
 export type TipFormState = {
@@ -70,8 +71,13 @@ export async function setProfileStatus(formData: FormData) {
   const status = text(formData, "status");
   if (status !== "published" && status !== "draft") redirect("/admin");
 
-  const updated = updateProfileStatus(slug, status);
-  revalidatePath("/", "layout");
-  if (!updated) redirect("/admin");
-  redirect(`/admin?updated=${encodeURIComponent(slug)}&status=${status}`);
+  try {
+    const updated = await updateProfileStatus(slug, status);
+    revalidatePath("/", "layout");
+    if (!updated) redirect("/admin?error=That+page+is+no+longer+on+the+desk.");
+    redirect(`/admin?updated=${encodeURIComponent(slug)}&status=${status}`);
+  } catch (error) {
+    unstable_rethrow(error);
+    redirect(`/admin?error=${encodeURIComponent(deskErrorMessage(error))}`);
+  }
 }

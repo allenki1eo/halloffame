@@ -5,9 +5,9 @@ import { absoluteUrl } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const updated = profilesUpdatedAt();
-  const profiles = getPublishedProfiles().map((profile) => ({
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const updated = await profilesUpdatedAt();
+  const profiles = (await getPublishedProfiles()).map((profile) => ({
     url: absoluteUrl(`/profiles/${profile.slug}`),
     lastModified: updated,
     changeFrequency: "weekly" as const,

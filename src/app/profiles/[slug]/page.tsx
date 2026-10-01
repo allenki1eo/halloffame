@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { ProfileView } from "@/components/profile-view";
 import { getCategory } from "@/lib/categories";
 import { getPublishedProfile } from "@/lib/content";
-import { absoluteUrl } from "@/lib/site";
+import { absoluteUrl, mediaUrl } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -13,7 +13,7 @@ type PageProps = {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const profile = getPublishedProfile(slug);
+  const profile = await getPublishedProfile(slug);
   if (!profile) {
     return { title: "Not on the record", robots: { index: false, follow: false } };
   }
@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ProfilePage({ params }: PageProps) {
   const { slug } = await params;
-  const profile = getPublishedProfile(slug);
+  const profile = await getPublishedProfile(slug);
   if (!profile) notFound();
   const category = getCategory(profile.category);
   const jsonLd = {
@@ -48,7 +48,7 @@ export default async function ProfilePage({ params }: PageProps) {
     "@type": "Article",
     headline: profile.name,
     description: profile.oneLiner,
-    image: absoluteUrl(profile.photo),
+    image: mediaUrl(profile.photo),
     inLanguage: "en-TZ",
     articleSection: category?.name,
     mainEntityOfPage: absoluteUrl(`/profiles/${profile.slug}`),
@@ -66,7 +66,7 @@ export default async function ProfilePage({ params }: PageProps) {
         name: `${profile.place}, Tanzania`,
       },
       jobTitle: profile.role,
-      image: absoluteUrl(profile.photo),
+      image: mediaUrl(profile.photo),
     },
   };
 
