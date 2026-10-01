@@ -1,0 +1,322 @@
+[
+  {
+    "slug": "amina-juma",
+    "name": "Amina Juma",
+    "category": "tech",
+    "place": "Ubungo, Dar es Salaam",
+    "role": "Software engineer",
+    "oneLiner": "Builds clinic records that keep working when the power does not.",
+    "photo": "/portraits/amina-juma.jpg",
+    "photoAlt": "Portrait of Amina Juma, a woman with short dark hair and glasses, wearing an olive shirt against a warm cream backdrop.",
+    "status": "published",
+    "work": [
+      {
+        "title": "Kadi ya Kliniki",
+        "years": "2023 — ongoing",
+        "summary": "An offline-first visit card for small dispensaries. Nurses write the visit on a shared tablet. The record waits, then syncs when the line comes back.",
+        "outcome": "Three Ubungo dispensaries stopped rewriting the same antenatal notes by hand after a half-day outage."
+      },
+      {
+        "title": "Pause & Send",
+        "years": "2024",
+        "summary": "A small queue, written in Swahili, that shows which notes are still in the building and which have reached the district file.",
+        "outcome": "Night-shift nurses can see what has not left the clinic, instead of guessing in the morning."
+      },
+      {
+        "title": "Saturday bench",
+        "years": "2022 — ongoing",
+        "summary": "A monthly table with nursing students. They take one paper register apart and rebuild a single screen of it, field by field.",
+        "outcome": "A growing circle of nurses who can specify software, rather than only receive it."
+      }
+    ],
+    "journey": [
+      "I did not set out to make health software. I set out to stop watching my aunt tell her story twice.",
+      "She kept a blue exercise book for the clinic and another for the hospital. When the power failed, the afternoon queue started again from memory. I was the niece with a laptop. The first version was ugly. It also stayed open when the bulbs went dark.",
+      "What I owe this city is a record that respects the person who already did the careful work: the nurse, the mother, the clerk with the carbon paper. If a tool cannot survive a Tuesday blackout in Ubungo, it is not ready for Dar es Salaam."
+    ],
+    "whyItMatters": [
+      "Tanzania’s clinics already hold the knowledge. Too much of it lives in books that cannot travel with a patient from a dispensary to a regional hospital.",
+      "When a note survives the outage and the referral, a mother does not begin again, and a nurse keeps the hour she needed for care. That is quiet infrastructure, and it belongs where people can see it."
+    ]
+  },
+  {
+    "slug": "halima-said",
+    "name": "Halima Said",
+    "category": "science",
+    "place": "Tanga",
+    "role": "Midwife and teacher",
+    "oneLiner": "Trains midwives to teach one another, ward by ward.",
+    "photo": "/portraits/halima-said.jpg",
+    "photoAlt": "Portrait of Halima Said, a woman wearing a patterned green headscarf, photographed against a warm cream backdrop.",
+    "status": "published",
+    "work": [
+      {
+        "title": "Circle of Hands",
+        "years": "2017 — ongoing",
+        "summary": "A ward circle where midwives rehearse difficult moments with one another, in Swahili, after the shift has ended.",
+        "outcome": "Two hospital wards kept the circle after Halima stopped attending. That was the aim."
+      },
+      {
+        "title": "Birth-prep cards",
+        "years": "2021",
+        "summary": "Illustrated cards for antenatal conversations: what to bring, who may stay, and what a danger sign looks like.",
+        "outcome": "Dispensaries that had set long leaflets aside now use the cards in the visit itself."
+      },
+      {
+        "title": "Night-shift notes",
+        "years": "2023",
+        "summary": "A debrief page with three questions, short enough to finish before dawn.",
+        "outcome": "Supervisors can see patterns across a month without asking exhausted staff to write an essay."
+      }
+    ],
+    "journey": [
+      "I became a midwife because my sister’s labour frightened everyone in the room, including the people who knew what to do. The knowledge was there. It did not move.",
+      "So I stopped collecting it in my own notebook and started leaving it in the ward. The circle is deliberately small. A midwife will say the true thing to a colleague she trusts before she will say it to a trainer with a flip chart.",
+      "I want the next person through the door to meet a team that has already practised being calm."
+    ],
+    "whyItMatters": [
+      "Respectful maternity care depends on the people who are actually in the room at two in the morning. When those midwives can teach one another, the standard stays after a trainer has gone home.",
+      "Mothers in Tanga then meet a ward that has rehearsed the hard hour, and a new midwife inherits a practice instead of a speech."
+    ]
+  },
+  {
+    "slug": "neema-shirima",
+    "name": "Neema Shirima",
+    "category": "arts",
+    "place": "Arusha",
+    "role": "Textile artist and teacher",
+    "oneLiner": "Weaves market cloth that keeps the names of the women who held the stalls.",
+    "photo": "/portraits/neema-shirima.jpg",
+    "photoAlt": "Portrait of Neema Shirima, a woman wearing an indigo headwrap with a rust band and small earrings, against a warm cream backdrop.",
+    "status": "published",
+    "work": [
+      {
+        "title": "Soko Thread",
+        "years": "2019 — ongoing",
+        "summary": "Cotton panels dyed with plants from around Arusha. Each panel is named for a market woman who agreed to be remembered, in the form she chose.",
+        "outcome": "The panels were shown in a borrowed school hall, then returned to the families who lent the stories."
+      },
+      {
+        "title": "Dye garden",
+        "years": "2022",
+        "summary": "A plot behind a secondary school where students grow indigo and marigold for the art room.",
+        "outcome": "Colour for class no longer depends on a single shop in town having stock."
+      },
+      {
+        "title": "Pattern book",
+        "years": "2024",
+        "summary": "Drawings of cloth structures with the maker’s words beside the sketch, in her phrasing.",
+        "outcome": "Two schools use the book as a starting point for students’ own pages."
+      }
+    ],
+    "journey": [
+      "I grew up under a table of kanga, handing change up to my grandmother. People speak about cloth as if it were finished heritage. She spoke about it as Tuesday: who had not been paid, whose child needed fees, which colour sold after the rain.",
+      "When I began to weave those days into panels, I asked first. Some women wanted their names in the border. Some wanted only the pattern. The work is theirs before it is mine.",
+      "A room that cannot say those names clearly is only decorating itself."
+    ],
+    "whyItMatters": [
+      "Young people in Arusha are often handed culture as something that happens on a stage they will visit later. Neema’s studio turns that around. The market is the archive, and the school is the workshop.",
+      "Students learn that cloth is made by people they can name, and that making it can be a livelihood as well as a memory."
+    ]
+  },
+  {
+    "slug": "josephat-mushi",
+    "name": "Josephat Mushi",
+    "category": "community",
+    "place": "Moshi, Kilimanjaro",
+    "role": "Mechanic and workshop mentor",
+    "oneLiner": "Turns roadside repair benches into paid apprenticeships for school leavers.",
+    "photo": "/portraits/josephat-mushi.jpg",
+    "photoAlt": "Portrait of Josephat Mushi, a man with a short beard in a dark work shirt, photographed against a warm cream backdrop.",
+    "status": "published",
+    "work": [
+      {
+        "title": "Fundi Path",
+        "years": "2018 — ongoing",
+        "summary": "A twelve-month bench in mechanics, welding, and tailoring. A wage starts in the third month, written down at the beginning.",
+        "outcome": "Most apprentices leave with a named employer, as well as the hours they have already worked."
+      },
+      {
+        "title": "Open Saturday",
+        "years": "2020 — ongoing",
+        "summary": "The yard opens to neighbours who bring a bicycle, a pump, or a school uniform that needs a seam. Apprentices teach the repair.",
+        "outcome": "Josephat can tell who is ready by watching them explain a bolt to a neighbour."
+      },
+      {
+        "title": "Employer ledger",
+        "years": "2023",
+        "summary": "A shared sheet of workshops in Kilimanjaro that will take a second-year apprentice, with the trade and the town written plainly.",
+        "outcome": "Families can see where the path goes before a young person leaves school."
+      }
+    ],
+    "journey": [
+      "I sat Form Four, and then I sat on an oil tin until someone let me hold a spanner. The able hands around this town were never the mystery. The mystery was the month between leaving school and being trusted with paid work.",
+      "So the yard pays early. Not a fortune. Enough that a parent can say yes. The standard stays high, because a loose bolt is not a kindness.",
+      "The page I care about is the one for the apprentice who now runs the Saturday bench and corrects my welds."
+    ],
+    "whyItMatters": [
+      "Each year, young people in Kilimanjaro finish school able to learn a trade and short of a place that will pay them while they learn it.",
+      "A local apprenticeship with a wage attached keeps that skill in the town, fills workshops that are already busy, and gives a family a path they can visit on a Saturday."
+    ]
+  },
+  {
+    "slug": "zawadi-kimaro",
+    "name": "Zawadi Kimaro",
+    "category": "tech",
+    "place": "Malindi, Unguja",
+    "role": "Marine technologist",
+    "oneLiner": "Sends plain-language sea conditions to small fishing crews before dawn.",
+    "photo": "/portraits/zawadi-kimaro.jpg",
+    "photoAlt": "Portrait of Zawadi Kimaro, a woman with braided hair wearing a light blue shirt, against a warm cream backdrop.",
+    "status": "published",
+    "work": [
+      {
+        "title": "Bahari Ping",
+        "years": "2022 — ongoing",
+        "summary": "A short Swahili message before first light: wind, swell, and a plain line about whether night boats should wait.",
+        "outcome": "Two cooperatives on Unguja pin the message at the landing site for crews who share one phone."
+      },
+      {
+        "title": "Radio minute",
+        "years": "2023",
+        "summary": "The same note, read once on a local morning slot, for boats that never open a handset.",
+        "outcome": "Crews who stepped away from SMS still hear the condition before they cast off."
+      },
+      {
+        "title": "Landing-site charge",
+        "years": "2024",
+        "summary": "A shared charging box so the cooperative phone is alive at four in the morning.",
+        "outcome": "The message fails less often for the least expensive reason: a dark battery."
+      }
+    ],
+    "journey": [
+      "I learned the creek by being told to come back if the water looked wrong. That sentence saved people. It also depended on who was awake to say it.",
+      "I studied the sea, then I learned to send a sentence a crew can read without a manual. The models are not the product. The product is a person on a wooden boat who changes their mind in time.",
+      "If the note is clever and late, it is a hobby. If it is plain and before dawn, it is care."
+    ],
+    "whyItMatters": [
+      "Small fishing crews around Zanzibar carry a great deal of the islands’ food and income, and they carry the risk that comes with a changing sea.",
+      "A forecast written for a smartphone they do not own does not reach them. A short message, a radio minute, and a charged phone at the landing site do. More boats stay with weather they would have refused if someone had said it clearly."
+    ]
+  },
+  {
+    "slug": "baraka-mwenda",
+    "name": "Baraka Mwenda",
+    "category": "science",
+    "place": "Ilemela, Mwanza",
+    "role": "Public health scientist",
+    "oneLiner": "Maps lakeshore water so families know when to boil, treat, or wait.",
+    "photo": "/portraits/baraka-mwenda.jpg",
+    "photoAlt": "Portrait of Baraka Mwenda, a man with a short beard in a khaki collared shirt, against a warm cream backdrop.",
+    "status": "published",
+    "work": [
+      {
+        "title": "Ziwa Watch",
+        "years": "2021 — ongoing",
+        "summary": "A shoreline sampling round with fishing cooperatives, taken at the same landing sites each month.",
+        "outcome": "A wall chart in two wards shows the weeks when the water needs boiling, in place of a rumour."
+      },
+      {
+        "title": "School kit",
+        "years": "2023",
+        "summary": "A basin, a turbidity tube, and a lesson secondary students can run without a laboratory.",
+        "outcome": "Four schools keep their own Monday reading and send it to the ward officer."
+      },
+      {
+        "title": "Plain-language brief",
+        "years": "2024",
+        "summary": "A one-page Swahili note for dispensaries, with no chart that requires a laptop to understand.",
+        "outcome": "Health officers asked for a second print run before the rains."
+      }
+    ],
+    "journey": [
+      "My father mended nets. I learned the lake by being sent to fetch water, and by being told, some mornings, to leave it. The instruction was always a person’s memory. I studied so that memory could sit beside a sample.",
+      "The work is slow on purpose. A number that arrives once a year from a distant lab does not help a household on a Thursday. A number taken at the landing site, read aloud, and pinned where people already gather can.",
+      "I am asking the record to be useful to the people who already live with the water."
+    ],
+    "whyItMatters": [
+      "Along Lake Victoria, advice about water is often general, late, or locked in a report. Families decide every day anyway.",
+      "Sampling at the landing, written in the language of the ward, lets a community act on its own shoreline. That protects children, and it treats fishers as partners in the evidence."
+    ]
+  },
+  {
+    "slug": "eliud-komba",
+    "name": "Eliud Komba",
+    "category": "arts",
+    "place": "Mbeya",
+    "role": "Radio host and archivist",
+    "oneLiner": "Keeps a weekly hour for poems, songs, and town news in the languages people speak.",
+    "photo": "/portraits/eliud-komba.jpg",
+    "photoAlt": "Portrait of Eliud Komba, a man with a mustache and headphones around his neck, wearing a brown jacket against a warm cream backdrop.",
+    "status": "published",
+    "work": [
+      {
+        "title": "Sauti ya Jioni",
+        "years": "2015 — ongoing",
+        "summary": "A Thursday evening hour: one poem, one song, and one piece of town news, read slowly enough to be repeated at home.",
+        "outcome": "Listeners send lines by hand and by phone. The hour has kept its month for three years."
+      },
+      {
+        "title": "Writing circle",
+        "years": "2019 — ongoing",
+        "summary": "Twelve young people, a borrowed classroom, and a first draft allowed in any language spoken at the table.",
+        "outcome": "Several contributors now read their own work on the hour."
+      },
+      {
+        "title": "Transcript shelf",
+        "years": "2022 — ongoing",
+        "summary": "Paper copies of episodes, kept at a community library for the weeks the signal fails.",
+        "outcome": "Students use the shelf when a teacher asks for a local text and the textbook has none."
+      }
+    ],
+    "journey": [
+      "I was a bus conductor who started reading other people’s letters on the night bus, because the road was long and the jokes had run out. Someone said I should sit near a microphone. I did not know that was a profession. I knew it was a responsibility.",
+      "Mbeya does not need me to sound like a capital. It needs an hour in which a grandmother hears a language she trusts, and a student hears that their town is worth a poem.",
+      "I keep the tapes. I also keep the spellings the way the writers sent them."
+    ],
+    "whyItMatters": [
+      "A region remembers itself out loud. When local poems and news have a regular hour — and a paper copy for the weeks the tower is down — young people can see that serious language is already being made where they live.",
+      "The stories stay in Mbeya, and a school gains a text that did not have to arrive from somewhere else."
+    ]
+  },
+  {
+    "slug": "rehema-lyimo",
+    "name": "Rehema Lyimo",
+    "category": "community",
+    "place": "Dodoma",
+    "role": "Agriculture teacher",
+    "oneLiner": "Plants school gardens that feed the lunch pot and the science lesson.",
+    "photo": "/portraits/rehema-lyimo.jpg",
+    "photoAlt": "Portrait of Rehema Lyimo, a woman with her hair in a bun, wearing a straw hat and a green shirt, against a warm cream backdrop.",
+    "status": "draft",
+    "work": [
+      {
+        "title": "Shamba la Shule",
+        "years": "2020 — ongoing",
+        "summary": "Garden beds on three school grounds, sized so a class can weed them inside one period.",
+        "outcome": "The lunch pot uses what the beds grow in season, and the surplus is written on the cooks’ list to go home."
+      },
+      {
+        "title": "Watering rota",
+        "years": "2021",
+        "summary": "A parent and pupil rota that continues through the holidays, posted on the kitchen door.",
+        "outcome": "Two gardens lasted a long dry term, including the weeks after the children had gone home in December."
+      },
+      {
+        "title": "Cook’s notes",
+        "years": "2024",
+        "summary": "A short page for school cooks on how to use the week’s harvest, written with them.",
+        "outcome": "Less food was thrown away, because the lesson and the meal were planned as one thing."
+      }
+    ],
+    "journey": [
+      "I was tired of posters about vegetables the children had never held. We have sun. We have a term calendar. We were missing a bed of soil, and a person willing to be responsible for it on the Friday before exams.",
+      "The garden is not a decoration for Visitors’ Day. If it does not reach the pot, I have taught a picture. The children know the difference. So do the cooks.",
+      "This page is still with the editors, who are confirming dates with the schools."
+    ],
+    "whyItMatters": [
+      "School meals and school science are often planned apart. A garden on the grounds joins them: pupils learn to keep a living plot through a dry term, and the lunch pot has food the school grew.",
+      "In Dodoma, that is a practical answer to a hungry lesson and a hungry noon."
+    ]
+  }
+]
