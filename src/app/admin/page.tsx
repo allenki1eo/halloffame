@@ -58,13 +58,15 @@ export default async function AdminPage({ searchParams }: PageProps) {
     );
   }
 
-  let profiles: Profile[] = [];
-  let recordUnavailable = false;
-  try {
-    profiles = await getAllProfiles();
-  } catch {
-    recordUnavailable = true;
-  }
+  const [loaded, report, tips, updated] = await Promise.all([
+    getAllProfiles()
+      .then((profiles) => ({ profiles, recordUnavailable: false }))
+      .catch(() => ({ profiles: [] as Profile[], recordUnavailable: true })),
+    getTrafficReport(),
+    Promise.resolve(getTips()),
+    query.updated ? getProfile(query.updated) : Promise.resolve(null),
+  ]);
+  const { profiles, recordUnavailable } = loaded;
   const drafts = profiles.filter((profile) => profile.status === "draft");
   const published = profiles.filter((profile) => profile.status === "published");
   const workCount = profiles.reduce((total, profile) => total + profile.work.length, 0);
@@ -72,9 +74,6 @@ export default async function AdminPage({ searchParams }: PageProps) {
     (total, profile) => total + profile.work.reduce((sum, item) => sum + item.media.length, 0),
     0,
   );
-  const report = await getTrafficReport();
-  const tips = getTips();
-  const updated = query.updated ? await getProfile(query.updated) : null;
   const database = tursoConfigured();
   const uploads = blobConfigured();
   const storageLine = recordUnavailable
