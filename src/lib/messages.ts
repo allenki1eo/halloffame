@@ -149,6 +149,28 @@ export type Messages = {
   read: string;
   edit: string;
   checking: string;
+  deskLine: string;
+  overview: string;
+  publishedPages: string;
+  drafts: string;
+  workItems: string;
+  mediaItems: string;
+  viewsToday: string;
+  viewsWeek: string;
+  viewsMonth: string;
+  clicksToday: string;
+  clicksWeek: string;
+  clicksMonth: string;
+  emptyDesk: string;
+  storageReady: string;
+  storageNoBlob: string;
+  storageMissing: string;
+  storageLocal: string;
+  trafficNoteTurso: string;
+  trafficNoteFile: string;
+  trafficNoteUnavailable: string;
+  devicesLine: string;
+  recentOn: string;
 };
 
 const socialEn: Record<SocialKind, string> = {
@@ -332,6 +354,28 @@ export const messages: Record<Locale, Messages> = {
     read: "Read",
     edit: "Edit",
     checking: "Checking…",
+    deskLine: "Published pages, drafts, and who has been reading.",
+    overview: "Overview",
+    publishedPages: "Published pages",
+    drafts: "Drafts",
+    workItems: "Work items",
+    mediaItems: "Media",
+    viewsToday: "Views today",
+    viewsWeek: "Views, 7 days",
+    viewsMonth: "Views, 30 days",
+    clicksToday: "Clicks today",
+    clicksWeek: "Clicks, 7 days",
+    clicksMonth: "Clicks, 30 days",
+    emptyDesk: "No pages on the desk yet. The first one starts here.",
+    storageReady: "Turso and Blob are connected.",
+    storageNoBlob: "Turso is connected. File uploads need the Blob token. A pasted link still works.",
+    storageMissing: "Turso is not connected. The counters stay at zero until the database is set.",
+    storageLocal: "Local preview. These counts include the fictional pages. Production does not.",
+    trafficNoteTurso: "Stored in Turso. No cookies. The desk itself is not counted.",
+    trafficNoteFile: "Turso is unset, so this preview reads data/traffic.json. A missed write is dropped.",
+    trafficNoteUnavailable: "Turso is connected, and traffic could not be read just now. The public pages keep working.",
+    devicesLine: "Last 7 days: {mobile} mobile, {desktop} desktop. Times use Africa/Dar es Salaam.",
+    recentOn: "on",
   },
   sw: {
     skip: "Ruka hadi maudhui",
@@ -511,5 +555,27 @@ export const messages: Record<Locale, Messages> = {
     read: "Soma",
     edit: "Hariri",
     checking: "Inakaguliwa…",
+    deskLine: "Kurasa zilizochapishwa, rasimu, na nani amekuwa akisoma.",
+    overview: "Muhtasari",
+    publishedPages: "Kurasa zilizochapishwa",
+    drafts: "Rasimu",
+    workItems: "Kazi",
+    mediaItems: "Media",
+    viewsToday: "Mwonekano leo",
+    viewsWeek: "Mwonekano, siku 7",
+    viewsMonth: "Mwonekano, siku 30",
+    clicksToday: "Mibofyo leo",
+    clicksWeek: "Mibofyo, siku 7",
+    clicksMonth: "Mibofyo, siku 30",
+    emptyDesk: "Bado hakuna kurasa mezani. Ya kwanza huanza hapa.",
+    storageReady: "Turso na Blob vimeunganishwa.",
+    storageNoBlob: "Turso imeunganishwa. Upakiaji wa faili unahitaji tokeni ya Blob. Kiungo kilichobandikwa bado kinafanya kazi.",
+    storageMissing: "Turso haijaunganishwa. Vihesabuji vinabaki sufuri hadi hifadhidata iwekwe.",
+    storageLocal: "Onyesho la hapa. Hesabu hii inajumuisha kurasa za kubuni. Tovuti ya uzalishaji haizionyeshi.",
+    trafficNoteTurso: "Imehifadhiwa Turso. Hakuna vidakuzi. Meza yenyewe haihesabiwi.",
+    trafficNoteFile: "Turso haijawekwa, kwa hiyo onyesho hili linasoma data/traffic.json. Andiko lililoshindwa linaachwa.",
+    trafficNoteUnavailable: "Turso imeunganishwa, na wageni hawakuweza kusomwa sasa hivi. Kurasa za hadhara zinaendelea kufanya kazi.",
+    devicesLine: "Siku 7 zilizopita: {mobile} simu, {desktop} kompyuta. Muda ni wa Afrika/Dar es Salaam.",
+    recentOn: "kwenye",
   },
 };
