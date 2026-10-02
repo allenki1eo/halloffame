@@ -208,8 +208,7 @@ export async function recordTraffic(input: TrafficInput, userAgent: string) {
         if (!db) return;
         await db.insert(pageViews).values(row);
       } catch (error) {
-        if (databaseFailure(error)) return;
-        throw error;
+        console.error("[traffic] page view was not stored", error);
       }
       return;
     }
@@ -237,8 +236,7 @@ export async function recordTraffic(input: TrafficInput, userAgent: string) {
       if (!db) return;
       await db.insert(clickEvents).values(row);
     } catch (error) {
-      if (databaseFailure(error)) return;
-      throw error;
+      console.error("[traffic] click was not stored", error);
     }
     return;
   }
@@ -386,6 +384,7 @@ export async function getTrafficReport(): Promise<TrafficReport> {
       })),
     };
   } catch (error) {
+    console.error("[traffic] report could not be read", error);
     return emptyReport("turso", true, databaseFailure(error) ?? "unreachable");
   }
 }

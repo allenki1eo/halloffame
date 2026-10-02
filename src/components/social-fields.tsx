@@ -13,7 +13,8 @@ const selectClass =
 type Row = { key: string; kind: SocialKind; url: string };
 
 function rowsFrom(socials: SocialLink[]): Row[] {
-  return socials.map((link) => ({ key: crypto.randomUUID(), kind: link.kind, url: link.url }));
+  // Stable keys: the server and the browser must render the same ids on first paint.
+  return socials.map((link, index) => ({ key: `saved-${index}`, kind: link.kind, url: link.url }));
 }
 
 export function SocialFields({ locale, socials }: { locale: Locale; socials: SocialLink[] }) {
@@ -77,7 +78,7 @@ export function SocialFields({ locale, socials }: { locale: Locale; socials: Soc
       <Button
         type="button"
         variant="secondary"
-        onClick={() => setRows((current) => [...current, { key: crypto.randomUUID(), kind: "website", url: "" }])}
+        onClick={() => setRows((current) => [...current, { key: `new-${crypto.randomUUID()}`, kind: "website", url: "" }])}
       >
         {m.addLink}
       </Button>

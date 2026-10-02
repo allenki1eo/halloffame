@@ -48,6 +48,7 @@ function Bars({
 
 function note(report: TrafficReport, copy: Messages) {
   if (report.failure === "credentials") return copy.trafficNoteCredentials;
+  if (report.failure === "schema") return copy.databaseSchema;
   if (report.unavailable) return copy.trafficNoteUnavailable;
   if (report.storage === "turso") return copy.trafficNoteTurso;
   return copy.trafficNoteFile;

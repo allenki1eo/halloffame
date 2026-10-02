@@ -17,11 +17,16 @@ function payload(kind: "view" | "click", path: string, event?: string, target?: 
   };
 }
 
+/** Remount guard: React strict mode and layout re-renders must not log one visit twice. */
+let lastView = { path: "", at: 0 };
+
 function send(body: ReturnType<typeof payload>) {
+  const json = JSON.stringify(body);
+  if (typeof navigator.sendBeacon === "function" && navigator.sendBeacon("/api/traffic", json)) return;
   void fetch("/api/traffic", {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify(body),
+    body: json,
     keepalive: true,
   }).catch(() => undefined);
 }
@@ -31,6 +36,9 @@ export function TrafficBeacon() {
 
   useEffect(() => {
     if (pathname.startsWith("/admin")) return;
+    const now = Date.now();
+    if (lastView.path === pathname && now - lastView.at < 2000) return;
+    lastView = { path: pathname, at: now };
     send(payload("view", pathname));
   }, [pathname]);
 

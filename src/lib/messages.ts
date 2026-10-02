@@ -168,6 +168,7 @@ export type Messages = {
   storageLocal: string;
   databaseCredentials: string;
   databaseUnreachable: string;
+  databaseSchema: string;
   trafficNoteTurso: string;
   trafficNoteFile: string;
   trafficNoteUnavailable: string;
@@ -376,6 +377,7 @@ export const messages: Record<Locale, Messages> = {
     storageLocal: "Local preview. These counts include the fictional pages. Production does not.",
     databaseCredentials: "The database rejected these credentials. Check TURSO_DATABASE_URL and TURSO_AUTH_TOKEN.",
     databaseUnreachable: "The database could not be reached. Check TURSO_DATABASE_URL and TURSO_AUTH_TOKEN.",
+    databaseSchema: "The database is missing a table or column this version needs. Run npm run db:migrate against TURSO_DATABASE_URL.",
     trafficNoteTurso: "Stored in Turso. No cookies. The desk itself is not counted.",
     trafficNoteFile: "Turso is unset, so this preview reads data/traffic.json. A missed write is dropped.",
     trafficNoteUnavailable:
@@ -582,6 +584,7 @@ export const messages: Record<Locale, Messages> = {
     storageLocal: "Onyesho la hapa. Hesabu hii inajumuisha kurasa za kubuni. Tovuti ya uzalishaji haizionyeshi.",
     databaseCredentials: "Hifadhidata imekataa hati hizi. Angalia TURSO_DATABASE_URL na TURSO_AUTH_TOKEN.",
     databaseUnreachable: "Hifadhidata haikufikiwa. Angalia TURSO_DATABASE_URL na TURSO_AUTH_TOKEN.",
+    databaseSchema: "Hifadhidata inakosa jedwali au safu ambayo toleo hili linahitaji. Endesha npm run db:migrate kwenye TURSO_DATABASE_URL.",
     trafficNoteTurso: "Imehifadhiwa Turso. Hakuna vidakuzi. Meza yenyewe haihesabiwi.",
     trafficNoteFile: "Turso haijawekwa, kwa hiyo onyesho hili linasoma data/traffic.json. Andiko lililoshindwa linaachwa.",
     trafficNoteUnavailable:
