@@ -4,33 +4,37 @@ import * as schema from "@/lib/db/schema";
 
 export type Database = LibSQLDatabase<typeof schema>;
 
+/**
+ * `libsql://` opens a WebSocket that is held open between requests. On serverless
+ * hosts the function is frozen between invocations, the socket dies underneath the
+ * cached client, and the next query fails (a save errors, a traffic beacon is lost).
+ * Plain HTTPS keeps every query stateless, which is what Turso recommends there.
+ */
+function httpUrl(url: string) {
+  return url.replace(/^libsql:\/\//i, "https://").replace(/^wss:\/\//i, "https://").replace(/^ws:\/\//i, "http://");
+}
+
 export function tursoConfig() {
   const url = process.env.TURSO_DATABASE_URL?.trim() ?? "";
   const authToken = process.env.TURSO_AUTH_TOKEN?.trim() ?? "";
   if (!url || !authToken) return null;
-  return { url, authToken };
+  return { url: httpUrl(url), authToken };
 }
 
 export function tursoConfigured() {
   return tursoConfig() !== null;
 }
 
-let ready: Promise<Database> | null = null;
+let database: Database | null = null;
+let databaseKey = "";
 
-export function getDb() {
+export async function getDb() {
   const config = tursoConfig();
   if (!config) return null;
-  if (!ready) {
-    ready = openDatabase(config).catch((error: unknown) => {
-      ready = null;
-      throw error;
-    });
+  const key = `${config.url}\n${config.authToken}`;
+  if (!database || databaseKey !== key) {
+    database = drizzle(createClient(config), { schema });
+    databaseKey = key;
   }
-  return ready;
-}
-
-async function openDatabase(config: { url: string; authToken: string }) {
-  const client = createClient(config);
-  await client.execute("PRAGMA foreign_keys = ON");
-  return drizzle(client, { schema });
+  return database;
 }

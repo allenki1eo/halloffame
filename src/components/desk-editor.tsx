@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { DirectUpload } from "@/components/direct-upload";
 import { SocialFields } from "@/components/social-fields";
+import { blobConfigured } from "@/lib/blob";
 import { categories } from "@/lib/categories";
 import { getLocale } from "@/lib/i18n";
 import { messages } from "@/lib/messages";
@@ -64,6 +66,7 @@ export async function DeskEditor({
   const copy = messages[await getLocale()];
   const notice = saved ? savedCopy[saved] : "";
   const sw = profile?.sw;
+  const uploads = blobConfigured();
 
   return (
     <div className="mx-auto max-w-3xl px-5 py-14">
@@ -139,7 +142,7 @@ export async function DeskEditor({
           <Input id="photoUrl" name="photoUrl" defaultValue={profile?.photo ?? ""} spellCheck={false} />
         </Field>
         <Field id="portrait" label="Portrait file">
-          <Input id="portrait" name="portrait" type="file" accept="image/*" />
+          <DirectUpload id="portrait" name="portrait" folder="portraits" accept="image/*" uploadsEnabled={uploads} />
         </Field>
         <Field id="photoAlt" label="Portrait description">
           <Input id="photoAlt" name="photoAlt" defaultValue={profile?.photoAlt ?? ""} />
@@ -283,7 +286,13 @@ export async function DeskEditor({
                       <Input id={`media-url-${item.id}`} name="url" spellCheck={false} placeholder="https://" />
                     </Field>
                     <Field id={`media-file-${item.id}`} label="Image or video file">
-                      <Input id={`media-file-${item.id}`} name="file" type="file" accept="image/*,video/*" />
+                      <DirectUpload
+                        id={`media-file-${item.id}`}
+                        name="file"
+                        folder="work"
+                        accept="image/*,video/*"
+                        uploadsEnabled={uploads}
+                      />
                     </Field>
                     <Field id={`media-caption-${item.id}`} label="Caption">
                       <Input id={`media-caption-${item.id}`} name="caption" />

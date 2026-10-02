@@ -3,9 +3,9 @@
 import { revalidatePath } from "next/cache";
 import { redirect, unstable_rethrow } from "next/navigation";
 import { isAdmin } from "@/lib/admin-auth";
-import { storeUpload } from "@/lib/blob";
+import { storeUpload, uploadedBlob } from "@/lib/blob";
 import { removeMedia, removePerson, removeWork, saveMedia, savePerson, saveWork } from "@/lib/db/people";
-import { deskErrorMessage, DeskError } from "@/lib/desk-error";
+import { deskErrorMessage, DeskError, logDeskError } from "@/lib/desk-error";
 import { assertHttpUrl, field, parseMedia, parsePerson, parseWork, uploadFile } from "@/lib/record";
 
 async function requireDesk() {
@@ -23,8 +23,11 @@ export async function savePersonAction(formData: FormData) {
   try {
     const draft = parsePerson(formData);
     const portrait = uploadFile(formData, "portrait");
+    const uploaded = uploadedBlob(field(formData, "portraitBlobUrl"), field(formData, "portraitBlobType"), "portraits");
     let photoUrl = draft.photoUrl;
-    if (portrait) {
+    if (uploaded) {
+      photoUrl = uploaded.url;
+    } else if (portrait) {
       const stored = await storeUpload(portrait, "portraits");
       photoUrl = stored.url;
     }
@@ -33,6 +36,7 @@ export async function savePersonAction(formData: FormData) {
     slug = await savePerson(draft, photoUrl);
   } catch (error) {
     unstable_rethrow(error);
+    logDeskError(error);
     redirect(`${editorPath(fallback)}?error=${encodeURIComponent(deskErrorMessage(error))}`);
   }
   revalidatePath("/", "layout");
@@ -52,6 +56,7 @@ export async function deletePersonAction(formData: FormData) {
     name = removed;
   } catch (error) {
     unstable_rethrow(error);
+    logDeskError(error);
     redirect(`${editorPath(slug)}?error=${encodeURIComponent(deskErrorMessage(error))}`);
   }
   revalidatePath("/", "layout");
@@ -66,6 +71,7 @@ export async function saveWorkAction(formData: FormData) {
     await saveWork(draft);
   } catch (error) {
     unstable_rethrow(error);
+    logDeskError(error);
     redirect(`${editorPath(personSlug)}?error=${encodeURIComponent(deskErrorMessage(error))}`);
   }
   revalidatePath("/", "layout");
@@ -82,6 +88,7 @@ export async function deleteWorkAction(formData: FormData) {
     await removeWork(personSlug, field(formData, "workId").trim());
   } catch (error) {
     unstable_rethrow(error);
+    logDeskError(error);
     redirect(`${editorPath(personSlug)}?error=${encodeURIComponent(deskErrorMessage(error))}`);
   }
   revalidatePath("/", "layout");
@@ -94,8 +101,9 @@ export async function saveMediaAction(formData: FormData) {
   try {
     const draft = parseMedia(formData);
     const file = uploadFile(formData, "file");
-    if (file) {
-      const stored = await storeUpload(file, "work");
+    const uploaded = uploadedBlob(field(formData, "fileBlobUrl"), field(formData, "fileBlobType"), "work");
+    const stored = uploaded ?? (file ? await storeUpload(file, "work") : null);
+    if (stored) {
       draft.url = stored.url;
       draft.kind = stored.kind;
       if (!draft.alt && stored.kind === "image") {
@@ -107,6 +115,7 @@ export async function saveMediaAction(formData: FormData) {
     await saveMedia(draft);
   } catch (error) {
     unstable_rethrow(error);
+    logDeskError(error);
     redirect(`${editorPath(personSlug)}?error=${encodeURIComponent(deskErrorMessage(error))}`);
   }
   revalidatePath("/", "layout");
@@ -123,6 +132,7 @@ export async function deleteMediaAction(formData: FormData) {
     await removeMedia(personSlug, field(formData, "workId").trim(), field(formData, "mediaId").trim());
   } catch (error) {
     unstable_rethrow(error);
+    logDeskError(error);
     redirect(`${editorPath(personSlug)}?error=${encodeURIComponent(deskErrorMessage(error))}`);
   }
   revalidatePath("/", "layout");

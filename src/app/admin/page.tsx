@@ -23,6 +23,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrafficDesk } from "@/components/traffic-desk";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Editorial desk",
   robots: { index: false, follow: false },
@@ -83,7 +85,9 @@ export default async function AdminPage({ searchParams }: PageProps) {
   const uploads = blobConfigured();
   const storageLine = recordFailure === "credentials"
     ? copy.databaseCredentials
-    : recordUnavailable
+    : recordFailure === "schema"
+      ? copy.databaseSchema
+      : recordUnavailable
       ? copy.databaseUnreachable
       : !database
       ? isProduction()
